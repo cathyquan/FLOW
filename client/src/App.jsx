@@ -1,12 +1,12 @@
 import './App.css'
+import {Route, Routes} from "react-router-dom";
+import LogInPage from "./pages/LogInPage.jsx";
 
 function App() {
   return (
-    <div>
-      <header>
-        
-      </header>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LogInPage />} />
+    </Routes>
   )
 }
 
