@@ -1,0 +1,22 @@
+/* RenelHomePage.css */
+
+.renel-home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensure it spans the full width */
+}
+
+.logo-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%; /* Ensure it spans the full width */
+}
+
+.nav-div {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ensure it spans the full width */
+}
+
