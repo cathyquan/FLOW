@@ -31,6 +31,7 @@ function App() {
     }
     
     if(redirect){
+
         return <Navigate to={'/'} />;
     }
 
