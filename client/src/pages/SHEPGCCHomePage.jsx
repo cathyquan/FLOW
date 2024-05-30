@@ -12,7 +12,7 @@ function SHEPGCCHomePage() {
                 <div className="logo-container">
                     <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
                 </div>
-                <div className="navbar">
+                <div className="nav-div">
                     <SHEPGCCNavbar/>
                 </div>
             </header>

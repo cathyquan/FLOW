@@ -1,7 +1,15 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #d9d9d9; /* Grey background color for the navigation bar */
+    padding: 1vh 3vh;
+    color: white;
+}
 
 .icons svg {
     margin-right: 1vh; /* Space out the icons */
-    align-items: end;
+    align-items: right;
 }
 
 .nav {

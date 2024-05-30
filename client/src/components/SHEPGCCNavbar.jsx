@@ -3,7 +3,7 @@ import '../assets/style/SHEPGCCNavbar.css';
 
 function SHEPGCCNavbar() {
     return (
-        <div>
+        <div className="navbar">
             <nav className="nav">
                 <a href="#">Home</a>
             </nav>
