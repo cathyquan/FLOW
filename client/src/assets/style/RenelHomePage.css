@@ -1,0 +1,69 @@
+/* RenelHomePage.css */
+
+.renel-home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw; /* Ensure it spans the full viewport width */
+    height: 100vh; /* Ensure it spans the full viewport height */
+    background-color: blueviolet;
+    overflow: hidden; /* Prevents scrolling if content exceeds the viewport size */
+}
+
+.logo-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+    width: 100%; /* Ensure it spans the full width */
+    background-color: aqua;
+}
+
+.nav-div {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ensure it spans the full width */
+}
+
+.main-content-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%; /* Ensure it spans the full width */
+    height: 100%; /* Ensure it spans the full height */
+    background-color: green;
+}
+
+.most-urgent-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%; /* Ensure it spans the full width */
+    height: 100%;
+    background-color: aquamarine;
+}
+
+.most-urgent-div button {
+    margin-top: 2vh;
+    background-color: red;
+    width: 100%;
+    height: 5vh;
+    border-radius: 3vh;
+}
+
+.all-schools-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%; /* Ensure it spans the full width */
+    height: 100%;
+    background-color: beige;
+}
+
+.manage-schools-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%; /* Ensure it spans the full width */
+    height: 100%;
+    background-color: burlywood;
+}
