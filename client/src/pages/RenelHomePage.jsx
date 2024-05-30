@@ -72,8 +72,12 @@ function RenelHomePage() {
             {/* this is the main content of the page */}
             <div className="main-content-div">
                 <div className="most-urgent-div">
-                    <p>hello</p>
                     <button>YELLLO</button>
+                    <button>hello</button>
+                    <button>Bello</button>
+                    <button>BELLO</button>
+                    <button>yellow</button>
+                    <button>hello</button>
                 </div>
                 <div className="all-schools-div">
                     <p>hello</p>

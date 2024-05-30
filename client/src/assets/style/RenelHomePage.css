@@ -35,16 +35,24 @@
 
 .most-urgent-div {
     display: flex;
-    /*flex-direction: column;*/
+    flex-direction: column;
     align-items: center;
     width: 25%; /* Ensure it spans the full width */
     height: 100%;
     background-color: aquamarine;
 }
 
+.most-urgent-div button {
+    margin-top: 2vh;
+    background-color: red;
+    width: 100%;
+    height: 5vh;
+    border-radius: 3vh;
+}
+
 .all-schools-div {
     display: flex;
-    /*flex-direction: column;*/
+    flex-direction: column;
     align-items: center;
     width: 50%; /* Ensure it spans the full width */
     height: 100%;
