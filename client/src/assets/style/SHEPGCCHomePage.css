@@ -155,22 +155,35 @@ body {
     display: flex;
     flex-direction: column;
     /* align-items: flex-end; */
-    margin-right: 0%;
     /* margin-left: 0%; */
     position: absolute;
     bottom: 2vh;
-    right: 2vh;
+    right: 2.3vh;
     /* background-color: blue; */
     width: 27%;
+    justify-content: center;
 }
 
 .chart {
-    /* width: 150px;
-    height: 150px;
-    background-color: #eee;
-    border-radius: 50%;
-    margin-bottom: 20px; */
+    align-items: center;
+    justify-content: center;
 }
+
+/* .piechart {
+    --size: 11.5rem;
+    width: 100%;
+    height: var(--size);
+    border-radius: 50%;
+    display: grid;
+    background:
+        radial-gradient(closest-side, #f0b36d 40%, transparent 0 99.9%, #f0b36d 0),
+        conic-gradient(
+        #FA8072 0 10%,
+        #CD5C5C 10% 30%,
+        #81CA6E 30% 100%
+        );
+    color: var(--fg);
+} */
 
 .buttons button {
     background-color: white;
