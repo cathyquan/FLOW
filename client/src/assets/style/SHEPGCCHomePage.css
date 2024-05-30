@@ -7,19 +7,18 @@ body {
 
 .header {
     background-color: #ffffff;
-    /* padding: 10px 20px; */
 }
 
 .logo-container {
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;
-    margin-top: 15px;
-    margin-bottom: 15px; /* Adds space between the logo and the navbar */
+    margin-top: 2vh;
+    margin-bottom: 2vh; /* Adds space between the logo and the navbar */
 }
 
 .logo {
-    height: 80px;
+    height: 10vh;
     align-items: center;
 }
 
@@ -28,12 +27,12 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: #d9d9d9; /* Grey background color for the navigation bar */
-    padding: 10px 20px;
+    padding: 1vh 3vh;
     color: white;
 }
 
 .icons svg {
-    margin-right: 10px; /* Space out the icons */
+    margin-right: 1vh; /* Space out the icons */
     align-items: right;
 }
 
@@ -44,7 +43,7 @@ body {
 }
 
 .nav a {
-    margin-right: 20px;
+    margin-right: 20vh;
     text-decoration: none;
     color: black;
     font-style: italic;
@@ -58,25 +57,25 @@ body {
 }
 
 .icons span {
-    margin-left: 10px;
+    margin-left: 1vh;
     color: #c86b39; /* Change the color of the "Logout" text */
     font-style: italic;
 }
 
 .main {
-    padding: 20px;
+    padding: 3vh;
 }
 
 .school-info {
-    max-width: 1200px;
+    max-width: 1000vh;
     margin: 0 auto;
     text-align: center;
 }
 
 .school-info h1 {
     margin: 0;
-    padding-bottom: 20px;
-    font-size: 25px;
+    padding-bottom: 2vh;
+    font-size: 200%;
 }
 
 .info-grade-container {
@@ -84,18 +83,17 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    /* gap: 1vh; */
 }
 
 .info-container {
-    width: 60%; /* Set the width to 60% of the screen */
-    margin-left: 0; /* Left-justify the container */
-    margin-right: 20px;
+    width: 63%; /* Set the width to 60% of the screen */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f4c28d;
-    padding: 20px;
-    border-radius: 20px;
+    background-color: #f0b36d;
+    padding: 2vh;
+    border-radius: 3vh;
     position: relative;
 }
 
@@ -103,24 +101,24 @@ body {
     display: flex;
     flex-direction: column;
     background-color: white;
-    width: 60%;
-    height: 450px;
-    border-radius: 20px;
+    width: 69%;
+    height: 60vh;
+    border-radius: 3vh;
     align-self: flex-start; /* Align the contact info to the start of the container */
     justify-content: center; /* Center the contact info vertically */
-    margin: auto 0;
 }
 
 .contact-card {
     display: flex;
+    /* background-color: red; */
+    justify-content: center;
 }
 
 .contact-card img {
-    border-radius: 10px;
-    width: 100px;
-    height: 110px;
-    margin-right: 10%;
-    margin-left: 10%;
+    border-radius: 1vh;
+    width: 15vh;
+    height: 16vh;
+    margin-left: 0%;
     align-items: flex-start;
 }
 
@@ -128,36 +126,42 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* background-color: green; */
+    margin-left: 10%;
 }
 
 .contact-card h2 {
     margin: 0;
-    font-size: 12pt;
+    font-size: 100%;
     font-weight: bold;
     font-style: italic;
 }
 
 .contact-card h3 {
     margin: 0;
-    font-size: 12pt;
+    font-size: 100%;
     font-weight: bold;
     font-style: italic;
+    margin-bottom: 1.5vh;
 }
 
 .contact-card p {
-    margin: 0px;
-    font-size: 10pt;
+    margin: 0%;
+    font-size: 90%;
     font-style: italic;
 }
 
 .chart-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    margin-right: 0px;
+    /* align-items: flex-end; */
+    margin-right: 0%;
+    /* margin-left: 0%; */
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 2vh;
+    right: 2vh;
+    /* background-color: blue; */
+    width: 27%;
 }
 
 .chart {
@@ -170,16 +174,15 @@ body {
 
 .buttons button {
     background-color: white;
-    border: none;
     color: black;
-    padding: 3%;
-    margin: 5px;
-    margin-right: 0px;
-    border-radius: 10px;
-    width: 250px;
+    padding: 1vh;
+    margin-top: 2vh;
+    margin-bottom: 0vh;
+    border-radius: 3vh;
+    width: 100%;
     cursor: pointer;
-    justify-content: right;
-    font-size: 10pt;
+    /* justify-content: right; */
+    font-size: 90%;
 }
 
 .grade-list {
@@ -187,28 +190,56 @@ body {
     flex-direction: column;
     margin-top: 0px;
     width: 35%;
-    height: 490px;
+    height: 64.3vh;
     overflow-y: auto;
+    border-radius: 3vh;
+    /* background-color: pink; */
+}
+
+@media (max-width: 1000px) {
+    .contact-info {
+        width: 100%; /* Full width for the contact info */
+        height: 45vh;
+        margin-bottom: 1vh;
+    }
+
+    .chart-container {
+        position: static;
+        align-items: center;
+        width: 100%;
+    }
+
+    .buttons {
+        align-items: center;
+        width: 100%;
+    }
+
+    .buttons button {
+        width: 100%;
+        margin: 1vh 0;
+    }
 }
 
 @media (max-width: 768px) {
     .info-container {
         width: 100%; /* Full width on narrow screens */
         margin-right: 0; /* Remove margin on narrow screens */
-        margin-bottom: 20px; /* Add some space below the info container */
+        margin-bottom: 2vh; /* Add some space below the info container */
     }
+
     .grade-list {
         width: 100%; /* Full width on narrow screens */
+        margin-top: 2vh;
     }
 }
 
 .grade-list button {
-    background-color: #f4c28d;
+    background-color: #f0b36d;
     border: none;
     padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    margin-bottom: 1vh;
+    border-radius: 3vh;
     cursor: pointer;
-    text-align: left;
+    text-align: center;
     font-size: 1em;
 }

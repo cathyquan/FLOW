@@ -42,7 +42,6 @@ function SHEPGCCHomePage() {
                                     <div>
                                         <h2>GCC</h2>
                                         <h3>Akosua Mensah</h3>
-                                        <br></br>
                                         <p>+233 00-000-0000</p>
                                         <p>randomemail@gmail.com</p>
                                     </div>
@@ -53,7 +52,6 @@ function SHEPGCCHomePage() {
                                     <div>
                                         <h2>SHEP</h2>
                                         <h3>Ama Kofi</h3>
-                                        <br></br>
                                         <p>+233 00-000-0000</p>
                                         <p>randomemail@gmail.com</p>
                                     </div>
