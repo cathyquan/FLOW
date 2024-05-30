@@ -12,10 +12,15 @@
 
 .logo-div {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Centers the logo horizontally */
+    align-items: center;
     margin-top: 2vh;
-    width: 100%; /* Ensure it spans the full width */
-    background-color: aqua;
+    margin-bottom: 2vh; /* Adds space between the logo and the navbar */
+}
+
+.responsive-image {
+    height: 10vh;
+    align-items: center;
 }
 
 .nav-div {

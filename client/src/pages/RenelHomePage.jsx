@@ -60,8 +60,8 @@ function RenelHomePage() {
     return (
         <div className="renel-home-page">
             {/* this is the logo at the top of the page */}
-            <div className="logo-div">
-                <img src={renel_logo} alt="Renel Logo" className="responsive-image"/>
+            <div className="logo-container">
+                <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
             </div>
 
             {/* this is the navigation bar */}

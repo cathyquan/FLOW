@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/style/SHEPGCCNavbar.css';
+import '../assets/style/Navbar.css';
 
 function SHEPGCCNavbar() {
     return (
