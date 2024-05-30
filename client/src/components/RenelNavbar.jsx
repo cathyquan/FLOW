@@ -5,7 +5,7 @@ function RenelNavbar() {
     return (
         <div className="navbar">
             <ul className="flex-grow">
-                <li>Most Urgent</li>
+                <li><button>Most Urgent</button></li>
                 <li><a href="#home">Home</a></li>
             </ul>
             <ul className="flex">
