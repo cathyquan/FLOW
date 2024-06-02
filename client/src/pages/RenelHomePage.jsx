@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import renel_logo from '../assets/images/renel_logo.png';
 import '../assets/style/RenelHomePage.css';
-import RenelNavBar from '../components/RenelNavbar.jsx';
+import RenelNavbar from '../components/RenelNavbar.jsx';
 
 function RenelHomePage() {
     const [schoolName, setSchoolName] = useState('');
-    const [headmasterName, setHeadmasterName] = useState('');
-    const [headmasterEmail, setHeadmasterEmail] = useState('');
     const [schools, setSchools] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState('');
     const [action, setAction] = useState('');
@@ -25,9 +23,7 @@ function RenelHomePage() {
 
     const handleAddSchool = () => {
         axios.post('/api/addSchool', {
-            schoolName,
-            headmasterName,
-            headmasterEmail
+            schoolName
         }).then(response => {
             console.log(response.data);
         }).catch(error => {
@@ -37,9 +33,7 @@ function RenelHomePage() {
 
     const handleEditSchool = () => {
         axios.put('/api/editSchool', {
-            schoolName,
-            headmasterName,
-            headmasterEmail
+            schoolName
         }).then(response => {
             console.log(response.data);
         }).catch(error => {
@@ -60,29 +54,30 @@ function RenelHomePage() {
     return (
         <div className="renel-home-page">
             {/* this is the logo at the top of the page */}
-            <div className="logo-container">
-                <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
-            </div>
-
-            {/* this is the navigation bar */}
-            <div className="nav-div">
-                <RenelNavBar/>
-            </div>
+            <header className="header">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <div className="logo-container">
+                    <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
+                </div>
+                <div className="nav-div">
+                    <RenelNavbar/>
+                </div>
+            </header>
 
             {/* this is the main content of the page */}
-            <div className="main-content-div">
-                <div className="most-urgent-div">
+            <main className="main-content-div">
+                <section className="most-urgent-div">
                     <button>YELLLO</button>
                     <button>hello</button>
                     <button>Bello</button>
                     <button>BELLO</button>
                     <button>yellow</button>
                     <button>hello</button>
-                </div>
-                <div className="all-schools-div">
+                </section>
+                <section className="all-schools-div">
                     <p>hello</p>
-                </div>
-                <div className="manage-schools-div">
+                </section>
+                <section className="manage-schools-div">
                     <button onClick={() => setAction('add')}>Add School</button>
                     <button onClick={() => setAction('edit')}>Edit School</button>
                     <button onClick={() => setAction('delete')}>Delete School</button>
@@ -94,18 +89,6 @@ function RenelHomePage() {
                                 placeholder="School Name"
                                 value={schoolName}
                                 onChange={(e) => setSchoolName(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Headmaster Name"
-                                value={headmasterName}
-                                onChange={(e) => setHeadmasterName(e.target.value)}
-                            />
-                            <input
-                                type="email"
-                                placeholder="Headmaster Email"
-                                value={headmasterEmail}
-                                onChange={(e) => setHeadmasterEmail(e.target.value)}
                             />
                             <button onClick={handleAddSchool}>Submit</button>
                         </div>
@@ -119,18 +102,7 @@ function RenelHomePage() {
                                 value={schoolName}
                                 onChange={(e) => setSchoolName(e.target.value)}
                             />
-                            <input
-                                type="text"
-                                placeholder="Headmaster Name"
-                                value={headmasterName}
-                                onChange={(e) => setHeadmasterName(e.target.value)}
-                            />
-                            <input
-                                type="email"
-                                placeholder="Headmaster Email"
-                                value={headmasterEmail}
-                                onChange={(e) => setHeadmasterEmail(e.target.value)}
-                            />
+
                             <button onClick={handleEditSchool}>Submit</button>
                         </div>
                     )}
@@ -151,8 +123,8 @@ function RenelHomePage() {
                             <button onClick={handleDeleteSchool}>Submit</button>
                         </div>
                     )}
-                </div>
-            </div>
+                </section>
+            </main>
         </div>
     );
 }

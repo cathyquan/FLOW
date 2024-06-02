@@ -9,7 +9,7 @@
 
 .icons svg {
     margin-right: 1vh; /* Space out the icons */
-    align-items: right;
+    /*align-items: right;*/
 }
 
 .nav {

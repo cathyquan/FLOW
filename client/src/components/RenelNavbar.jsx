@@ -1,12 +1,13 @@
 import React from 'react';
-import '../assets/style/RenelNavbar.css';
+import '../assets/style/Navbar.css';
 
 function RenelNavbar() {
     return (
 
         <div className="navbar">
             <nav className="nav">
-                <a href="#">Home</a>
+                <li>Most Urgent</li>
+                <li><a href="/renel_home">Home</a></li>
             </nav>
             <div className="icons">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#c86b39" className="size-6">
