@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const User = require("./models/User.js");
+const School = require("./models/Schools.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -47,12 +48,47 @@ app.post('/login', async (req, res) => {
 app.get('/profile', (req, res) => {
     const {token} = req.cookies;
     if(token){
-        jwt.verify(token, jwtSecret, {}, (err, user) => {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
-            res.json(user);
+            const {email, id, userType} = await User.findById(userData.id);
+            res.json({email, id, userType});
         });
     } else{
         res.json(null);
+    }
+});
+
+app.post('/addSchool', async (req, res) => {
+    console.log('add school endpoint hit');
+    const {schoolName} = req.body;
+    const schoolDoc = await School.create({
+        schoolName,
+    })
+    res.json(schoolDoc);
+});
+
+app.get('/getSchools', async (req, res) => {
+    try {
+        const schools = await School.find({}, { schoolName: 1 }); // Fetching only the school names
+        res.json(schools);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching schools' });
+    }
+});
+
+app.delete('/deleteSchool', async (req, res) => {
+    const { schoolName,  } = req.body;
+    try {
+        const schoolDoc = await School.findOneAndDelete({ schoolName: schoolName });
+        if (schoolDoc) {
+            res.json({ message: 'School deleted successfully', school: schoolDoc });
+        } else {
+            res.status(404).json({ message: 'School not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting school' });
     }
 });
 

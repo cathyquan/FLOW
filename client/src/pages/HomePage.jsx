@@ -1,18 +1,21 @@
-import React, {useContext} from 'react';
-import {UserContext} from '../UserContext';
+import React, { useContext } from 'react';
+import { UserContext } from '../UserContext';
+import RenelHomePage from './RenelHomePage';
+import SHEPGCCHomePage from './SHEPGCCHomePage';
 
 function App() {
-    const {user} = useContext(UserContext);
-   return(
-    <div>
-        {!!user && (
-            <div> 
-                {user.email}
-            </div>
-        )}
-        Home page
-    </div>
-   );
+    const { user } = useContext(UserContext);
+    return (
+        <div>
+            {!!user && user.userType === 'admin' ? (
+                <RenelHomePage/>
+            ) : (
+                !!user && (
+                    <SHEPGCCHomePage/>
+                )
+            )}
+        </div>
+    );
 }
 
 export default App;

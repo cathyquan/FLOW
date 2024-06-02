@@ -16,6 +16,7 @@ function App() {
     <UserContextProvider> 
       <Routes>
         <Route path="/login" element={<LogInPage/>} />
+        <Route path="/" element={<HomePage/>} />
         <Route path="/home" element={<SHEPGCCHomePage/>} />
         <Route path="/renel_home" element={<RenelHomePage/>}/>
       </Routes>
