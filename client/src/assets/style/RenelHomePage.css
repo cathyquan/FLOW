@@ -3,14 +3,14 @@
 .renel-home-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /*align-items: center;*/
     width: 100vw; /* Ensure it spans the full viewport width */
     height: 100vh; /* Ensure it spans the full viewport height */
     background-color: blueviolet;
     overflow: hidden; /* Prevents scrolling if content exceeds the viewport size */
 }
 
-.logo-div {
+.logo-container {
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;
@@ -35,7 +35,7 @@
     align-items: center;
     width: 100%; /* Ensure it spans the full width */
     height: 100%; /* Ensure it spans the full height */
-    background-color: green;
+    /*background-color: green;*/
 }
 
 .most-urgent-div {
@@ -44,7 +44,7 @@
     align-items: center;
     width: 25%; /* Ensure it spans the full width */
     height: 100%;
-    background-color: aquamarine;
+    background-color: #f2f2f2;
 }
 
 .most-urgent-div button {

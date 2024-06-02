@@ -3,6 +3,7 @@ import axios from 'axios';
 import renel_logo from '../assets/images/renel_logo.png';
 import '../assets/style/RenelHomePage.css';
 import RenelNavbar from '../components/RenelNavbar.jsx';
+import {Link} from "react-router-dom";
 
 function RenelHomePage() {
     const [schoolName, setSchoolName] = useState('');
@@ -63,16 +64,17 @@ function RenelHomePage() {
                     <RenelNavbar/>
                 </div>
             </header>
-
             {/* this is the main content of the page */}
             <main className="main-content-div">
                 <section className="most-urgent-div">
-                    <button>YELLLO</button>
-                    <button>hello</button>
-                    <button>Bello</button>
-                    <button>BELLO</button>
-                    <button>yellow</button>
-                    <button>hello</button>
+                    <h1>Most Urgent</h1>
+                    <button><Link to="/home">School A</Link></button>
+                    <button><Link to="/home">School A</Link></button>
+                    <button><Link to="/home">School A</Link></button>
+                    <button><Link to="/home">School A</Link></button>
+                    <button><Link to="/home">School A</Link></button>
+                    <button><Link to="/home">School A</Link></button>
+                    <button><Link to="/home">School A</Link></button>
                 </section>
                 <section className="all-schools-div">
                     <p>hello</p>
