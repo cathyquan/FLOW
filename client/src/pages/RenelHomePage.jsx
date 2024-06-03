@@ -93,56 +93,71 @@ function RenelHomePage() {
 
                 </section>
                 <section className="all-schools">
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                    <div className="search-container">
+                        <link rel="stylesheet"
+                              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                         <input type="text" placeholder="Search for a School" className="search-input"/>
                         <button type="submit" className="search-button"><i className="fa fa-search"/></button>
+                    </div>
+                    <div className="school-list">
+                        {/*<h1>All Schools</h1>*/}
+                        <button><Link to="/home">School A</Link></button>
+                        <button><Link to="/home">School B</Link></button>
+                        <button><Link to="/home">School C</Link></button>
+                        <button><Link to="/home">School D</Link></button>
+                        <button><Link to="/home">School E</Link></button>
+                        <button><Link to="/home">School F</Link></button>
+                        <button><Link to="/home">School G</Link></button>
+                    </div>
                 </section>
                 <section className="manage-schools">
-                <button onClick={() => setAction('add')}>Add School</button>
-                    <button onClick={() => setAction('edit')}>Edit School</button>
-                    <button onClick={() => setAction('delete')}>Delete School</button>
+                    <div className="info">
+                        {action === 'add' && (
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="School Name"
+                                    value={schoolName}
+                                    onChange={(e) => setSchoolName(e.target.value)}
+                                />
+                                <button type="submit" onClick={handleAddSchool}>Submit</button>
+                            </div>
+                        )}
 
-                    {action === 'add' && (
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="School Name"
-                                value={schoolName}
-                                onChange={(e) => setSchoolName(e.target.value)}
-                            />
-                            <button onClick={handleAddSchool}>Submit</button>
-                        </div>
-                    )}
+                        {action === 'edit' && (
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="School Name"
+                                    value={schoolName}
+                                    onChange={(e) => setSchoolName(e.target.value)}
+                                />
+                                <button type="submit" onClick={handleEditSchool}>Submit</button>
+                            </div>
+                        )}
 
-                    {action === 'edit' && (
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="School Name"
-                                value={schoolName}
-                                onChange={(e) => setSchoolName(e.target.value)}
-                            />
-
-                            <button onClick={handleEditSchool}>Submit</button>
-                        </div>
-                    )}
-
-                    {action === 'delete' && (
-                        <div>
-                            <select
-                                value={selectedSchool}
-                                onChange={(e) => setSelectedSchool(e.target.value)}
-                            >
-                                <option value="">Select a school</option>
-                                {schools.map(school => (
-                                    <option key={school.id} value={school.schoolName}>
-                                        {school.schoolName}
-                                    </option>
-                                ))}
-                            </select>
-                            <button onClick={handleDeleteSchool}>Submit</button>
-                        </div>
-                    )}
+                        {action === 'delete' && (
+                            <div>
+                                <select
+                                    value={selectedSchool}
+                                    onChange={(e) => setSelectedSchool(e.target.value)}
+                                >
+                                    <option value="">Select a school</option>
+                                    {schools.map(school => (
+                                        <option key={school.id} value={school.schoolName}>
+                                            {school.schoolName}
+                                        </option>
+                                    ))}
+                                </select>
+                                <button type="submit" onClick={handleDeleteSchool}>Submit</button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="buttons">
+                        <button onClick={() => setAction('add')}>Add School</button>
+                        <button onClick={() => setAction('edit')}>Edit School</button>
+                        <button onClick={() => setAction('delete')}>Delete School</button>
+                    </div>
                 </section>
             </main>
         </div>
