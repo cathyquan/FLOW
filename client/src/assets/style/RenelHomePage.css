@@ -187,7 +187,7 @@
     margin-top: auto; /* Push the buttons section to the bottom */
 }
 
-.manage-schools button {
+.manage-schools .buttons button {
     background-color: #C69C7D;
     color: white;
     width: 80%;
@@ -199,14 +199,18 @@
     transition: background-color 0.3s;
 }
 
-.manage-schools button:hover {
+.manage-schools .buttons button:hover {
     background-color: #a35b3e;
 }
 
 .manage-schools button[type="submit"] {
     width: 100%; /* Ensure the submit button width matches the input */
     background-color: #b9855f;
+    border-radius: 3vh;
     margin-top: 2vh;
+    color: white;
+        height: 5vh;
+
 }
 
 .manage-schools button[type="submit"]:hover {
