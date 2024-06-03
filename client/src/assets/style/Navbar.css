@@ -1,0 +1,33 @@
+.navbar {
+    display: flex;
+    /*justify-content: space-between; !* Space out items *!*/
+    width: 100%; /* Ensure it spans the full width */
+    background-color: #d9d9d9; /* Light background color */
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+
+ul.flex-grow {
+  flex-grow: 1;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  /*text-decoration: none;*/
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #b3b3b3;
+}

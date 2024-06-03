@@ -1,0 +1,217 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    background-color: #ffffff;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center; /* Centers the logo horizontally */
+    align-items: center;
+    margin-top: 2vh;
+    margin-bottom: 2vh; /* Adds space between the logo and the navbar */
+}
+
+.logo {
+    height: 10vh;
+    align-items: center;
+}
+
+.main {
+    padding: 3vh;
+}
+
+.school-info {
+    max-width: 1000vh;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.school-info h1 {
+    margin: 0;
+    padding-bottom: 2vh;
+    font-size: 200%;
+}
+
+.info-grade-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.info-container {
+    width: 63%; /* Set the width to 60% of the screen */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f0b36d;
+    padding: 2vh;
+    border-radius: 3vh;
+    position: relative;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 69%;
+    height: 60vh;
+    border-radius: 3vh;
+    align-self: flex-start; /* Align the contact info to the start of the container */
+    justify-content: center; /* Center the contact info vertically */
+}
+
+.contact-card {
+    display: flex;
+    /* background-color: red; */
+    justify-content: center;
+}
+
+.contact-card img {
+    border-radius: 1vh;
+    width: 15vh;
+    height: 16vh;
+    margin-left: 0%;
+    align-items: flex-start;
+}
+
+.contact-card div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background-color: green; */
+    margin-left: 10%;
+}
+
+.contact-card h2 {
+    margin: 0;
+    font-size: 100%;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.contact-card h3 {
+    margin: 0;
+    font-size: 100%;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 1.5vh;
+}
+
+.contact-card p {
+    margin: 0%;
+    font-size: 90%;
+    font-style: italic;
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-end; */
+    /* margin-left: 0%; */
+    position: absolute;
+    bottom: 2vh;
+    right: 2.3vh;
+    /* background-color: blue; */
+    width: 27%;
+    justify-content: center;
+}
+
+.chart {
+    align-items: center;
+    justify-content: center;
+}
+
+/* .piechart {
+    --size: 11.5rem;
+    width: 100%;
+    height: var(--size);
+    border-radius: 50%;
+    display: grid;
+    background:
+        radial-gradient(closest-side, #f0b36d 40%, transparent 0 99.9%, #f0b36d 0),
+        conic-gradient(
+        #FA8072 0 10%,
+        #CD5C5C 10% 30%,
+        #81CA6E 30% 100%
+        );
+    color: var(--fg);
+} */
+
+.buttons button {
+    background-color: white;
+    color: black;
+    padding: 1vh;
+    margin-top: 2vh;
+    margin-bottom: 0vh;
+    border-radius: 3vh;
+    width: 100%;
+    cursor: pointer;
+    /* justify-content: right; */
+    font-size: 90%;
+}
+
+.grade-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    width: 35%;
+    height: 64.3vh;
+    overflow-y: auto;
+    border-radius: 3vh;
+    /* background-color: pink; */
+}
+
+@media (max-width: 1000px) {
+    .contact-info {
+        width: 100%; /* Full width for the contact info */
+        height: 45vh;
+        margin-bottom: 1vh;
+    }
+
+    .chart-container {
+        position: static;
+        align-items: center;
+        width: 100%;
+    }
+
+    .buttons {
+        align-items: center;
+        width: 100%;
+    }
+
+    .buttons button {
+        width: 100%;
+        margin: 1vh 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-container {
+        width: 100%; /* Full width on narrow screens */
+        margin-right: 0; /* Remove margin on narrow screens */
+        margin-bottom: 2vh; /* Add some space below the info container */
+    }
+
+    .grade-list {
+        width: 100%; /* Full width on narrow screens */
+        margin-top: 2vh;
+    }
+}
+
+.grade-list button {
+    background-color: #f0b36d;
+    border: none;
+    padding: 15px;
+    margin-bottom: 1vh;
+    border-radius: 3vh;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1em;
+}
