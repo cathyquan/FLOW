@@ -50,8 +50,8 @@ app.get('/profile', (req, res) => {
     if(token){
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
-            const {email, id, userType} = await User.findById(userData.id);
-            res.json({email, id, userType});
+            const {email, id, userType, school} = await User.findById(userData.id);
+            res.json({email, id, userType, school});
         });
     } else{
         res.json(null);
