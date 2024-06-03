@@ -13,7 +13,7 @@ function RenelHomePage() {
 
     useEffect(() => {
         // Fetch the list of schools for the dropdown
-        axios.get('/api/getSchools')
+        axios.get('http://localhost:4000/getSchools')
             .then(response => {
                 setSchools(response.data);
             })
@@ -22,13 +22,17 @@ function RenelHomePage() {
             });
     }, []);
 
-    const handleAddSchool = () => {
-        axios.post('/api/addSchool', {
+    const handleAddSchool = (ev) => {
+        ev.preventDefault();
+        axios.post('http://localhost:4000/addSchool', {
             schoolName
         }).then(response => {
             console.log(response.data);
+            alert('school added!');
+            setSchoolName('');
         }).catch(error => {
-            console.error(error);
+            console.error("there was an error!", error);
+            alert('school not added!');
         });
     };
 
@@ -43,12 +47,22 @@ function RenelHomePage() {
     };
 
     const handleDeleteSchool = () => {
-        axios.delete('/api/deleteSchool', {
+        axios.delete('http://localhost:4000/deleteSchool', {
             data: { schoolName: selectedSchool }
         }).then(response => {
             console.log(response.data);
+            alert('School deleted!');
+            // Optionally, refresh the list of schools here
+            axios.get('http://localhost:4000/getSchools')
+                .then(response => {
+                    setSchools(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }).catch(error => {
-            console.error(error);
+            console.error("There was an error!", error);
+            alert('School not deleted!');
         });
     };
 
@@ -121,8 +135,8 @@ function RenelHomePage() {
                             >
                                 <option value="">Select a school</option>
                                 {schools.map(school => (
-                                    <option key={school.id} value={school.name}>
-                                        {school.name}
+                                    <option key={school.id} value={school.schoolName}>
+                                        {school.schoolName}
                                     </option>
                                 ))}
                             </select>
