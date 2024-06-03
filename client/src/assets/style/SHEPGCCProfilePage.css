@@ -1,0 +1,197 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    background-color: #ffffff;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center; /* Centers the logo horizontally */
+    align-items: center;
+    padding: 1vh 0;
+}
+
+.logo {
+    height: 6vh;
+    cursor: pointer;
+}
+
+.main {
+    padding: 2vh;
+}
+
+.profile-info {
+    max-width: 1000vh;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.profile-info h1 {
+    margin: 0;
+    padding-bottom: 2vh;
+    font-size: 200%;
+}
+
+.profile-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f0b36d;
+    padding: 2vh;
+    border-radius: 3vh;
+    position: relative;
+}
+
+.profile-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 10vh;
+    border-radius: 3vh;
+    height: 60vh;
+    margin: 0 auto;
+}
+
+.profile-details {
+    flex: 2;
+    text-align: center;
+}
+
+.profile-details p {
+    margin: 0.75vh 0;
+    font-size: 16px;
+}
+
+.profile-buttons {
+    margin-top: 4vh; /* Increase the space between profile info and buttons */
+    margin-bottom: 0.5vh; /* Decrease the space underneath the buttons */
+    text-align: center;
+}
+
+.profile-buttons button {
+    background-color: #f0b36d;
+    border: none;
+    color: white;
+    padding: 1vh 2vh;
+    margin: 5px;
+    border-radius: 3vh;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.profile-buttons button:hover {
+    background-color: #c86b39;
+}
+
+.profile-image {
+    flex: 1.5;
+    text-align: center;
+    margin-left: 10vh; /* Adjust the space between image and details */
+}
+
+.profile-image img {
+    border-radius: 3vh;
+    width: 40vh;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        flex-direction: column;
+        height: auto;
+        padding: 5vh;
+    }
+
+    .profile-image {
+        order: -1; /* Move the image above the profile details */
+        margin-left: 0;
+        margin-bottom: 2vh;
+    }
+
+    .profile-details {
+        margin-bottom: 2vh;
+    }
+
+    .profile-image img {
+        width: 40vh;
+    }
+}
+
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%; /* Increase the width of the popup */
+    max-width: 450px; /* Increase the max-width of the popup */
+    text-align: center; /* Center content in the popup */
+}
+
+.popup h2 {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center; /* Center the title */
+    margin-bottom: 2vh;
+}
+
+.popup label {
+    display: flex;
+    align-items: center;
+    margin: 1vh 0;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.popup input {
+    width: 70%; /* Adjust the width of the input fields */
+    padding: 0.8vh;
+    margin-left: 1vh;
+    box-sizing: border-box;
+    border: 1px solid lightblue; /* Add light grey border */
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
+
+.popup-buttons button {
+    padding: 1vh 2vh;
+    border: none;
+    border-radius: 3vh;
+    cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+    background-color: #ccc;
+}
+
+.popup-buttons button:last-child {
+    background-color: #f0b36d;
+    color: white;
+}
+
+.popup-buttons button:last-child:hover {
+    background-color: #c86b39;
+}
