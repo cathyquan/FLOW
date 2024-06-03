@@ -54,7 +54,6 @@ function RenelHomePage() {
 
     return (
         <div className="renel-home-page">
-            {/* this is the logo at the top of the page */}
             <header className="header">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <div className="logo-container">
@@ -65,22 +64,27 @@ function RenelHomePage() {
                 </div>
             </header>
             {/* this is the main content of the page */}
-            <main className="main-content-div">
-                <section className="most-urgent-div">
+            <main className="main-content">
+                <section className="most-urgent">
                     <h1>Most Urgent</h1>
-                    <button><Link to="/home">School A</Link></button>
-                    <button><Link to="/home">School A</Link></button>
-                    <button><Link to="/home">School A</Link></button>
-                    <button><Link to="/home">School A</Link></button>
-                    <button><Link to="/home">School A</Link></button>
-                    <button><Link to="/home">School A</Link></button>
-                    <button><Link to="/home">School A</Link></button>
+
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+
+
                 </section>
-                <section className="all-schools-div">
-                    <p>hello</p>
+                <section className="all-schools">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                        <input type="text" placeholder="Search for a School" className="search-input"/>
+                        <button type="submit" className="search-button"><i className="fa fa-search"/></button>
                 </section>
-                <section className="manage-schools-div">
-                    <button onClick={() => setAction('add')}>Add School</button>
+                <section className="manage-schools">
+                <button onClick={() => setAction('add')}>Add School</button>
                     <button onClick={() => setAction('edit')}>Edit School</button>
                     <button onClick={() => setAction('delete')}>Delete School</button>
 
