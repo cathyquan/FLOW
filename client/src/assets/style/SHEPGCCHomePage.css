@@ -22,15 +22,6 @@ body {
     align-items: center;
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #d9d9d9; /* Grey background color for the navigation bar */
-    padding: 1vh 3vh;
-    color: white;
-}
-
 .main {
     padding: 3vh;
 }
@@ -52,7 +43,6 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    /* gap: 1vh; */
 }
 
 .info-container {
