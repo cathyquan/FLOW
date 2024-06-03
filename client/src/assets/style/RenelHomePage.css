@@ -3,19 +3,22 @@
 .renel-home-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100vw; /* Ensure it spans the full viewport width */
     height: 100vh; /* Ensure it spans the full viewport height */
-    background-color: blueviolet;
     overflow: hidden; /* Prevents scrolling if content exceeds the viewport size */
 }
 
-.logo-div {
+.logo-container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Centers the logo horizontally */
+    align-items: center;
     margin-top: 2vh;
-    width: 100%; /* Ensure it spans the full width */
-    background-color: aqua;
+    margin-bottom: 2vh; /* Adds space between the logo and the navbar */
+}
+
+.responsive-image {
+    height: 10vh;
+    align-items: center;
 }
 
 .nav-div {
@@ -24,46 +27,122 @@
     width: 100%; /* Ensure it spans the full width */
 }
 
-.main-content-div {
+.main-content {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%; /* Ensure it spans the full width */
     height: 100%; /* Ensure it spans the full height */
-    background-color: green;
+    /*background-color: green;*/
 }
 
-.most-urgent-div {
+.most-urgent {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 25%; /* Ensure it spans the full width */
     height: 100%;
-    background-color: aquamarine;
+    background-color: #f2f2f2;
 }
 
-.most-urgent-div button {
+.most-urgent h1 {
+    font-size: 200%;
+}
+
+
+.school-link {
+    text-decoration: underline; /* Adds underline to the link text */
+    color: black;
     margin-top: 2vh;
-    background-color: red;
     width: 100%;
-    height: 5vh;
-    border-radius: 3vh;
+    text-align: center;
+    padding: 1vh 0;
+    color: dimgrey;
+
 }
 
-.all-schools-div {
+.school-link:hover {
+    /*background-color: #d07916;*/
+    color: #C69C7D;
+}
+
+.all-schools {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    /*flex-direction: column;*/
+    /*align-items: center;*/
     width: 50%; /* Ensure it spans the full width */
     height: 100%;
-    background-color: beige;
+    background-color: white;
+    padding: 2vh;
+
 }
 
-.manage-schools-div {
+.all-schools input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    height: 5vh;
+    border-radius: 3vh;
+    margin-top: 2vh;
+    border-color: dimgrey;
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-button {
+    /*padding: 10px 20px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 30vh;
+    background-color: pink;
+    color: #000;
+    width: 10%;
+    height: 5vh;
+    margin-top: 2vh;
+    /*font-size: 16px;*/
+    /*cursor: pointer;*/
+    /*transition: background-color 0.3s;*/
+}
+
+/* Hover effect for the search button */
+.search-button:hover {
+    /*background-color: #0056b3;*/
+}
+
+/* Responsive adjustments */
+/*@media (max-width: 600px) {*/
+/*    .search-container {*/
+/*        flex-direction: row;*/
+/*        border-radius: 15px;*/
+/*    }*/
+
+/*    .search-input,*/
+/*    .search-button {*/
+/*        border-radius: 15px;*/
+/*        margin: 5px 0;*/
+/*    }*/
+
+/*    .search-input {*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
+
+.manage-schools {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 25%; /* Ensure it spans the full width */
     height: 100%;
-    background-color: burlywood;
+    /*background-color: burlywood;*/
+}
+
+.manage-schools button {
+    background-color: #C69C7D;
+    width: 80%;
+    height: 5vh;
+    border-radius: 3vh;
+    margin-top: 2vh;
 }

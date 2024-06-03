@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import renel_logo from '../assets/images/renel_logo.png';
 import '../assets/style/RenelHomePage.css';
-import RenelNavBar from '../components/RenelNavbar.jsx';
+import RenelNavbar from '../components/RenelNavbar.jsx';
+import {Link} from "react-router-dom";
 
 function RenelHomePage() {
     const [schoolName, setSchoolName] = useState('');
-    const [headmasterName, setHeadmasterName] = useState('');
-    const [headmasterEmail, setHeadmasterEmail] = useState('');
     const [schools, setSchools] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState('');
     const [action, setAction] = useState('');
 
     useEffect(() => {
         // Fetch the list of schools for the dropdown
-        axios.get('/api/getSchools')
+        axios.get('http://localhost:4000/getSchools')
             .then(response => {
                 setSchools(response.data);
             })
@@ -23,23 +22,23 @@ function RenelHomePage() {
             });
     }, []);
 
-    const handleAddSchool = () => {
-        axios.post('/api/addSchool', {
-            schoolName,
-            headmasterName,
-            headmasterEmail
+    const handleAddSchool = (ev) => {
+        ev.preventDefault();
+        axios.post('http://localhost:4000/addSchool', {
+            schoolName
         }).then(response => {
             console.log(response.data);
+            alert('school added!');
+            setSchoolName('');
         }).catch(error => {
-            console.error(error);
+            console.error("there was an error!", error);
+            alert('school not added!');
         });
     };
 
     const handleEditSchool = () => {
         axios.put('/api/editSchool', {
-            schoolName,
-            headmasterName,
-            headmasterEmail
+            schoolName
         }).then(response => {
             console.log(response.data);
         }).catch(error => {
@@ -48,42 +47,58 @@ function RenelHomePage() {
     };
 
     const handleDeleteSchool = () => {
-        axios.delete('/api/deleteSchool', {
+        axios.delete('http://localhost:4000/deleteSchool', {
             data: { schoolName: selectedSchool }
         }).then(response => {
             console.log(response.data);
+            alert('School deleted!');
+            // Optionally, refresh the list of schools here
+            axios.get('http://localhost:4000/getSchools')
+                .then(response => {
+                    setSchools(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }).catch(error => {
-            console.error(error);
+            console.error("There was an error!", error);
+            alert('School not deleted!');
         });
     };
 
     return (
         <div className="renel-home-page">
-            {/* this is the logo at the top of the page */}
-            <div className="logo-div">
-                <img src={renel_logo} alt="Renel Logo" className="responsive-image"/>
-            </div>
-
-            {/* this is the navigation bar */}
-            <div className="nav-div">
-                <RenelNavBar/>
-            </div>
-
+            <header className="header">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <div className="logo-container">
+                    <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
+                </div>
+                <div className="nav-div">
+                    <RenelNavbar/>
+                </div>
+            </header>
             {/* this is the main content of the page */}
-            <div className="main-content-div">
-                <div className="most-urgent-div">
-                    <button>YELLLO</button>
-                    <button>hello</button>
-                    <button>Bello</button>
-                    <button>BELLO</button>
-                    <button>yellow</button>
-                    <button>hello</button>
-                </div>
-                <div className="all-schools-div">
-                    <p>hello</p>
-                </div>
-                <div className="manage-schools-div">
-                    <button onClick={() => setAction('add')}>Add School</button>
+            <main className="main-content">
+                <section className="most-urgent">
+                    <h1>Most Urgent</h1>
+
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+                    <p><Link to="/home" className="school-link">School A</Link></p>
+
+
+                </section>
+                <section className="all-schools">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                        <input type="text" placeholder="Search for a School" className="search-input"/>
+                        <button type="submit" className="search-button"><i className="fa fa-search"/></button>
+                </section>
+                <section className="manage-schools">
+                <button onClick={() => setAction('add')}>Add School</button>
                     <button onClick={() => setAction('edit')}>Edit School</button>
                     <button onClick={() => setAction('delete')}>Delete School</button>
 
@@ -94,18 +109,6 @@ function RenelHomePage() {
                                 placeholder="School Name"
                                 value={schoolName}
                                 onChange={(e) => setSchoolName(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Headmaster Name"
-                                value={headmasterName}
-                                onChange={(e) => setHeadmasterName(e.target.value)}
-                            />
-                            <input
-                                type="email"
-                                placeholder="Headmaster Email"
-                                value={headmasterEmail}
-                                onChange={(e) => setHeadmasterEmail(e.target.value)}
                             />
                             <button onClick={handleAddSchool}>Submit</button>
                         </div>
@@ -119,18 +122,7 @@ function RenelHomePage() {
                                 value={schoolName}
                                 onChange={(e) => setSchoolName(e.target.value)}
                             />
-                            <input
-                                type="text"
-                                placeholder="Headmaster Name"
-                                value={headmasterName}
-                                onChange={(e) => setHeadmasterName(e.target.value)}
-                            />
-                            <input
-                                type="email"
-                                placeholder="Headmaster Email"
-                                value={headmasterEmail}
-                                onChange={(e) => setHeadmasterEmail(e.target.value)}
-                            />
+
                             <button onClick={handleEditSchool}>Submit</button>
                         </div>
                     )}
@@ -143,16 +135,16 @@ function RenelHomePage() {
                             >
                                 <option value="">Select a school</option>
                                 {schools.map(school => (
-                                    <option key={school.id} value={school.name}>
-                                        {school.name}
+                                    <option key={school.id} value={school.schoolName}>
+                                        {school.schoolName}
                                     </option>
                                 ))}
                             </select>
                             <button onClick={handleDeleteSchool}>Submit</button>
                         </div>
                     )}
-                </div>
-            </div>
+                </section>
+            </main>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../assets/style/Navbar.css';
 import '../assets/style/SHEPGCCNavbar.css';
 import { Link } from 'react-router-dom';
 
