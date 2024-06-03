@@ -78,7 +78,7 @@ app.get('/getSchools', async (req, res) => {
 });
 
 app.delete('/deleteSchool', async (req, res) => {
-    const { schoolName,  } = req.body;
+    const {schoolName} = req.body;
     try {
         const schoolDoc = await School.findOneAndDelete({ schoolName: schoolName });
         if (schoolDoc) {

@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
+
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
+
 import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
 
 function SHEPGCCHomePage() {
@@ -45,7 +48,9 @@ function SHEPGCCHomePage() {
                             </div>
                             <div className="chart-container">
                                 <div className="chart">
-                                    {/* Chart will go here */}
+                                    <body>
+                                        <div class="piechart"></div>
+                                    </body>
                                 </div>
                                 <div className="buttons">
                                     <button>Add Grade</button>
