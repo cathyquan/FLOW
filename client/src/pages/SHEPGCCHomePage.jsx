@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
@@ -7,6 +8,25 @@ import shep from '../assets/images/akosua-mensah-profile.png';
 import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
 
 function SHEPGCCHomePage() {
+    const [schoolName, setSchoolName] = useState('');
+    const [shepInfo, setShepInfo] = useState({});
+    const [gccInfo, setGccInfo] = useState({});
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/profile', { withCredentials: true })
+            .then(response => {
+                const school = response.data.school;
+                if (school) {
+                    setSchoolName(school.schoolName);
+                    setShepInfo(school.SHEP);
+                    setGccInfo(school.GCC);
+                }
+            })
+            .catch(error => {
+                console.error('There was an error fetching the profile!', error);
+            });
+    }, []);
+
     return (
         <div className="shepgcc-home-page">
             <header className="header">
@@ -20,34 +40,34 @@ function SHEPGCCHomePage() {
             </header>
             <main className="main">
                 <section className="school-info">
-                    <h1>School A</h1>
+                    <h1>{schoolName}</h1>
                     <div className="info-grade-container">
                         <div className="info-container">
                             <div className="contact-info">
                                 <div className="contact-card">
-                                    <img src={gcc} alt="Akosua Mensah"/>
+                                    <img src={gcc} alt="GCC"/>
                                     <div>
                                         <h2>GCC</h2>
-                                        <h3>Akosua Mensah</h3>
-                                        <p>+233 00-000-0000</p>
-                                        <p>randomemail@gmail.com</p>
+                                        <h3>{gccInfo.name}</h3>
+                                        <p>{gccInfo.phone}</p>
+                                        <p>{gccInfo.email}</p>
                                     </div>
                                 </div>
                                 <br></br>
                                 <div className="contact-card">
-                                    <img src={shep} alt="Ama Kofi"/>
+                                    <img src={shep} alt="SHEP"/>
                                     <div>
                                         <h2>SHEP</h2>
-                                        <h3>Ama Kofi</h3>
-                                        <p>+233 00-000-0000</p>
-                                        <p>randomemail@gmail.com</p>
+                                        <h3>{shepInfo.name}</h3>
+                                        <p>{shepInfo.phone}</p>
+                                        <p>{shepInfo.email}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="chart-container">
                                 <div className="chart">
                                     <body>
-                                        <div class="piechart"></div>
+                                        <div className="piechart"></div>
                                     </body>
                                 </div>
                                 <div className="buttons">
