@@ -10,12 +10,7 @@ function SHEPGCCInboxPage() {
         <div>
             <div className="App">
                 <header className="header">
-                    <div className="logo-container">
-                        <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
-                    </div>
-                    <div className="nav-div">
-                        <Navbar/>
-                    </div>
+                    <Navbar/>
                 </header>
             </div>
             <div>
