@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import axios from 'axios';
 import '../assets/style/Navbar.css';
-import { Link } from 'react-router-dom';
 
 function Navbar() {
     const { setUser } = useContext(UserContext);

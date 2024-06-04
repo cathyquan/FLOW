@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../assets/style/SHEPGCCStudentPage.css';
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
-import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import Navbar from "../components/Navbar.jsx";
+//import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 function SHEPGCCStudentPage() {
     const [showPopup, setShowPopup] = useState(false);
