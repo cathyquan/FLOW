@@ -91,7 +91,6 @@ app.post('/updateProfile', async (req, res) => {
 });
 
 app.post('/addSchool', async (req, res) => {
-    console.log('add school endpoint hit');
     const {schoolName} = req.body;
     const schoolDoc = await School.create({
         schoolName,
@@ -106,6 +105,21 @@ app.get('/getSchools', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error fetching schools' });
+    }
+});
+
+app.get('/schools/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const school = await School.findById(id).populate('SHEP').populate('GCC');
+        if (school) {
+            res.json({ school });
+        } else {
+            res.status(404).json({ message: 'School not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching school details' });
     }
 });
 

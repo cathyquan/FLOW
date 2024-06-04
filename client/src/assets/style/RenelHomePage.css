@@ -5,7 +5,8 @@
     flex-direction: column;
     width: 100vw; /* Ensure it spans the full viewport width */
     height: 100vh; /* Ensure it spans the full viewport height */
-    overflow: hidden; /* Prevents scrolling if content exceeds the viewport size */
+    /* overflow: hidden;  */
+    /* Prevents scrolling if content exceeds the viewport size */
 }
 
 .logo-container {
