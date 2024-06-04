@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../assets/style/SHEPGCCProfilePage.css';
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import profile_pic from '../assets/images/ama-kofi-profile.png';
-import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCProfilePage() {
     const [showPopup, setShowPopup] = useState(false);
@@ -52,7 +52,7 @@ function SHEPGCCProfilePage() {
                     </a>
                 </div>
                 <div className="nav-div">
-                    <SHEPGCCNavbar />
+                    <Navbar />
                 </div>
             </header>
             <main className="main">

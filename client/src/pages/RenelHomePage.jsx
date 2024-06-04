@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import renel_logo from '../assets/images/renel_logo.png';
 import '../assets/style/RenelHomePage.css';
-import RenelNavbar from '../components/RenelNavbar.jsx';
+import RenelNavbar from '../components/Navbar.jsx';
 import { Link } from "react-router-dom";
 
 function RenelHomePage() {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../assets/style/GradeLevelPage.css';
 import renel_logo from "../assets/images/renel_logo.png";
-import RenelNavbar from "../components/RenelNavbar.jsx";
+import RenelNavbar from "../components/Navbar.jsx";
 import {Link} from "react-router-dom";
 
 const GradeLevelPage = () => {
