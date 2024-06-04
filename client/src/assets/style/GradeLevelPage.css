@@ -1,0 +1,122 @@
+/* GradeLevelPage.css */
+
+.grade-level-page {
+    display: flex;
+    flex-direction: column;
+    width: 100vw; /* Ensure it spans the full viewport width */
+    height: 100vh; /* Ensure it spans the full viewport height */
+    overflow: hidden; /* Prevents scrolling if content exceeds the viewport size */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+.header h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.header p {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.class-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.class-info h1 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.class-info p {
+    font-size: 1em;
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px; /* Add padding around the content */
+}
+
+.student-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    gap: 2vw;
+    width: 70%; /* Adjust as needed */
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 2vw; /* Add space for scrollbar */
+    box-sizing: border-box;
+}
+
+.student-list button {
+    background-color: #F0B36D;
+    color: black;
+    width: 100%;
+    height: 50px; /* Adjust as needed */
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.student-list button:hover {
+    background-color: #e78618;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 25%; /* Adjust as needed */
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* To position elements absolutely within it */
+}
+
+.sidebar .chart {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.sidebar .buttons {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 40px); /* Adjust to match the sidebar width minus padding */
+}
+
+.sidebar button {
+    background-color: #C69C7D;
+    color: white;
+    width: 100%;
+    height: 50px; /* Adjust as needed */
+    border-radius: 25px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #a35b3e;
+}
