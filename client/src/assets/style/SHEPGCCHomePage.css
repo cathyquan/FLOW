@@ -17,7 +17,7 @@ body {
     margin-bottom: 2vh; /* Adds space between the logo and the navbar */
 }
 
-.logo {
+.logo-container img {
     height: 10vh;
     align-items: center;
 }
@@ -48,6 +48,7 @@ body {
 
 .info-container {
     width: 63%; /* Set the width to 60% of the screen */
+    height: 64vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
