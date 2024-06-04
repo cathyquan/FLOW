@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../assets/style/SHEPGCCProfilePage.css';
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import profile_pic from '../assets/images/ama-kofi-profile.png';
@@ -6,15 +7,29 @@ import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCProfilePage() {
     const [showPopup, setShowPopup] = useState(false);
-    const [position, setPosition] = useState('GCC');
-    const [name, setName] = useState('Akosua Mensah');
-    const [phone, setPhone] = useState('+233 00-000-0000');
-    const [email, setEmail] = useState('randomemail@gmail.com');
+    const [position, setPosition] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
 
-    const [tempPosition, setTempPosition] = useState(position);
-    const [tempName, setTempName] = useState(name);
-    const [tempPhone, setTempPhone] = useState(phone);
-    const [tempEmail, setTempEmail] = useState(email);
+    const [tempPosition, setTempPosition] = useState('');
+    const [tempName, setTempName] = useState('');
+    const [tempPhone, setTempPhone] = useState('');
+    const [tempEmail, setTempEmail] = useState('');
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/profile', { withCredentials: true })
+            .then(response => {
+                const { email, name, userType: position, phone } = response.data;
+                setPosition(position);
+                setName(name);
+                setPhone(phone);
+                setEmail(email);
+            })
+            .catch(error => {
+                console.error('Error fetching profile data:', error);
+            });
+    }, []);
 
     const handleEditProfileClick = () => {
         setTempPosition(position);
@@ -36,11 +51,22 @@ function SHEPGCCProfilePage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPosition(tempPosition);
-        setName(tempName);
-        setPhone(tempPhone);
-        setEmail(tempEmail);
-        setShowPopup(false);
+        axios.post('http://localhost:4000/updateProfile', {
+            email: tempEmail,
+            name: tempName,
+            phone: tempPhone,
+            position: tempPosition,
+        }, { withCredentials: true })
+            .then(response => {
+                setPosition(tempPosition);
+                setName(tempName);
+                setPhone(tempPhone);
+                setEmail(tempEmail);
+                setShowPopup(false);
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+            });
     };
 
     return (
@@ -71,7 +97,7 @@ function SHEPGCCProfilePage() {
                                 </div>
                             </div>
                             <div className="profile-image">
-                                <img src={profile_pic} alt="Akosua Mensah" />
+                                <img src={profile_pic} alt="Profile" />
                             </div>
                         </div>
                     </div>

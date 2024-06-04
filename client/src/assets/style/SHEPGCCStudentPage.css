@@ -13,115 +13,108 @@ body {
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;
-    padding: 1vh 0;
+    padding: 10px 0;
 }
 
-.logo-container img {
-    height: 10vh;
-    align-items: center;
+.logo {
+    height: 60px;
+    cursor: pointer;
 }
 
 .main {
-    padding: 2vh;
+    padding: 20px;
 }
 
-.profile-info {
+.student-info {
     max-width: 1000vh;
     margin: 0 auto;
     text-align: center;
 }
 
-.profile-info h1 {
+.student-info h1 {
     margin: 0;
     padding-bottom: 2vh;
     font-size: 200%;
 }
 
-.profile-container {
-    width: 100%;
+.info-container {
+    width: 63%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: flex-start;
     background-color: #f0b36d;
     padding: 2vh;
     border-radius: 3vh;
     position: relative;
 }
 
-.profile-card {
+.info-card {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f8f8;
-    padding: 10vh;
+    flex-direction: column;
+    background-color: white;
+    width: 50%;
     border-radius: 3vh;
-    height: 60vh;
-    margin: 0 auto;
+    align-self: flex-start; /* Align the contact info to the start of the container */
+    justify-content: center; /* Center the contact info vertically */
+    padding: 20px; /* Add padding for better spacing */
+    flex-grow: 1;
 }
 
-.profile-details {
-    flex: 2;
+.student-details {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content vertically */
+    align-items: center;
+    line-height: 1.4;
+}
+
+.student-details h1 {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.student-details h2 {
+    font-size: 15px;
+    line-height: 1;
+}
+
+.student-details h3 {
+    font-size: 14px;
+    /* line-height: 2; */
+    font-weight: bold;
+}
+
+.student-details p {
+    font-size: 14px;
+    font-style: italic;
+}
+
+.student-buttons {
+    margin-top: 20px;
     text-align: center;
 }
 
-.profile-details p {
-    margin: 0.75vh 0;
-    font-size: 16px;
-}
-
-.profile-buttons {
-    margin-top: 4vh; /* Increase the space between profile info and buttons */
-    margin-bottom: 0.5vh; /* Decrease the space underneath the buttons */
-    text-align: center;
-}
-
-.profile-buttons button {
-    background-color: #f0b36d;
+.student-buttons button {
+    background-color: white;
     border: none;
-    color: white;
-    padding: 1vh 2vh;
+    color: black;
+    padding: 10px 20px;
     margin: 5px;
     border-radius: 3vh;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 90%;
+    justify-items: center;
 }
 
-.profile-buttons button:hover {
+.student-buttons button:hover {
     background-color: #c86b39;
 }
 
-.profile-image {
+.chart-container {
     flex: 1.5;
     text-align: center;
-    margin-left: 10vh; /* Adjust the space between image and details */
-}
-
-.profile-image img {
-    border-radius: 3vh;
-    width: 40vh;
-    height: auto;
-}
-
-@media (max-width: 768px) {
-    .profile-card {
-        flex-direction: column;
-        height: auto;
-        padding: 5vh;
-    }
-
-    .profile-image {
-        order: -1; /* Move the image above the profile details */
-        margin-left: 0;
-        margin-bottom: 2vh;
-    }
-
-    .profile-details {
-        margin-bottom: 2vh;
-    }
-
-    .profile-image img {
-        width: 40vh;
-    }
 }
 
 /* Popup styles */
@@ -149,9 +142,7 @@ body {
 
 .popup h2 {
     margin-top: 0;
-    font-size: 20px;
     text-align: center; /* Center the title */
-    margin-bottom: 2vh;
 }
 
 .popup label {
@@ -160,6 +151,7 @@ body {
     margin: 1vh 0;
     justify-content: space-between;
     width: 100%;
+    
 }
 
 .popup input {
@@ -174,6 +166,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 2vh;
+    
 }
 
 .popup-buttons button {
@@ -181,6 +174,7 @@ body {
     border: none;
     border-radius: 3vh;
     cursor: pointer;
+    
 }
 
 .popup-buttons button:first-child {
@@ -194,4 +188,28 @@ body {
 
 .popup-buttons button:last-child:hover {
     background-color: #c86b39;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-card {
+        width: 100%;
+    }
+
+    .student-details h1, .student-details h2, .student-details h3, .student-details p {
+        font-size: 14px;
+    }
+
+    .student-buttons {
+        margin-top: 10px;
+    }
+
+    .student-buttons button {
+        padding: 8px 16px;
+    }
 }

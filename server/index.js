@@ -45,16 +45,48 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.post('/logout', async (req, res) => {
+    res.cookie('token', '').json(true);
+});
+
 app.get('/profile', (req, res) => {
-    const {token} = req.cookies;
-    if(token){
+    const { token } = req.cookies;
+    if (token) {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
-            const {email, id, userType} = await User.findById(userData.id);
-            res.json({email, id, userType});
+            const user = await User.findById(userData.id).populate({
+                path: 'school',
+                populate: [
+                    { path: 'SHEP', select: 'name email phone' },
+                    { path: 'GCC', select: 'name email phone' }
+                ]
+            });
+            const { email, id, userType, school, name, phone } = user;
+            res.json({ email, id, userType, school, name, phone });
         });
-    } else{
+    } else {
         res.json(null);
+    }
+});
+
+
+
+app.post('/updateProfile', async (req, res) => {
+    const { email, name, phone, position } = req.body;
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            user.email = email;
+            user.name = name;
+            user.phone = phone;
+            user.userType = position;
+            await user.save();
+            res.json(user);
+        });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
     }
 });
 
