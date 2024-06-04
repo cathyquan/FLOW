@@ -17,15 +17,15 @@ axios.defaults.withCredentials = true;
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<LogInPage/>} />
-      <Route path="/" element={<HomePage/>} />
-      <Route path="/renel_home" element={<RenelHomePage/>}/>
-      <Route path="/home" element={<SHEPGCCHomePage />} />
-      <Route path="/inbox" element={<SHEPGCCInboxPage />} />
-      <Route path="/profile" element={<SHEPGCCProfilePage />} />
-      <Route path="/student" element={<SHEPGCCStudentPage />} />
-    </Routes>
+    <UserContextProvider> 
+      <Routes>
+        <Route path="/login" element={<LogInPage/>} />
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/profile" element={<SHEPGCCProfilePage />} />
+        <Route path="/inbox" element={<SHEPGCCInboxPage />} />
+        <Route path="/student" element={<SHEPGCCStudentPage />} />
+      </Routes>
+    </UserContextProvider>
   )
 }
 

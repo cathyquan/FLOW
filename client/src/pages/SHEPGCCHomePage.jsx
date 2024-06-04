@@ -1,17 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
-
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
-
 import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
 
 function SHEPGCCHomePage() {
     return (
-        <div className="App">
+        <div className="shepgcc-home-page">
             <header className="header">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <div className="logo-container">
                     <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
                 </div>
