@@ -6,6 +6,7 @@ import RenelHomePage from "./pages/RenelHomePage.jsx";
 import SHEPGCCHomePage from "./pages/SHEPGCCHomePage.jsx";
 import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
 import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
+import SHEPGCCStudentPage from "./pages/SHEPGCCStudentPage.jsx";
 
 import axios from "axios";
 import { UserContextProvider } from './UserContext.jsx';
@@ -23,6 +24,7 @@ function App() {
       <Route path="/home" element={<SHEPGCCHomePage />} />
       <Route path="/inbox" element={<SHEPGCCInboxPage />} />
       <Route path="/profile" element={<SHEPGCCProfilePage />} />
+      <Route path="/student" element={<SHEPGCCStudentPage />} />
     </Routes>
   )
 }
