@@ -68,19 +68,25 @@
 
 .all-schools {
     display: flex;
-    /*flex-direction: column;*/
-    /*align-items: center;*/
+    justify-content: flex-start; /* Center content horizontally */
+    align-items: flex-start; /* Align items to the top */
     width: 50%; /* Ensure it spans the full width */
     height: 100%;
-    background-color: white;
-    padding: 2vh;
-
+    padding: 2vh; /* Add padding for spacing */
+    /*background-color: orange;*/
+    flex-direction: column; /* Align items vertically */
 }
 
-.all-schools input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.search-container {
+    display: flex; /* Align items horizontally */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    width: 100%;
+    margin-top: 2vh; /* Add margin-top for spacing */
+    /*margin-outside: 2vh;*/
+}
+
+.search-container input {
     width: 75%;
     height: 5vh;
     border-radius: 3vh;
@@ -88,61 +94,135 @@
     border-color: dimgrey;
     background-color: #f1f1f1;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 1vh; /* Add margin-right for spacing between input and button */
 }
 
 .search-button {
-    /*padding: 10px 20px;*/
     display: flex;
     justify-content: center;
     align-items: center;
     border: none;
     border-radius: 30vh;
-    background-color: pink;
+    background-color: #F0B36D;
     color: #000;
     width: 10%;
     height: 5vh;
-    margin-top: 2vh;
-    /*font-size: 16px;*/
-    /*cursor: pointer;*/
-    /*transition: background-color 0.3s;*/
+    margin-top: 2vh; /* Adjust margin-top to align properly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Hover effect for the search button */
 .search-button:hover {
     /*background-color: #0056b3;*/
 }
 
-/* Responsive adjustments */
-/*@media (max-width: 600px) {*/
-/*    .search-container {*/
-/*        flex-direction: row;*/
-/*        border-radius: 15px;*/
-/*    }*/
+ Responsive adjustments
+@media (max-width: 600px) {
+    .all-schools {
+        flex-direction: row;
+        border-radius: 15px;
+    }
 
-/*    .search-input,*/
-/*    .search-button {*/
-/*        border-radius: 15px;*/
-/*        margin: 5px 0;*/
-/*    }*/
+    .search-input,
+    .search-button {
+        border-radius: 15px;
+        margin: 5px 0;
+    }
 
-/*    .search-input {*/
-/*        width: 100%;*/
-/*    }*/
-/*}*/
+    .search-input {
+        width: 100%;
+    }
+}
+
+.school-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Create two equal columns */
+    gap: 10px; /* Add some gap between the columns */
+    width: 100%; /* Ensure it spans the full width */
+    padding: 20px; /* Add some padding around the list */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+.school-list button {
+    background-color: #F0B36D;
+    color: black;
+    width: 100%; /* Ensure buttons span the full column width */
+    height: 7vh;
+    border-radius: 5vh;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.school-list button:hover {
+    background-color: #e78618;
+}
+
 
 .manage-schools {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: flex-start; /* Align items to the top */
+    align-items: center; /* Center items horizontally */
     width: 25%; /* Ensure it spans the full width */
     height: 100%;
-    /*background-color: burlywood;*/
+    padding: 2vh;
+    box-sizing: border-box;
 }
 
-.manage-schools button {
+.manage-schools .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align all items */
+    width: 80%; /* Match the width of the buttons */
+    margin-bottom: auto; /* Push the buttons section down */
+}
+
+.manage-schools .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align all items */
+    width: 100%;
+    margin-top: auto; /* Push the buttons section to the bottom */
+}
+
+.manage-schools .buttons button {
     background-color: #C69C7D;
+    color: white;
     width: 80%;
     height: 5vh;
     border-radius: 3vh;
     margin-top: 2vh;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.manage-schools .buttons button:hover {
+    background-color: #a35b3e;
+}
+
+.manage-schools button[type="submit"] {
+    width: 100%; /* Ensure the submit button width matches the input */
+    background-color: #b9855f;
+    border-radius: 3vh;
+    margin-top: 2vh;
+    color: white;
+        height: 5vh;
+
+}
+
+.manage-schools button[type="submit"]:hover {
+    background-color: #8e5f3e;
+}
+
+.manage-schools input, .manage-schools select {
+    width: 100%; /* Ensure input and select elements align with buttons */
+    margin-top: 2vh;
+    height: 5vh;
+    border-radius: 3vh;
+    padding: 0 1vh;
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

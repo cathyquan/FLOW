@@ -7,6 +7,7 @@ import SHEPGCCHomePage from "./pages/SHEPGCCHomePage.jsx";
 import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
 import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
 import SHEPGCCStudentPage from "./pages/SHEPGCCStudentPage.jsx";
+import GradeLevelPage from "./pages/GradeLevelPage.jsx";
 
 import axios from "axios";
 import { UserContextProvider } from './UserContext.jsx';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" element={<SHEPGCCProfilePage />} />
         <Route path="/inbox" element={<SHEPGCCInboxPage />} />
         <Route path="/student" element={<SHEPGCCStudentPage />} />
+        <Route path="/gradelevel" element={<GradeLevelPage />} />
       </Routes>
     </UserContextProvider>
   )

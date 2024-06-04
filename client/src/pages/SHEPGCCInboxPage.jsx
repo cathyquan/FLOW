@@ -1,5 +1,5 @@
 import React from 'react';
-import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 import '../assets/style/SHEPGCCHomePage.css';
 
@@ -14,7 +14,7 @@ function SHEPGCCInboxPage() {
                         <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
                     </div>
                     <div className="nav-div">
-                        <SHEPGCCNavbar/>
+                        <Navbar/>
                     </div>
                 </header>
             </div>

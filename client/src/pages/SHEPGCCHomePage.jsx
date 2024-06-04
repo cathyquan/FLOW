@@ -5,7 +5,8 @@ import '../assets/style/SHEPGCCHomePage.css';
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
-import SHEPGCCNavbar from "../components/SHEPGCCNavbar.jsx";
+
+import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
     const [schoolName, setSchoolName] = useState('');
@@ -35,7 +36,7 @@ function SHEPGCCHomePage() {
                     <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
                 </div>
                 <div className="nav-div">
-                    <SHEPGCCNavbar/>
+                    <Navbar/>
                 </div>
             </header>
             <main className="main">
