@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const User = require("./models/User.js");
 const School = require("./models/Schools.js");
 const Class = require("./models/Classes.js");
+const Student = require("./models/Students.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -57,7 +58,14 @@ app.get('/profile', (req, res) => {
                 path: 'school',
                 populate: [
                     { path: 'SHEP', select: 'name email phone' },
-                    { path: 'GCC', select: 'name email phone' }
+                    { path: 'GCC', select: 'name email phone' },
+                    { 
+                        path: 'Classes',
+                        select: 'className teacherName',
+                        populate: {
+                            path: 'students', 
+                        }
+                    }
                 ]
             });
             const { email, id, userType, school, name, phone } = user;
@@ -67,6 +75,8 @@ app.get('/profile', (req, res) => {
         res.json(null);
     }
 });
+
+
 
 app.post('/updateProfile', async (req, res) => {
     const { email, name, phone, position } = req.body;
@@ -155,6 +165,21 @@ app.delete('/schools/:id/deleteClass', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error deleting class' });
+    }
+});
+
+app.get('/grades/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const grade = await Class.findById(id).populate('students');
+        if (grade) {
+            res.json({ grade });
+        } else {
+            res.status(404).json({ message: 'Grade not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching grade details' });
     }
 });
 

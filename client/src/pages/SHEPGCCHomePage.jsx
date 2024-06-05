@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../assets/style/SHEPGCCHomePage.css';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
-    const { id } = useParams();
+    const { id } = useParams(); // Extract the school ID from the URL, if available
+    const navigate = useNavigate(); // Initialize useNavigate
     const [schoolName, setSchoolName] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
@@ -72,6 +73,7 @@ function SHEPGCCHomePage() {
             });
             setGrades([...grades, response.data].sort((a, b) => a.className.localeCompare(b.className)));
             setShowAddGradePopup(false);
+            // Clear the input fields
             setGradeNumber('');
             setTeacherName('');
             setTeacherEmail('');
@@ -86,7 +88,7 @@ function SHEPGCCHomePage() {
             await axios.delete(`http://localhost:4000/schools/${id}/deleteClass`, {
                 data: { className: selectedGrade }
             });
-            setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className)));
+            setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
             setShowDeleteGradePopup(false);
         } catch (error) {
             console.error('There was an error deleting the grade!', error);
@@ -128,6 +130,10 @@ function SHEPGCCHomePage() {
         setShowDeleteGradePopup(false);
         setShowAddMemberPopup(false);
         setShowDeleteMemberPopup(false);
+    };
+
+    const handleGradeClick = (gradeId) => {
+        navigate(`/grades/${gradeId}`); // Navigate to the specific grade page
     };
 
     return (
@@ -189,7 +195,7 @@ function SHEPGCCHomePage() {
                         </div>
                         <div className="grade-list">
                             {grades.map(grade => (
-                                <button key={grade._id}>{grade.className}</button>
+                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button> // Update button
                             ))}
                         </div>
                     </div>
@@ -221,11 +227,11 @@ function SHEPGCCHomePage() {
                             </label>
                             <label>
                                 Teacher Email:
-                                <input
-                                    type="email"
-                                    value={teacherEmail}
-                                    onChange={(e) => setTeacherEmail(e.target.value)}
-                                    required
+                                <input 
+                                    type="email" 
+                                    value={teacherEmail} 
+                                    onChange={(e) => setTeacherEmail(e.target.value)} 
+                                    required 
                                 />
                             </label>
                             <div className="popup-buttons">
