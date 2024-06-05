@@ -7,7 +7,7 @@ import shep from '../assets/images/akosua-mensah-profile.png';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
-    const { id } = useParams(); // Extract the school ID from the URL, if available
+    const { id } = useParams();
     const [schoolName, setSchoolName] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
@@ -15,11 +15,17 @@ function SHEPGCCHomePage() {
     const [error, setError] = useState(null);
     const [showAddGradePopup, setShowAddGradePopup] = useState(false);
     const [showDeleteGradePopup, setShowDeleteGradePopup] = useState(false);
+    const [showAddMemberPopup, setShowAddMemberPopup] = useState(false);
+    const [showDeleteMemberPopup, setShowDeleteMemberPopup] = useState(false);
     const [gradeNumber, setGradeNumber] = useState('');
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
     const [selectedGrade, setSelectedGrade] = useState('');
     const [grades, setGrades] = useState([]);
+    const [members, setMembers] = useState([]);
+    const [newMemberName, setNewMemberName] = useState('');
+    const [newMemberRole, setNewMemberRole] = useState('');
+    const [memberToDelete, setMemberToDelete] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +41,8 @@ function SHEPGCCHomePage() {
                     setSchoolName(school.schoolName);
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
-                    setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className))); // Fetch and sort grades
+                    setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
+                    setMembers(school.Members || []);
                 }
                 setLoading(false);
             } catch (error) {
@@ -63,9 +70,8 @@ function SHEPGCCHomePage() {
                 teacherName,
                 teacherEmail
             });
-            setGrades([...grades, response.data].sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
+            setGrades([...grades, response.data].sort((a, b) => a.className.localeCompare(b.className)));
             setShowAddGradePopup(false);
-            // Clear the input fields
             setGradeNumber('');
             setTeacherName('');
             setTeacherEmail('');
@@ -80,16 +86,48 @@ function SHEPGCCHomePage() {
             await axios.delete(`http://localhost:4000/schools/${id}/deleteClass`, {
                 data: { className: selectedGrade }
             });
-            setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
+            setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className)));
             setShowDeleteGradePopup(false);
         } catch (error) {
             console.error('There was an error deleting the grade!', error);
         }
     };
 
+    const handleAddMember = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:4000/schools/${id}/addMember`, {
+                name: newMemberName,
+                role: newMemberRole
+            });
+            setMembers([...members, response.data]);
+            setShowAddMemberPopup(false); // Close the popup
+            setNewMemberName('');
+            setNewMemberRole('');
+        } catch (error) {
+            console.error('There was an error adding the member!', error);
+        }
+    };
+
+    const handleDeleteMember = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(`http://localhost:4000/schools/${id}/deleteMember`, {
+                data: { name: memberToDelete }
+            });
+            setMembers(members.filter(member => member.name !== memberToDelete));
+            setShowDeleteMemberPopup(false);
+            setMemberToDelete('');
+        } catch (error) {
+            console.error('There was an error deleting the member!', error);
+        }
+    };
+
     const handleClosePopup = () => {
         setShowAddGradePopup(false);
         setShowDeleteGradePopup(false);
+        setShowAddMemberPopup(false);
+        setShowDeleteMemberPopup(false);
     };
 
     return (
@@ -139,6 +177,10 @@ function SHEPGCCHomePage() {
                                     </body>
                                 </div>
                                 <div className="buttons">
+                                    <button onClick={() => setShowAddMemberPopup(true)}>Add Member</button>
+                                    <br></br>
+                                    <button onClick={() => setShowDeleteMemberPopup(true)}>Delete Member</button>
+                                    <br></br>
                                     <button onClick={() => setShowAddGradePopup(true)}>Add Grade</button>
                                     <br></br>
                                     <button onClick={() => setShowDeleteGradePopup(true)}>Delete Grade</button>
@@ -161,29 +203,29 @@ function SHEPGCCHomePage() {
                         <form onSubmit={handleAddGrade}>
                             <label>
                                 Grade Number:
-                                <input 
-                                    type="text" 
-                                    value={gradeNumber} 
-                                    onChange={(e) => setGradeNumber(e.target.value)} 
-                                    required 
+                                <input
+                                    type="text"
+                                    value={gradeNumber}
+                                    onChange={(e) => setGradeNumber(e.target.value)}
+                                    required
                                 />
                             </label>
                             <label>
                                 Teacher Name:
-                                <input 
-                                    type="text" 
-                                    value={teacherName} 
-                                    onChange={(e) => setTeacherName(e.target.value)} 
-                                    required 
+                                <input
+                                    type="text"
+                                    value={teacherName}
+                                    onChange={(e) => setTeacherName(e.target.value)}
+                                    required
                                 />
                             </label>
                             <label>
                                 Teacher Email:
-                                <input 
-                                    type="email" 
-                                    value={teacherEmail} 
-                                    onChange={(e) => setTeacherEmail(e.target.value)} 
-                                    required 
+                                <input
+                                    type="email"
+                                    value={teacherEmail}
+                                    onChange={(e) => setTeacherEmail(e.target.value)}
+                                    required
                                 />
                             </label>
                             <div className="popup-buttons">
@@ -202,14 +244,76 @@ function SHEPGCCHomePage() {
                         <form onSubmit={handleDeleteGrade}>
                             <label>
                                 Select Grade:
-                                <select 
-                                    value={selectedGrade} 
-                                    onChange={(e) => setSelectedGrade(e.target.value)} 
+                                <select
+                                    value={selectedGrade}
+                                    onChange={(e) => setSelectedGrade(e.target.value)}
                                     required
                                 >
                                     <option value="">Select Grade</option>
                                     {grades.map(grade => (
                                         <option key={grade._id} value={grade.className}>{grade.className}</option>
+                                    ))}
+                                </select>
+                            </label>
+                            <div className="popup-buttons">
+                                <button type="button" onClick={handleClosePopup}>Close</button>
+                                <button type="submit">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {showAddMemberPopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <h2>Add Member</h2>
+                        <form onSubmit={handleAddMember}>
+                            <label>
+                                Member Name:
+                                <input
+                                    type="text"
+                                    value={newMemberName}
+                                    onChange={(e) => setNewMemberName(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <label>
+                                Member Role:
+                                <select
+                                    value={newMemberRole}
+                                    onChange={(e) => setNewMemberRole(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Role</option>
+                                    <option value="SHEP">SHEP</option>
+                                    <option value="GCC">GCC</option>
+                                </select>
+                            </label>
+                            <div className="popup-buttons">
+                                <button type="button" onClick={handleClosePopup}>Close</button>
+                                <button type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {showDeleteMemberPopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <h2>Delete Member</h2>
+                        <form onSubmit={handleDeleteMember}>
+                            <label>
+                                Select Member:
+                                <select
+                                    value={memberToDelete}
+                                    onChange={(e) => setMemberToDelete(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Member</option>
+                                    {members.map(member => (
+                                        <option key={member._id} value={member.name}>{member.name}</option>
                                     ))}
                                 </select>
                             </label>
