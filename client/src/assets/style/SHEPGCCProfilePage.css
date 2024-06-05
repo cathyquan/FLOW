@@ -108,8 +108,8 @@ body {
     }
 }
 
-/* Popup styles */
-.popup-overlay {
+/* Specific Popup styles */
+div.popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -122,60 +122,66 @@ body {
     z-index: 1000;
 }
 
-.popup {
+div.popup {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    width: 90%; /* Increase the width of the popup */
-    max-width: 450px; /* Increase the max-width of the popup */
+    width: 90%; /* Adjust the width of the popup */
+    max-width: 400px; /* Make the popup slightly more narrow */
     text-align: center; /* Center content in the popup */
 }
 
-.popup h2 {
+div.popup h2 {
     margin-top: 0;
     font-size: 20px;
     text-align: center; /* Center the title */
     margin-bottom: 2vh;
 }
 
-.popup label {
+div.popup label {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin: 1vh 0;
-    justify-content: space-between;
+    text-align: left;
     width: 100%;
 }
 
-.popup input {
-    width: 70%; /* Adjust the width of the input fields */
+div.popup label span {
+    flex: 1;
+    margin-right: 10px;
+}
+
+div.popup input {
+    flex: 2;
     padding: 0.8vh;
-    margin-left: 1vh;
+    margin-top: 0.5vh;
     box-sizing: border-box;
     border: 1px solid lightblue; /* Add light grey border */
 }
 
-.popup-buttons {
+div.popup-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 2vh;
 }
 
-.popup-buttons button {
+div.popup-buttons button {
     padding: 1vh 2vh;
     border: none;
     border-radius: 3vh;
     cursor: pointer;
 }
 
-.popup-buttons button:first-child {
+div.popup-buttons button:first-child {
     background-color: #ccc;
 }
 
-.popup-buttons button:last-child {
+div.popup-buttons button:last-child {
     background-color: #f0b36d;
     color: white;
 }
 
-.popup-buttons button:last-child:hover {
+div.popup-buttons button:last-child:hover {
     background-color: #c86b39;
 }
