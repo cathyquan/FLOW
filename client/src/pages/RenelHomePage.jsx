@@ -13,7 +13,6 @@ function RenelHomePage() {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        // Fetch the list of schools for the dropdown
         axios.get('http://localhost:4000/getSchools')
             .then(response => {
                 setSchools(response.data);
@@ -25,59 +24,56 @@ function RenelHomePage() {
 
     const handleAddSchool = (ev) => {
         ev.preventDefault();
-        axios.post('http://localhost:4000/addSchool', {
-            schoolName
-        }).then(response => {
-            console.log(response.data);
-            alert('School added!');
-            setSchoolName('');
-            // Refresh the list of schools
-            axios.get('http://localhost:4000/getSchools')
-                .then(response => {
-                    setSchools(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }).catch(error => {
-            console.error("There was an error!", error);
-            alert('School not added!');
-        });
+        axios.post('http://localhost:4000/addSchool', { schoolName })
+            .then(response => {
+                console.log(response.data);
+                alert('School added!');
+                setSchoolName('');
+                axios.get('http://localhost:4000/getSchools')
+                    .then(response => {
+                        setSchools(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }).catch(error => {
+                console.error("There was an error!", error);
+                alert('School not added!');
+            });
     };
 
     const handleEditSchool = () => {
-        axios.put('/api/editSchool', {
-            schoolName
-        }).then(response => {
-            console.log(response.data);
-        }).catch(error => {
-            console.error(error);
-        });
+        axios.put('/api/editSchool', { schoolName })
+            .then(response => {
+                console.log(response.data);
+            }).catch(error => {
+                console.error(error);
+            });
     };
 
     const handleDeleteSchool = () => {
-        axios.delete('http://localhost:4000/deleteSchool', {
-            data: { schoolName: selectedSchool }
-        }).then(response => {
-            console.log(response.data);
-            alert('School deleted!');
-            // Refresh the list of schools
-            axios.get('http://localhost:4000/getSchools')
-                .then(response => {
-                    setSchools(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }).catch(error => {
-            console.error("There was an error!", error);
-            alert('School not deleted!');
-        });
+        axios.delete('http://localhost:4000/deleteSchool', { data: { schoolName: selectedSchool } })
+            .then(response => {
+                console.log(response.data);
+                alert('School deleted!');
+                axios.get('http://localhost:4000/getSchools')
+                    .then(response => {
+                        setSchools(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }).catch(error => {
+                console.error("There was an error!", error);
+                alert('School not deleted!');
+            });
     };
 
-    const filteredSchools = schools.filter(school =>
-        school.schoolName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredSchools = schools
+        .filter(school => school.schoolName.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) => a.schoolName.localeCompare(b.schoolName));
+
+    const sortedSchools = [...schools].sort((a, b) => a.schoolName.localeCompare(b.schoolName));
 
     return (
         <div className="renel-home-page">
@@ -94,7 +90,9 @@ function RenelHomePage() {
                 <section className="most-urgent">
                     <h1>Most Urgent</h1>
                     {filteredSchools.slice(0, 7).map((school, index) => (
-                        <p key={index}><Link to="/home" className="school-link">{school.schoolName}</Link></p>
+                        <p key={index}>
+                            <Link to={`/school/${school.id}`} className="school-link">{school.schoolName}</Link>
+                        </p>
                     ))}
                 </section>
                 <section className="all-schools">
@@ -112,7 +110,9 @@ function RenelHomePage() {
                     </div>
                     <div className="school-list">
                         {filteredSchools.map((school, index) => (
-                            <button key={index}><Link to="/home">{school.schoolName}</Link></button>
+                            <Link to={`/school/${school._id}`}><button key={index}>
+                                {school.schoolName}
+                            </button> </Link>
                         ))}
                     </div>
                 </section>
@@ -126,7 +126,7 @@ function RenelHomePage() {
                                     value={schoolName}
                                     onChange={(e) => setSchoolName(e.target.value)}
                                 />
-                                <button type="submit" onClick={handleAddSchool}>Submit</button>
+                                <button type="submit" onClick={handleAddSchool}>Add School</button>
                             </div>
                         )}
 
@@ -149,13 +149,13 @@ function RenelHomePage() {
                                     onChange={(e) => setSelectedSchool(e.target.value)}
                                 >
                                     <option value="">Select a school</option>
-                                    {schools.map(school => (
+                                    {sortedSchools.map(school => (
                                         <option key={school.id} value={school.schoolName}>
                                             {school.schoolName}
                                         </option>
                                     ))}
                                 </select>
-                                <button type="submit" onClick={handleDeleteSchool}>Submit</button>
+                                <button type="submit" onClick={handleDeleteSchool}>Delete School</button>
                             </div>
                         )}
                     </div>

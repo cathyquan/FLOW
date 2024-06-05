@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
-
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
+    const { id } = useParams(); // Extract the school ID from the URL, if available
     const [schoolName, setSchoolName] = useState('');
-    const [shepInfo, setShepInfo] = useState({});
-    const [gccInfo, setGccInfo] = useState({});
+    const [shepInfo, setShepInfo] = useState(null);
+    const [gccInfo, setGccInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [showAddGradePopup, setShowAddGradePopup] = useState(false);
     const [showDeleteGradePopup, setShowDeleteGradePopup] = useState(false);
     const [gradeNumber, setGradeNumber] = useState('');
@@ -21,19 +23,37 @@ function SHEPGCCHomePage() {
     const grades = ["1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "6th Grade", "7th Grade", "8th Grade", "9th Grade", "10th Grade", "11th Grade", "12th Grade"];
 
     useEffect(() => {
-        axios.get('http://localhost:4000/profile', { withCredentials: true })
-            .then(response => {
+        const fetchData = async () => {
+            try {
+                let response;
+                if (id) {
+                    response = await axios.get(`http://localhost:4000/schools/${id}`);
+                } else {
+                    response = await axios.get('http://localhost:4000/profile', { withCredentials: true });
+                }
                 const school = response.data.school;
                 if (school) {
                     setSchoolName(school.schoolName);
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                 }
-            })
-            .catch(error => {
-                console.error('There was an error fetching the profile!', error);
-            });
-    }, []);
+                setLoading(false);
+            } catch (error) {
+                console.error('There was an error fetching the school data!', error);
+                setError('There was an error fetching the school data!');
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [id]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     const handleAddGrade = (e) => {
         e.preventDefault();
@@ -68,25 +88,33 @@ function SHEPGCCHomePage() {
                     <div className="info-grade-container">
                         <div className="info-container">
                             <div className="contact-info">
-                                <div className="contact-card">
-                                    <img src={gcc} alt="GCC"/>
-                                    <div>
-                                        <h2>GCC</h2>
-                                        <h3>{gccInfo.name}</h3>
-                                        <p>{gccInfo.phone}</p>
-                                        <p>{gccInfo.email}</p>
+                                {gccInfo ? (
+                                    <div className="contact-card">
+                                        <img src={gcc} alt="GCC"/>
+                                        <div>
+                                            <h2>GCC</h2>
+                                            <h3>{gccInfo.name}</h3>
+                                            <p>{gccInfo.phone}</p>
+                                            <p>{gccInfo.email}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <br></br>
-                                <div className="contact-card">
-                                    <img src={shep} alt="SHEP"/>
-                                    <div>
-                                        <h2>SHEP</h2>
-                                        <h3>{shepInfo.name}</h3>
-                                        <p>{shepInfo.phone}</p>
-                                        <p>{shepInfo.email}</p>
+                                ) : (
+                                    <div>No GCC</div>
+                                )}
+                                <br/>
+                                {shepInfo ? (
+                                    <div className="contact-card">
+                                        <img src={shep} alt="SHEP"/>
+                                        <div>
+                                            <h2>SHEP</h2>
+                                            <h3>{shepInfo.name}</h3>
+                                            <p>{shepInfo.phone}</p>
+                                            <p>{shepInfo.email}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div>No SHEP</div>
+                                )}
                             </div>
                             <div className="chart-container">
                                 <div className="chart">
