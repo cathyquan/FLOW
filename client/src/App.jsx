@@ -26,6 +26,7 @@ function App() {
         <Route path="/inbox" element={<SHEPGCCInboxPage />} />
         <Route path="/student" element={<SHEPGCCStudentPage />} />
         <Route path="/gradelevel" element={<GradeLevelPage />} />
+        <Route path="/school/:id" element={<SHEPGCCHomePage/>} />
       </Routes>
     </UserContextProvider>
   )
