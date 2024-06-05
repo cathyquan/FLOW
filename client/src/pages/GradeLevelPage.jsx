@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import '../assets/style/GradeLevelPage.css';
 import renel_logo from "../assets/images/renel_logo.png";
 import RenelNavbar from "../components/Navbar.jsx";
-import {Link} from "react-router-dom";
 
 const GradeLevelPage = () => {
-    const [students, setStudents] = useState([
-        "Rafid Chowdhury", "Juan Carlos Plate", "Sophia Shah",
-        "Cathy Quan", "Sammy Garcia", "Aryaan Verma",
-        "Chelsea Nguyen", "Kate Schwitz", "Eli Johnson",
-        "Billy Jesser", "Lucas Baraya", "Endrit Berberi",
-        "Hayden Russell", "Patrick Kallenbach", "William Zhu",
-        "Luis Ferrer", "Pieter Alley", "Rebecca Weinstein"
-    ]);
+    const { gradeId } = useParams(); // Get gradeId from the URL
+    const [gradeInfo, setGradeInfo] = useState(null);
+    const [students, setStudents] = useState([]);
     const [action, setAction] = useState('');
     const [studentName, setStudentName] = useState('');
     const [guardianName, setGuardianName] = useState('');
     const [guardianPhoneNumber, setGuardianPhoneNumber] = useState('');
     const [selectedStudent, setSelectedStudent] = useState('');
+
+    useEffect(() => {
+        // Fetch grade information based on gradeId
+        const fetchGradeInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:4000/grades/${gradeId}`);
+                const grade = response.data.grade;
+                setGradeInfo(grade);
+                setStudents(grade.students.map(student => student.name)); // Assuming student has a name field
+            } catch (error) {
+                console.error('There was an error fetching the grade data!', error);
+            }
+        };
+        fetchGradeInfo();
+    }, [gradeId]);
 
     const handleAddStudent = () => {
         axios.post('/api/addStudent', {
@@ -53,14 +63,13 @@ const GradeLevelPage = () => {
     return (
         <div className="grade-level-page">
             <header className="header">
-                <RenelNavbar/>
+                <RenelNavbar />
             </header>
             <div className="class-info">
-                <h1>1st Grade</h1>
-                <p>Mouray Hutchinson</p>
+                <h1>{gradeInfo ? gradeInfo.className : 'Loading...'}</h1>
+                <p>{gradeInfo ? gradeInfo.teacherName : ''}</p>
             </div>
             <div className="content">
-
                 <div className="student-list">
                     {students.map((student, index) => (
                         <button key={index}>{student}</button>

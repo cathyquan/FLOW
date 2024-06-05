@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../assets/style/SHEPGCCHomePage.css';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
     const { id } = useParams(); // Extract the school ID from the URL, if available
+    const navigate = useNavigate(); // Initialize useNavigate
     const [schoolName, setSchoolName] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
@@ -92,6 +93,10 @@ function SHEPGCCHomePage() {
         setShowDeleteGradePopup(false);
     };
 
+    const handleGradeClick = (gradeId) => {
+        navigate(`/grades/${gradeId}`); // Navigate to the specific grade page
+    };
+
     return (
         <div className="shepgcc-home-page">
             <header className="header">
@@ -147,7 +152,7 @@ function SHEPGCCHomePage() {
                         </div>
                         <div className="grade-list">
                             {grades.map(grade => (
-                                <button key={grade._id}>{grade.className}</button>
+                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button> // Update button
                             ))}
                         </div>
                     </div>
