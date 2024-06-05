@@ -1,3 +1,5 @@
+/* Add this to the existing CSS */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -13,15 +15,13 @@ body {
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;
-    margin-top: 2vh;
-    margin-bottom: 2vh; /* Adds space between the logo and the navbar */
+    padding: 1vh 0;
 }
 
 .logo-container img {
     height: 10vh;
     align-items: center;
 }
-
 
 .main {
     padding: 3vh;
@@ -216,4 +216,78 @@ body {
     cursor: pointer;
     text-align: center;
     font-size: 1em;
+}
+
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%; /* Adjust the width of the popup */
+    max-width: 450px; /* Adjust the max-width of the popup */
+    text-align: center; /* Center content in the popup */
+}
+
+.popup h2 {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center; /* Center the title */
+    margin-bottom: 2vh;
+}
+
+.popup label {
+    display: block;
+    margin: 1vh 0;
+    text-align: left;
+}
+
+.popup input, .popup select {
+    width: 70%; /* Adjust the width of the input fields */
+    padding: 0.8vh;
+    margin-top: 0.5vh;
+    box-sizing: border-box;
+    border: 1px solid lightblue; /* Add light grey border */
+}
+
+.popup select {
+    display: inline-block;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
+
+.popup-buttons button {
+    padding: 1vh 2vh;
+    border: none;
+    border-radius: 3vh;
+    cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+    background-color: #ccc;
+}
+
+.popup-buttons button:last-child {
+    background-color: #f0b36d;
+    color: white;
+}
+
+.popup-buttons button:last-child:hover {
+    background-color: #c86b39;
 }

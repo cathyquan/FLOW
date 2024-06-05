@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
-import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
 import Navbar from "../components/Navbar.jsx";
@@ -14,6 +13,14 @@ function SHEPGCCHomePage() {
     const [gccInfo, setGccInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showAddGradePopup, setShowAddGradePopup] = useState(false);
+    const [showDeleteGradePopup, setShowDeleteGradePopup] = useState(false);
+    const [gradeNumber, setGradeNumber] = useState('');
+    const [teacherName, setTeacherName] = useState('');
+    const [teacherEmail, setTeacherEmail] = useState('');
+    const [selectedGrade, setSelectedGrade] = useState('');
+
+    const grades = ["1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "6th Grade", "7th Grade", "8th Grade", "9th Grade", "10th Grade", "11th Grade", "12th Grade"];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,16 +55,32 @@ function SHEPGCCHomePage() {
         return <div>{error}</div>;
     }
 
+    const handleAddGrade = (e) => {
+        e.preventDefault();
+        // Implement form submission logic here, e.g., making an API call to save the grade information
+        console.log("Grade Number:", gradeNumber);
+        console.log("Teacher Name:", teacherName);
+        console.log("Teacher Email:", teacherEmail);
+        setShowAddGradePopup(false);
+    };
+
+    const handleDeleteGrade = (e) => {
+        e.preventDefault();
+        // Implement form submission logic here, e.g., making an API call to delete the selected grade
+        console.log("Selected Grade to Delete:", selectedGrade);
+        setShowDeleteGradePopup(false);
+    };
+
+    const handleClosePopup = () => {
+        setShowAddGradePopup(false);
+        setShowDeleteGradePopup(false);
+    };
+
     return (
         <div className="shepgcc-home-page">
             <header className="header">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                <div className="logo-container">
-                    <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
-                </div>
-                <div className="nav-div">
-                    <Navbar/>
-                </div>
+                <Navbar/>
             </header>
             <main className="main">
                 <section className="school-info">
@@ -100,29 +123,88 @@ function SHEPGCCHomePage() {
                                     </body>
                                 </div>
                                 <div className="buttons">
-                                    <button>Add Grade</button>
-                                    <br/>
-                                    <button>Delete Grade</button>
+                                    <button onClick={() => setShowAddGradePopup(true)}>Add Grade</button>
+                                    <br></br>
+                                    <button onClick={() => setShowDeleteGradePopup(true)}>Delete Grade</button>
                                 </div>
                             </div>
                         </div>
                         <div className="grade-list">
-                            <button>1st Grade</button>
-                            <button>2nd Grade</button>
-                            <button>3rd Grade</button>
-                            <button>4th Grade</button>
-                            <button>5th Grade</button>
-                            <button>6th Grade</button>
-                            <button>7th Grade</button>
-                            <button>8th Grade</button>
-                            <button>9th Grade</button>
-                            <button>10th Grade</button>
-                            <button>11th Grade</button>
-                            <button>12th Grade</button>
+                            {grades.map(grade => (
+                                <button key={grade}>{grade}</button>
+                            ))}
                         </div>
                     </div>
                 </section>
             </main>
+
+            {showAddGradePopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <h2>Add Grade</h2>
+                        <form onSubmit={handleAddGrade}>
+                            <label>
+                                Grade Number:
+                                <input 
+                                    type="text" 
+                                    value={gradeNumber} 
+                                    onChange={(e) => setGradeNumber(e.target.value)} 
+                                    required 
+                                />
+                            </label>
+                            <label>
+                                Teacher Name:
+                                <input 
+                                    type="text" 
+                                    value={teacherName} 
+                                    onChange={(e) => setTeacherName(e.target.value)} 
+                                    required 
+                                />
+                            </label>
+                            <label>
+                                Teacher Email:
+                                <input 
+                                    type="email" 
+                                    value={teacherEmail} 
+                                    onChange={(e) => setTeacherEmail(e.target.value)} 
+                                    required 
+                                />
+                            </label>
+                            <div className="popup-buttons">
+                                <button type="button" onClick={handleClosePopup}>Close</button>
+                                <button type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {showDeleteGradePopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <h2>Delete Grade</h2>
+                        <form onSubmit={handleDeleteGrade}>
+                            <label>
+                                Select Grade:
+                                <select 
+                                    value={selectedGrade} 
+                                    onChange={(e) => setSelectedGrade(e.target.value)} 
+                                    required
+                                >
+                                    <option value="">Select Grade</option>
+                                    {grades.map(grade => (
+                                        <option key={grade} value={grade}>{grade}</option>
+                                    ))}
+                                </select>
+                            </label>
+                            <div className="popup-buttons">
+                                <button type="button" onClick={handleClosePopup}>Close</button>
+                                <button type="submit">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

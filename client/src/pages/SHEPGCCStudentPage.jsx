@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../assets/style/SHEPGCCStudentPage.css';
-import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import Navbar from "../components/Navbar.jsx";
 //import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
@@ -107,14 +106,7 @@ function SHEPGCCStudentPage() {
     return (
         <div className="App">
             <header className="header">
-                <div className="logo-container">
-                    <a href="https://www.renelghfoundation.com">
-                        <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo" />
-                    </a>
-                </div>
-                <div className="nav-div">
-                    <SHEPGCCNavbar />
-                </div>
+                <Navbar />
             </header>
             <main className="main">
                 <section className="student-info">

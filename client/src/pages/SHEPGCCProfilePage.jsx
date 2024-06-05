@@ -72,14 +72,7 @@ function SHEPGCCProfilePage() {
     return (
         <div className="App">
             <header className="header">
-                <div className="logo-container">
-                    <a href="https://www.renelghfoundation.com">
-                        <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo" />
-                    </a>
-                </div>
-                <div className="nav-div">
-                    <Navbar />
-                </div>
+                <Navbar />
             </header>
             <main className="main">
                 <section className="profile-info">
