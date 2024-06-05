@@ -19,8 +19,7 @@ function SHEPGCCHomePage() {
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
     const [selectedGrade, setSelectedGrade] = useState('');
-
-    const grades = ["1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "6th Grade", "7th Grade", "8th Grade", "9th Grade", "10th Grade", "11th Grade", "12th Grade"];
+    const [grades, setGrades] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +35,7 @@ function SHEPGCCHomePage() {
                     setSchoolName(school.schoolName);
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
+                    setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className))); // Fetch and sort grades
                 }
                 setLoading(false);
             } catch (error) {
@@ -55,20 +55,36 @@ function SHEPGCCHomePage() {
         return <div>{error}</div>;
     }
 
-    const handleAddGrade = (e) => {
+    const handleAddGrade = async (e) => {
         e.preventDefault();
-        // Implement form submission logic here, e.g., making an API call to save the grade information
-        console.log("Grade Number:", gradeNumber);
-        console.log("Teacher Name:", teacherName);
-        console.log("Teacher Email:", teacherEmail);
-        setShowAddGradePopup(false);
+        try {
+            const response = await axios.post(`http://localhost:4000/schools/${id}/addClass`, {
+                className: gradeNumber,
+                teacherName,
+                teacherEmail
+            });
+            setGrades([...grades, response.data].sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
+            setShowAddGradePopup(false);
+            // Clear the input fields
+            setGradeNumber('');
+            setTeacherName('');
+            setTeacherEmail('');
+        } catch (error) {
+            console.error('There was an error adding the grade!', error);
+        }
     };
 
-    const handleDeleteGrade = (e) => {
+    const handleDeleteGrade = async (e) => {
         e.preventDefault();
-        // Implement form submission logic here, e.g., making an API call to delete the selected grade
-        console.log("Selected Grade to Delete:", selectedGrade);
-        setShowDeleteGradePopup(false);
+        try {
+            await axios.delete(`http://localhost:4000/schools/${id}/deleteClass`, {
+                data: { className: selectedGrade }
+            });
+            setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
+            setShowDeleteGradePopup(false);
+        } catch (error) {
+            console.error('There was an error deleting the grade!', error);
+        }
     };
 
     const handleClosePopup = () => {
@@ -131,7 +147,7 @@ function SHEPGCCHomePage() {
                         </div>
                         <div className="grade-list">
                             {grades.map(grade => (
-                                <button key={grade}>{grade}</button>
+                                <button key={grade._id}>{grade.className}</button>
                             ))}
                         </div>
                     </div>
@@ -193,7 +209,7 @@ function SHEPGCCHomePage() {
                                 >
                                     <option value="">Select Grade</option>
                                     {grades.map(grade => (
-                                        <option key={grade} value={grade}>{grade}</option>
+                                        <option key={grade._id} value={grade.className}>{grade.className}</option>
                                     ))}
                                 </select>
                             </label>

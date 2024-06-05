@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const User = require("./models/User.js");
 const School = require("./models/Schools.js");
+const Class = require("./models/Classes.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -26,21 +27,19 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    const{email, password} = req.body;
-    const userDoc = await User.findOne({email});
-    if(userDoc){
+    const { email, password } = req.body;
+    const userDoc = await User.findOne({ email });
+    if (userDoc) {
         const passOk = bcrypt.compareSync(password, userDoc.password);
-        if(passOk){
-            jwt.sign({email:userDoc.email, id:userDoc._id}, jwtSecret, {}, (err, token) =>{
-                if(err) throw err;
+        if (passOk) {
+            jwt.sign({ email: userDoc.email, id: userDoc._id }, jwtSecret, {}, (err, token) => {
+                if (err) throw err;
                 res.cookie('token', token).json(userDoc);
             })
-        }
-        else{
+        } else {
             res.status(422).json('pass not ok');
         }
-    }
-    else{
+    } else {
         res.json('not found');
     }
 });
@@ -69,8 +68,6 @@ app.get('/profile', (req, res) => {
     }
 });
 
-
-
 app.post('/updateProfile', async (req, res) => {
     const { email, name, phone, position } = req.body;
     const { token } = req.cookies;
@@ -91,7 +88,7 @@ app.post('/updateProfile', async (req, res) => {
 });
 
 app.post('/addSchool', async (req, res) => {
-    const {schoolName} = req.body;
+    const { schoolName } = req.body;
     const schoolDoc = await School.create({
         schoolName,
     })
@@ -111,7 +108,7 @@ app.get('/getSchools', async (req, res) => {
 app.get('/schools/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const school = await School.findById(id).populate('SHEP').populate('GCC');
+        const school = await School.findById(id).populate('SHEP').populate('GCC').populate('Classes');
         if (school) {
             res.json({ school });
         } else {
@@ -123,8 +120,46 @@ app.get('/schools/:id', async (req, res) => {
     }
 });
 
+app.post('/schools/:id/addClass', async (req, res) => {
+    const { id } = req.params;
+    const { className, teacherName, teacherEmail } = req.body;
+
+    try {
+        const newClass = await Class.create({ className, teacherName, teacherEmail, school: id });
+        const school = await School.findById(id);
+        school.Classes.push(newClass._id);
+        await school.save();
+        res.json(newClass);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding class' });
+    }
+});
+
+app.delete('/schools/:id/deleteClass', async (req, res) => {
+    const { id } = req.params;
+    const { className } = req.body;
+
+    try {
+        const school = await School.findById(id).populate('Classes');
+        const classToDelete = school.Classes.find(cls => cls.className === className);
+
+        if (!classToDelete) {
+            return res.status(404).json({ message: 'Class not found' });
+        }
+
+        await Class.findByIdAndDelete(classToDelete._id);
+        school.Classes.pull(classToDelete._id);
+        await school.save();
+        res.json({ message: 'Class deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting class' });
+    }
+});
+
 app.delete('/deleteSchool', async (req, res) => {
-    const {schoolName} = req.body;
+    const { schoolName } = req.body;
     try {
         const schoolDoc = await School.findOneAndDelete({ schoolName: schoolName });
         if (schoolDoc) {
