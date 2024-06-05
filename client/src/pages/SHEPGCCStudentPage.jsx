@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../assets/style/SHEPGCCStudentPage.css';
 import '../graphics/calendar.js';
+import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCStudentPage() {
@@ -97,9 +98,7 @@ function SHEPGCCStudentPage() {
 
     return (
         <div className="App">
-            <header className="header">
                 <Navbar />
-            </header>
             <main className="main">
                 <section className="student-info">
                     <h1>Rafid Chowdhury</h1>

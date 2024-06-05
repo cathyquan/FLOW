@@ -78,13 +78,7 @@ function RenelHomePage() {
     return (
         <div className="renel-home-page">
             <header className="header">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                <div className="logo-container">
-                    <img src={renel_logo} alt="Renel Ghana Foundation Logo" className="logo"/>
-                </div>
-                <div className="nav-div">
-                    <RenelNavbar/>
-                </div>
+                <RenelNavbar/>
             </header>
             <main className="main-content">
                 <section className="most-urgent">

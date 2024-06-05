@@ -4,6 +4,8 @@ const app = express();
 const mongoose = require("mongoose");
 const User = require("./models/User.js");
 const School = require("./models/Schools.js");
+const Class = require("./models/Classes.js");
+const Student = require("./models/Students.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -26,21 +28,19 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    const{email, password} = req.body;
-    const userDoc = await User.findOne({email});
-    if(userDoc){
+    const { email, password } = req.body;
+    const userDoc = await User.findOne({ email });
+    if (userDoc) {
         const passOk = bcrypt.compareSync(password, userDoc.password);
-        if(passOk){
-            jwt.sign({email:userDoc.email, id:userDoc._id}, jwtSecret, {}, (err, token) =>{
-                if(err) throw err;
+        if (passOk) {
+            jwt.sign({ email: userDoc.email, id: userDoc._id }, jwtSecret, {}, (err, token) => {
+                if (err) throw err;
                 res.cookie('token', token).json(userDoc);
             })
-        }
-        else{
+        } else {
             res.status(422).json('pass not ok');
         }
-    }
-    else{
+    } else {
         res.json('not found');
     }
 });
@@ -58,16 +58,39 @@ app.get('/profile', (req, res) => {
                 path: 'school',
                 populate: [
                     { path: 'SHEP', select: 'name email phone' },
-                    { path: 'GCC', select: 'name email phone' }
+                    { path: 'GCC', select: 'name email phone' },
+                    { 
+                        path: 'Classes',
+                        select: 'className teacherName',
+                        populate: {
+                            path: 'students', 
+                        }
+                    }
                 ]
             });
             const { email, id, userType, school, name, phone } = user;
-            res.json({ email, id, userType, school, name, phone });
+            res.json({ email, id, userType, school, name, phone, schoolId: school._id });
         });
     } else {
         res.json(null);
     }
 });
+
+app.get('/info', (req, res) => {
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            const { email, id, userType, name, phone } = user;
+            res.json({ email, id, userType, name, phone});
+        });
+    } else {
+        res.json(null);
+    }
+});
+
+
 
 
 
@@ -91,7 +114,7 @@ app.post('/updateProfile', async (req, res) => {
 });
 
 app.post('/addSchool', async (req, res) => {
-    const {schoolName} = req.body;
+    const { schoolName } = req.body;
     const schoolDoc = await School.create({
         schoolName,
     })
@@ -111,7 +134,7 @@ app.get('/getSchools', async (req, res) => {
 app.get('/schools/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const school = await School.findById(id).populate('SHEP').populate('GCC');
+        const school = await School.findById(id).populate('SHEP').populate('GCC').populate('Classes');
         if (school) {
             res.json({ school });
         } else {
@@ -123,8 +146,61 @@ app.get('/schools/:id', async (req, res) => {
     }
 });
 
+app.post('/schools/:id/addClass', async (req, res) => {
+    const { id } = req.params;
+    const { className, teacherName, teacherEmail } = req.body;
+
+    try {
+        const newClass = await Class.create({ className, teacherName, teacherEmail, school: id });
+        const school = await School.findById(id);
+        school.Classes.push(newClass._id);
+        await school.save();
+        res.json(newClass);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding class' });
+    }
+});
+
+app.delete('/schools/:id/deleteClass', async (req, res) => {
+    const { id } = req.params;
+    const { className } = req.body;
+
+    try {
+        const school = await School.findById(id).populate('Classes');
+        const classToDelete = school.Classes.find(cls => cls.className === className);
+
+        if (!classToDelete) {
+            return res.status(404).json({ message: 'Class not found' });
+        }
+
+        await Class.findByIdAndDelete(classToDelete._id);
+        school.Classes.pull(classToDelete._id);
+        await school.save();
+        res.json({ message: 'Class deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting class' });
+    }
+});
+
+app.get('/grades/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const grade = await Class.findById(id).populate('students');
+        if (grade) {
+            res.json({ grade });
+        } else {
+            res.status(404).json({ message: 'Grade not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching grade details' });
+    }
+});
+
 app.delete('/deleteSchool', async (req, res) => {
-    const {schoolName} = req.body;
+    const { schoolName } = req.body;
     try {
         const schoolDoc = await School.findOneAndDelete({ schoolName: schoolName });
         if (schoolDoc) {
@@ -137,6 +213,90 @@ app.delete('/deleteSchool', async (req, res) => {
         res.status(500).json({ message: 'Error deleting school' });
     }
 });
+
+app.post('/classes/:classId/addStudent', async (req, res) => {
+    const { classId } = req.params;
+    const { name, g1_name, g1_email, g2_name, g2_email, g3_name, g3_email, schoolId } = req.body;
+
+    try {
+        const newStudent = await Student.create({
+            name,
+            g1_name,
+            g1_email,
+            g2_name,
+            g2_email,
+            g3_name,
+            g3_email,
+            school: schoolId,
+            class: classId
+        });
+
+        const classDoc = await Class.findById(classId);
+        classDoc.students.push(newStudent._id);
+        await classDoc.save();
+
+        res.json(newStudent);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding student' });
+    }
+});
+
+// Add a student to a class
+app.post('/grades/:id/addStudent', async (req, res) => {
+    const { id } = req.params;
+    const { name, g1_name, g1_phone } = req.body;
+
+    try {
+        const student = await Student.create({ name, g1_name, g1_phone, class: id });
+        const classDoc = await Class.findById(id);
+        classDoc.students.push(student._id);
+        await classDoc.save();
+        res.json(student);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding student' });
+    }
+});
+
+// Delete a student from a class
+app.post('/grades/:id/deleteStudent', async (req, res) => {
+    const { id } = req.params;
+    const { studentName } = req.body;
+
+    try {
+        const classDoc = await Class.findById(id).populate('students');
+        const studentToDelete = classDoc.students.find(student => student.name === studentName);
+
+        if (!studentToDelete) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+
+        await Student.findByIdAndDelete(studentToDelete._id);
+        classDoc.students.pull(studentToDelete._id);
+        await classDoc.save();
+        res.json({ message: 'Student deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting student' });
+    }
+});
+
+/*app.get('/students/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const student = await Student.findById(id);
+        if (student) {
+            res.json(student);
+        } else {
+            res.status(404).json({ message: 'Student not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching student details' });
+    }
+});*/
+
 
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');
