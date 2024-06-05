@@ -23,7 +23,7 @@ function SHEPGCCProfilePage() {
     const [passwordStep, setPasswordStep] = useState(1);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/profile', { withCredentials: true })
+        axios.get('http://localhost:4000/info', { withCredentials: true })
             .then(response => {
                 const { email, name, userType: position, phone } = response.data;
                 setPosition(position);
