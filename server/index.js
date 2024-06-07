@@ -69,12 +69,28 @@ app.get('/profile', (req, res) => {
                 ]
             });
             const { email, id, userType, school, name, phone } = user;
-            res.json({ email, id, userType, school, name, phone });
+            res.json({ email, id, userType, school, name, phone, schoolId: school._id });
         });
     } else {
         res.json(null);
     }
 });
+
+app.get('/info', (req, res) => {
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            const { email, id, userType, name, phone } = user;
+            res.json({ email, id, userType, name, phone});
+        });
+    } else {
+        res.json(null);
+    }
+});
+
+
 
 
 
@@ -197,6 +213,90 @@ app.delete('/deleteSchool', async (req, res) => {
         res.status(500).json({ message: 'Error deleting school' });
     }
 });
+
+app.post('/classes/:classId/addStudent', async (req, res) => {
+    const { classId } = req.params;
+    const { name, g1_name, g1_email, g2_name, g2_email, g3_name, g3_email, schoolId } = req.body;
+
+    try {
+        const newStudent = await Student.create({
+            name,
+            g1_name,
+            g1_email,
+            g2_name,
+            g2_email,
+            g3_name,
+            g3_email,
+            school: schoolId,
+            class: classId
+        });
+
+        const classDoc = await Class.findById(classId);
+        classDoc.students.push(newStudent._id);
+        await classDoc.save();
+
+        res.json(newStudent);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding student' });
+    }
+});
+
+// Add a student to a class
+app.post('/grades/:id/addStudent', async (req, res) => {
+    const { id } = req.params;
+    const { name, g1_name, g1_phone } = req.body;
+
+    try {
+        const student = await Student.create({ name, g1_name, g1_phone, class: id });
+        const classDoc = await Class.findById(id);
+        classDoc.students.push(student._id);
+        await classDoc.save();
+        res.json(student);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding student' });
+    }
+});
+
+// Delete a student from a class
+app.post('/grades/:id/deleteStudent', async (req, res) => {
+    const { id } = req.params;
+    const { studentName } = req.body;
+
+    try {
+        const classDoc = await Class.findById(id).populate('students');
+        const studentToDelete = classDoc.students.find(student => student.name === studentName);
+
+        if (!studentToDelete) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+
+        await Student.findByIdAndDelete(studentToDelete._id);
+        classDoc.students.pull(studentToDelete._id);
+        await classDoc.save();
+        res.json({ message: 'Student deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting student' });
+    }
+});
+
+/*app.get('/students/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const student = await Student.findById(id);
+        if (student) {
+            res.json(student);
+        } else {
+            res.status(404).json({ message: 'Student not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching student details' });
+    }
+});*/
+
 
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
@@ -8,7 +8,8 @@ import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
     const { id } = useParams(); // Extract the school ID from the URL, if available
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
+    const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
@@ -26,17 +27,23 @@ function SHEPGCCHomePage() {
         const fetchData = async () => {
             try {
                 let response;
-                if (id) {
-                    response = await axios.get(`http://localhost:4000/schools/${id}`);
+                if (schoolId) {
+                    response = await axios.get(`http://localhost:4000/schools/${schoolId}`);
                 } else {
                     response = await axios.get('http://localhost:4000/profile', { withCredentials: true });
-                }
-                const school = response.data.school;
-                if (school) {
+                    const { school, schoolId } = response.data;
+                    setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
-                    setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className))); // Fetch and sort grades
+                    setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
+                }
+                if (response.data.school) {
+                    const school = response.data.school;
+                    setSchoolName(school.schoolName);
+                    setShepInfo(school.SHEP);
+                    setGccInfo(school.GCC);
+                    setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
                 }
                 setLoading(false);
             } catch (error) {
@@ -46,7 +53,7 @@ function SHEPGCCHomePage() {
             }
         };
         fetchData();
-    }, [id]);
+    }, [schoolId]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -59,14 +66,13 @@ function SHEPGCCHomePage() {
     const handleAddGrade = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:4000/schools/${id}/addClass`, {
+            const response = await axios.post(`http://localhost:4000/schools/${schoolId}/addClass`, {
                 className: gradeNumber,
                 teacherName,
                 teacherEmail
             });
             setGrades([...grades, response.data].sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
             setShowAddGradePopup(false);
-            // Clear the input fields
             setGradeNumber('');
             setTeacherName('');
             setTeacherEmail('');
@@ -78,7 +84,7 @@ function SHEPGCCHomePage() {
     const handleDeleteGrade = async (e) => {
         e.preventDefault();
         try {
-            await axios.delete(`http://localhost:4000/schools/${id}/deleteClass`, {
+            await axios.delete(`http://localhost:4000/schools/${schoolId}/deleteClass`, {
                 data: { className: selectedGrade }
             });
             setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
@@ -94,7 +100,7 @@ function SHEPGCCHomePage() {
     };
 
     const handleGradeClick = (gradeId) => {
-        navigate(`/grades/${gradeId}`); // Navigate to the specific grade page
+        navigate(`/grades/${gradeId}`);
     };
 
     return (
@@ -152,7 +158,7 @@ function SHEPGCCHomePage() {
                         </div>
                         <div className="grade-list">
                             {grades.map(grade => (
-                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button> // Update button
+                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button>
                             ))}
                         </div>
                     </div>
