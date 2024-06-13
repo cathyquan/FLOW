@@ -19,7 +19,7 @@ function App() {
             const {data} = await axios.post('http://localhost:4000/login', {email, password}); 
             if(data.email){
                 setUser(data);
-                alert('Login successful!');
+                //alert('Login successful!');
                 setRedirect(true);
             }
             else{

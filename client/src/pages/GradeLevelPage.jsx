@@ -56,6 +56,7 @@ const GradeLevelPage = () => {
             });
             setStudents(students.filter(student => student.name !== selectedStudent).sort((a, b) => a.name.localeCompare(b.name)));
             setSelectedStudent('');
+            alert('Student Deleted!');
         } catch (error) {
             console.error('There was an error deleting the student!', error);
         }

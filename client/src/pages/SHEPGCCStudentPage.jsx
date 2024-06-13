@@ -14,12 +14,12 @@ function SHEPGCCStudentPage() {
         dob: '02/20/2003',
         guardians: [
             {
-                name: 'Sanethia Thomas (Mother)',
+                name: 'Random Name',
                 phone: '+233 (00)-000-0000',
                 email: 'randomemail@gmail.com'
             },
             {
-                name: 'Robert Havor (Father)',
+                name: 'Random Name',
                 phone: '+233 (00)-000-0000',
                 email: 'randomemail@gmail.com'
             }
