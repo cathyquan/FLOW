@@ -1,40 +1,23 @@
-/* Add this to the existing CSS */
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .header {
-    background-color: #ffffff;
-}
-
-.logo-container {
-    display: flex;
-    justify-content: center; /* Centers the logo horizontally */
-    align-items: center;
-    padding: 1vh 0;
-}
-
-.logo-container img {
-    height: 10vh;
-    align-items: center;
+    background-color: blue;
+    padding-bottom: 0vh;
 }
 
 .main {
-    padding: 3vh;
+    padding-top: 0vh;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    /* background-color: blue; */
 }
 
 .school-info {
     max-width: 1000vh;
-    margin: 0 auto;
+    margin-left: 5vh;
+    margin-right: 5vh;
     text-align: center;
 }
 
 .school-info h1 {
-    margin: 0;
     padding-bottom: 2vh;
     font-size: 200%;
 }
@@ -44,9 +27,10 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    /* background-color: purple; */
 }
 
-.info-container {
+div .info-container {
     width: 63%; /* Set the width to 60% of the screen */
     height: 64vh;
     display: flex;
@@ -195,7 +179,7 @@ body {
 }
 
 @media (max-width: 768px) {
-    .info-container {
+    div .info-container {
         width: 100%; /* Full width on narrow screens */
         margin-right: 0; /* Remove margin on narrow screens */
         margin-bottom: 2vh; /* Add some space below the info container */
@@ -255,7 +239,7 @@ body {
 }
 
 .popup input, .popup select {
-    width: 70%; /* Adjust the width of the input fields */
+    width: 0%; /* Adjust the width of the input fields */
     padding: 0.8vh;
     margin-top: 0.5vh;
     box-sizing: border-box;
