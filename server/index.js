@@ -282,7 +282,8 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
     }
 });
 
-/*app.get('/students/:id', async (req, res) => {
+app.get('/students/:id', async (req, res) => {
+    //console.log('got student endpoint');
     const { id } = req.params;
     try {
         const student = await Student.findById(id);
@@ -295,7 +296,7 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error fetching student details' });
     }
-});*/
+});
 
 
 app.listen(4000, () => {

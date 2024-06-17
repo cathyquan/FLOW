@@ -52,21 +52,23 @@ function RenelHomePage() {
     };
 
     const handleDeleteSchool = () => {
-        axios.delete('http://localhost:4000/deleteSchool', { data: { schoolName: selectedSchool } })
-            .then(response => {
-                console.log(response.data);
-                alert('School deleted!');
-                axios.get('http://localhost:4000/getSchools')
-                    .then(response => {
-                        setSchools(response.data);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            }).catch(error => {
-                console.error("There was an error!", error);
-                alert('School not deleted!');
-            });
+        if (window.confirm(`Are you sure you want to delete the school ${selectedSchool}?`)) {
+            axios.delete('http://localhost:4000/deleteSchool', { data: { schoolName: selectedSchool } })
+                .then(response => {
+                    console.log(response.data);
+                    alert('School deleted!');
+                    axios.get('http://localhost:4000/getSchools')
+                        .then(response => {
+                            setSchools(response.data);
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }).catch(error => {
+                    console.error("There was an error!", error);
+                    alert('School not deleted!');
+                });
+        }
     };
 
     const filteredSchools = schools
@@ -78,7 +80,7 @@ function RenelHomePage() {
     return (
         <div className="renel-home-page">
             <header className="header">
-                <RenelNavbar/>
+                <RenelNavbar />
             </header>
             <main className="main-content">
                 <section className="most-urgent">
@@ -92,15 +94,15 @@ function RenelHomePage() {
                 <section className="all-schools">
                     <div className="search-container">
                         <link rel="stylesheet"
-                              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-                        <input 
-                            type="text" 
-                            placeholder="Search for a School" 
+                              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+                        <input
+                            type="text"
+                            placeholder="Search for a School"
                             className="search-input"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <button type="submit" className="search-button"><i className="fa fa-search"/></button>
+                        <button type="submit" className="search-button"><i className="fa fa-search" /></button>
                     </div>
                     <div className="school-list">
                         {filteredSchools.map((school, index) => (

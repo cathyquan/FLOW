@@ -83,14 +83,16 @@ function SHEPGCCHomePage() {
 
     const handleDeleteGrade = async (e) => {
         e.preventDefault();
-        try {
-            await axios.delete(`http://localhost:4000/schools/${schoolId}/deleteClass`, {
-                data: { className: selectedGrade }
-            });
-            setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
-            setShowDeleteGradePopup(false);
-        } catch (error) {
-            console.error('There was an error deleting the grade!', error);
+        if (window.confirm(`Are you sure you want to delete the grade ${selectedGrade}?`)) {
+            try {
+                await axios.delete(`http://localhost:4000/schools/${schoolId}/deleteClass`, {
+                    data: { className: selectedGrade }
+                });
+                setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
+                setShowDeleteGradePopup(false);
+            } catch (error) {
+                console.error('There was an error deleting the grade!', error);
+            }
         }
     };
 

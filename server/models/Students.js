@@ -4,11 +4,12 @@ const {Schema} = mongoose;
 const studentSchema = new Schema({
     name: String,
     g1_name: String,
-    g1_phne: String,
+    g1_phone: String,
     g2_name: String,
     g2_phone: String,
     g3_name: String,
     g3_phone: String,
+    dob: Date,
     school: { type: Schema.Types.ObjectId, ref: 'School'},
     class: { type: Schema.Types.ObjectId, ref: 'Class' },
 });

@@ -37,7 +37,7 @@ const GradeLevelPage = () => {
             const response = await axios.post(`http://localhost:4000/grades/${gradeId}/addStudent`, {
                 name: studentName,
                 g1_name: guardianName,
-                g1_email: guardianPhoneNumber
+                g1_phone: guardianPhoneNumber
             });
             setStudents([...students, response.data].sort((a, b) => a.name.localeCompare(b.name)));
             setStudentName('');
@@ -50,15 +50,17 @@ const GradeLevelPage = () => {
 
     const handleDeleteStudent = async (e) => {
         e.preventDefault();
-        try {
-            await axios.post(`http://localhost:4000/grades/${gradeId}/deleteStudent`, {
-                studentName: selectedStudent
-            });
-            setStudents(students.filter(student => student.name !== selectedStudent).sort((a, b) => a.name.localeCompare(b.name)));
-            setSelectedStudent('');
-            alert('Student Deleted!');
-        } catch (error) {
-            console.error('There was an error deleting the student!', error);
+        if (window.confirm(`Are you sure you want to delete the student ${selectedStudent}?`)) {
+            try {
+                await axios.post(`http://localhost:4000/grades/${gradeId}/deleteStudent`, {
+                    studentName: selectedStudent
+                });
+                setStudents(students.filter(student => student.name !== selectedStudent).sort((a, b) => a.name.localeCompare(b.name)));
+                setSelectedStudent('');
+                alert('Student Deleted!');
+            } catch (error) {
+                console.error('There was an error deleting the student!', error);
+            }
         }
     };
 
