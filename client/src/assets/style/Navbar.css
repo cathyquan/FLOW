@@ -1,5 +1,7 @@
 .header {
     background-color: #ffffff;
+    margin-bottom: 0; /* Remove any bottom margin */
+    padding-bottom: 0; /* Remove any bottom padding */
 }
 
 .logo-container {
@@ -24,6 +26,7 @@
     padding: 1vh 3vh;
     color: #ffffff;
     width: 100%;
+    margin-bottom: 0vh;
 }
 
 .icons svg {
