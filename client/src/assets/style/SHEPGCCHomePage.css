@@ -114,22 +114,6 @@ div .info-container {
     justify-content: center;
 }
 
-/* .piechart {
-    --size: 11.5rem;
-    width: 100%;
-    height: var(--size);
-    border-radius: 50%;
-    display: grid;
-    background:
-        radial-gradient(closest-side, #f0b36d 40%, transparent 0 99.9%, #f0b36d 0),
-        conic-gradient(
-        #FA8072 0 10%,
-        #CD5C5C 10% 30%,
-        #81CA6E 30% 100%
-        );
-    color: var(--fg);
-} */
-
 .buttons button {
     background-color: white;
     color: black;

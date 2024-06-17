@@ -10,6 +10,7 @@ const Modal = ({ isOpen, onClose, message }) => {
         <div className="modal-overlay">
             <div className="modal-content">
                 <button className="close-button" onClick={onClose}>X</button>
+                <h2><strong>Sender:</strong> {message.sender}</h2>
                 <h2><strong>Subject:</strong> {message.subject}</h2>
                 <p><strong>Date:</strong> {message.date}</p>
                 <br></br>
