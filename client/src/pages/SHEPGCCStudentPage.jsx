@@ -16,7 +16,7 @@ function SHEPGCCStudentPage() {
     useEffect(() => {
         const fetchStudentInfo = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/students/${studentId}`);
+                const response = await axios.get(`http://172.20.10.3:4000/students/${studentId}`);
                 const studentData = response.data;
 
                 // Map the schema fields to the expected structure
@@ -115,13 +115,13 @@ function SHEPGCCStudentPage() {
             g3_phone: studentInfo.guardians[2]?.phone || '',
         };
         // Send updated student info to server
-        axios.put(`http://localhost:4000/students/${studentId}`, updatedStudentInfo)
-            .then(response => {
-                console.log('Student info updated:', response.data);
-            })
-            .catch(error => {
-                console.error('There was an error updating the student info!', error);
-            });
+        // axios.put(`http://172.20.10.3:4000/students/${studentId}`, updatedStudentInfo)
+        //     .then(response => {
+        //         console.log('Student info updated:', response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('There was an error updating the student info!', error);
+        //     });
     };
 
     if (!studentInfo) {

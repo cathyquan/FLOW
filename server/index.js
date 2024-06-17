@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: 'http://172.20.10.3:5173',
 }));
 
 mongoose.connect(process.env.MONGO_URL);
@@ -300,5 +300,5 @@ app.get('/students/:id', async (req, res) => {
 
 
 app.listen(4000, () => {
-    console.log('Server running on http://localhost:4000');
+    console.log('Server running on http://172.20.10.3:4000');
 });

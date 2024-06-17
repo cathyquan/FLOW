@@ -13,7 +13,7 @@ import axios from "axios";
 import { UserContextProvider } from './UserContext.jsx';
 import { useEffect } from 'react';
 
-axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = 'http://172.20.10.3:4000';
 axios.defaults.withCredentials = true;
 
 function App() {
