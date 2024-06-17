@@ -5,9 +5,11 @@ import HomePage from "./pages/HomePage.jsx";
 import RenelHomePage from "./pages/RenelHomePage.jsx";
 import SHEPGCCHomePage from "./pages/SHEPGCCHomePage.jsx";
 import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
+import RenelInboxPage from "./pages/RenelInboxPage.jsx";
 import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
 import SHEPGCCStudentPage from "./pages/SHEPGCCStudentPage.jsx";
 import GradeLevelPage from "./pages/GradeLevelPage.jsx";
+import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
 
 import axios from "axios";
 import { UserContextProvider } from './UserContext.jsx';
@@ -23,12 +25,14 @@ function App() {
         <Route path="/login" element={<LogInPage/>} />
         <Route path="/" element={<HomePage/>} />
         <Route path="/profile" element={<SHEPGCCProfilePage />} />
-        <Route path="/inbox" element={<SHEPGCCInboxPage />} />
+        <Route path="/shepgcc_inbox" element={<SHEPGCCInboxPage />} />
         <Route path="/student" element={<SHEPGCCStudentPage />} />
         <Route path="/gradelevel" element={<GradeLevelPage />} />
         <Route path="/school/:id" element={<SHEPGCCHomePage/>} />
         <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
+        <Route path="/attendance" element={<AttendanceChecklist/>} />
         <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
+        <Route path="/renel_inbox" element={<RenelInboxPage />} />
       </Routes>
     </UserContextProvider>
   )

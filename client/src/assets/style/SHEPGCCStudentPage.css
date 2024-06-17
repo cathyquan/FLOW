@@ -221,7 +221,7 @@ body {
     }
 
     .student-buttons {
-        margin-top: 10px; /* Adds margin at the top */
+        margin-top: 2vh; /* Adds margin at the top */
         margin-left: 0; /* Removes margin at the left */
     }
 }

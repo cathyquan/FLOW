@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Navbar from "../components/Navbar.jsx";
 import Modal from '../components/Modal.jsx';
-import '../assets/style/SHEPGCCInboxPage.css'; // Ensure this path is correct
+import '../assets/style/RenelInboxPage.css'; // Ensure this path is correct
 
-function SHEPGCCInboxPage() {
+function RenelInboxPage() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [leftWidth, setLeftWidth] = useState(() => {
@@ -16,36 +16,43 @@ function SHEPGCCInboxPage() {
     const messages = [
         {
             date: 'June 17, 2024',
+            from: 'School A',
             subject: 'Menstrual Products Needed',
             fullMessage: 'We have three girls who have been missing class for the past three to five days. We\'ve contacted their parents and found that they\'re in need of supplies. Please send some if possible!'
         },
         {
             date: 'June 4, 2024',
+            from: 'School B',
             subject: 'New SHEP Hiree',
             fullMessage: 'We have a new SHEP coming in to replace the current one. Her name is Chelsea Nguyen and her contact information is as follows: email - contact@gmail.com, number - (233)000000000'
         },
         {
             date: 'May 30, 2024',
+            from: 'School C',
             subject: 'It\'s Cathy\'s birthday today!!',
             fullMessage: 'happy birthday to cathy woot woot go crazy go stupid'
         },
         {
             date: 'May 24, 2024',
+            from: 'School D',
             subject: 'hella girls on their period',
             fullMessage: 'send more products plz we need pads and tampons'
         },
         {
             date: 'May 20, 2024',
+            from: 'School E',
             subject: 'last message',
             fullMessage: 'last message last message last message last message last message last message last message last message last message'
         },
         {
             date: 'February 20, 2024',
+            from: 'School F',
             subject: 'It\'s Rafid\'s birthday today!!',
             fullMessage: 'happy birthday to rafid woot woot go crazy go stupid'
         },
         {
             date: 'April 8, 2024',
+            from: 'School G',
             subject: 'It\'s Chelsea\'s birthday today!!',
             fullMessage: 'happy birthday to chelsea woot woot go crazy go stupid'
         },
@@ -103,15 +110,6 @@ function SHEPGCCInboxPage() {
                 <Navbar />
             </header>
             <div className="main-content">
-                <div className="contact-form" style={{ width: `${leftWidth}%` }}>
-                    <h2>Contact RENEL</h2>
-                    <form>
-                        <input type="text" placeholder="Subject" className="subject-input" />
-                        <textarea placeholder="New Message..." className="message-textarea"></textarea>
-                        <button type="submit" className="submit-button">Submit</button>
-                    </form>
-                </div>
-                <div className="divider" ref={dividerRef}></div>
                 <div className="message-list" style={{ width: `${100 - leftWidth}%` }}>
                     <div className="message-list-header">
                         <input type="text" placeholder="Search Messages" className="search-input" />
@@ -119,6 +117,7 @@ function SHEPGCCInboxPage() {
                     <div className="messages">
                         {messages.map((message, i) => (
                             <div className="message-item" key={i} onClick={() => openModal(message)}>
+                                <h1><span className="message-from">{message.from}</span></h1>
                                 <h2><span className="message-subject">{message.subject}</span></h2>
                                 <h3><span className="message-date">{message.date}</span></h3>
                                 <span className="message-preview">{getPreview(message.fullMessage)}</span>
@@ -138,4 +137,4 @@ function SHEPGCCInboxPage() {
     );
 }
 
-export default SHEPGCCInboxPage;
+export default RenelInboxPage;
