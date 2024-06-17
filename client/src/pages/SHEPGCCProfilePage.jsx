@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/style/SHEPGCCProfilePage.css';
-import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import profile_pic from '../assets/images/ama-kofi-profile.png';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCProfilePage() {
     const [showPopup, setShowPopup] = useState(false);
+    const [showChangePasswordPopup, setShowChangePasswordPopup] = useState(false);
     const [position, setPosition] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -17,8 +17,13 @@ function SHEPGCCProfilePage() {
     const [tempPhone, setTempPhone] = useState('');
     const [tempEmail, setTempEmail] = useState('');
 
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [passwordStep, setPasswordStep] = useState(1);
+
     useEffect(() => {
-        axios.get('http://localhost:4000/profile', { withCredentials: true })
+        axios.get('http://localhost:4000/info', { withCredentials: true })
             .then(response => {
                 const { email, name, userType: position, phone } = response.data;
                 setPosition(position);
@@ -49,6 +54,11 @@ function SHEPGCCProfilePage() {
         }
     };
 
+    const handleCloseChangePasswordPopup = () => {
+        setShowChangePasswordPopup(false);
+        setPasswordStep(1);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:4000/updateProfile', {
@@ -66,6 +76,44 @@ function SHEPGCCProfilePage() {
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
+            });
+    };
+
+    const handleCheckCurrentPassword = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:4000/checkPassword', { currentPassword }, { withCredentials: true })
+            .then(response => {
+                if (response.data.success) {
+                    setPasswordStep(2);
+                } else {
+                    alert('Current password is incorrect.');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking password:', error);
+            });
+    };
+
+    const handleChangePassword = (e) => {
+        e.preventDefault();
+        if (newPassword !== confirmNewPassword) {
+            alert("New passwords do not match.");
+            return;
+        }
+        axios.post('http://localhost:4000/changePassword', { newPassword }, { withCredentials: true })
+            .then(response => {
+                if (response.data.success) {
+                    setShowChangePasswordPopup(false);
+                    setPasswordStep(1);
+                    setCurrentPassword('');
+                    setNewPassword('');
+                    setConfirmNewPassword('');
+                } else {
+                    alert('Error changing password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error changing password:', error);
             });
     };
 
@@ -87,6 +135,7 @@ function SHEPGCCProfilePage() {
                                 <div className="profile-buttons">
                                     <button onClick={handleEditProfileClick}>Edit Profile</button>
                                     <button>Delete Profile</button>
+                                    <button onClick={() => setShowChangePasswordPopup(true)}>Change Password</button>
                                 </div>
                             </div>
                             <div className="profile-image">
@@ -141,6 +190,58 @@ function SHEPGCCProfilePage() {
                                     <button type="submit">Save</button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                )}
+                {showChangePasswordPopup && (
+                    <div className="popup-overlay">
+                        <div className="popup">
+                            <h2>Change Password</h2>
+                            {passwordStep === 1 ? (
+                                <form onSubmit={handleCheckCurrentPassword}>
+                                    <label>
+                                        Current Password:
+                                        <input 
+                                            type="password" 
+                                            name="currentPassword" 
+                                            value={currentPassword} 
+                                            onChange={(e) => setCurrentPassword(e.target.value)} 
+                                            required 
+                                        />
+                                    </label>
+                                    <div className="popup-buttons">
+                                        <button type="button" onClick={handleCloseChangePasswordPopup}>Close</button>
+                                        <button type="submit">Next</button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <form onSubmit={handleChangePassword}>
+                                    <label>
+                                        New Password:
+                                        <input 
+                                            type="password" 
+                                            name="newPassword" 
+                                            value={newPassword} 
+                                            onChange={(e) => setNewPassword(e.target.value)} 
+                                            required 
+                                        />
+                                    </label>
+                                    <label>
+                                        Confirm New Password:
+                                        <input 
+                                            type="password" 
+                                            name="confirmNewPassword" 
+                                            value={confirmNewPassword} 
+                                            onChange={(e) => setConfirmNewPassword(e.target.value)} 
+                                            required 
+                                        />
+                                    </label>
+                                    <div className="popup-buttons">
+                                        <button type="button" onClick={handleCloseChangePasswordPopup}>Close</button>
+                                        <button type="submit">Save</button>
+                                    </div>
+                                </form>
+                            )}
                         </div>
                     </div>
                 )}

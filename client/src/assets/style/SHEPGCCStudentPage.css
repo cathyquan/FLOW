@@ -1,215 +1,283 @@
+/* Resets default margin, padding, and box-sizing */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: Arial, sans-serif; /* Sets the font family for the body */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
 }
 
+/* Styles for header */
 .header {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Sets background color for header */
 }
 
+/* Styles for logo container */
 .logo-container {
-    display: flex;
-    justify-content: center; /* Centers the logo horizontally */
-    align-items: center;
-    padding: 10px 0;
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center; /* Centers the content vertically */
+    padding: 10px 0; /* Adds padding */
 }
 
+/* Styles for logo */
 .logo {
-    height: 60px;
-    cursor: pointer;
+    height: 60px; /* Sets height of the logo */
+    cursor: pointer; /* Changes cursor to pointer on hover */
 }
 
+/* Styles for main content */
 .main {
-    padding: 20px;
+    padding: 20px; /* Adds padding */
 }
 
+/* Styles for student info container */
 .student-info {
-    max-width: 1000vh;
-    margin: 0 auto;
-    text-align: center;
+    max-width: 1000vh; /* Sets maximum width */
+    margin: 0 auto; /* Centers the container horizontally */
+    text-align: center; /* Centers text horizontally */
 }
 
+/* Styles for student info title */
 .student-info h1 {
-    margin: 0;
-    padding-bottom: 2vh;
-    font-size: 200%;
+    margin: 0; /* Removes margin */
+    padding-bottom: 2vh; /* Adds padding */
+    font-size: 200%; /* Sets font size */
 }
 
+/* Styles for info container */
 .info-container {
-    width: 63%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    background-color: #f0b36d;
-    padding: 2vh;
-    border-radius: 3vh;
-    position: relative;
+    display: flex; /* Sets display type to flex */
+    flex-direction: column; /* Stacks items vertically */
+    width: 50%; /* Sets width */
+    background-color: #f0b36d; /* Sets background color */
+    padding: 2vh; /* Adds padding */
+    border-radius: 3vh; /* Adds border radius */
+    position: relative; /* Sets position to relative */
+    margin: 0; /* Removes horizontal margin */
+    flex-wrap: wrap; /* Allows wrapping for responsiveness */
 }
 
+/* Styles for info card */
 .info-card {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    width: 50%;
-    border-radius: 3vh;
-    align-self: flex-start; /* Align the contact info to the start of the container */
-    justify-content: center; /* Center the contact info vertically */
-    padding: 20px; /* Add padding for better spacing */
-    flex-grow: 1;
+    flex: 1; /* Sets flex-grow */
+    background-color: white; /* Sets background color */
+    border-radius: 3vh; /* Adds border radius */
+    padding: 20px; /* Adds padding */
+    display: flex; /* Sets display type to flex */
+    flex-direction: column; /* Stacks items vertically */
+    justify-content: center; /* Centers content vertically */
 }
 
+/* Styles for student details */
 .student-details {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center the content vertically */
-    align-items: center;
-    line-height: 1.4;
+    text-align: center; /* Centers text horizontally */
+    line-height: 1.4; /* Sets line height */
 }
 
+/* Styles for student details titles */
 .student-details h1 {
-    font-size: 20px;
-    line-height: 1;
+    font-size: 20px; /* Sets font size */
+    line-height: 1; /* Sets line height */
 }
 
 .student-details h2 {
-    font-size: 15px;
-    line-height: 1;
+    font-size: 15px; /* Sets font size */
+    line-height: 1; /* Sets line height */
 }
 
 .student-details h3 {
-    font-size: 14px;
-    /* line-height: 2; */
-    font-weight: bold;
+    font-size: 14px; /* Sets font size */
+    font-weight: bold; /* Sets font weight */
 }
 
+/* Styles for student details paragraph */
 .student-details p {
-    font-size: 14px;
-    font-style: italic;
+    font-size: 14px; /* Sets font size */
+    font-style: italic; /* Sets font style to italic */
 }
 
+/* Styles for student action buttons */
 .student-buttons {
-    margin-top: 20px;
-    text-align: center;
+    display: flex; /* Sets display type to flex */
+    flex-direction: column; /* Stacks buttons vertically */
+    text-align: center; /* Centers text horizontally */
+    margin-top: 2vh; /* Adds margin at the top */
+    margin-left: 1.7vh; /* Adds margin at the left */
 }
 
+/* Styles for student action buttons */
 .student-buttons button {
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 3vh;
-    cursor: pointer;
-    font-size: 90%;
-    justify-items: center;
+    background-color: white; /* Sets background color */
+    border: none; /* Removes border */
+    color: black; /* Sets text color */
+    padding: 10px 20px; /* Adds padding */
+    margin: 5px 0; /* Adds margin */
+    border-radius: 3vh; /* Adds border radius */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    font-size: 90%; /* Sets font size */
 }
 
+/* Styles for student action buttons on hover */
 .student-buttons button:hover {
-    background-color: #c86b39;
+    background-color: #c86b39; /* Changes background color on hover */
 }
 
+/* Styles for chart container */
 .chart-container {
-    flex: 1.5;
-    text-align: center;
+    flex: 1.5; /* Sets flex-grow */
+    text-align: center; /* Centers text horizontally */
 }
 
-/* Popup styles */
+/* Styles for popup overlay */
 .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    position: fixed; /* Sets position to fixed */
+    top: 0; /* Sets distance from top */
+    left: 0; /* Sets distance from left */
+    width: 100%; /* Sets width */
+    height: 100%; /* Sets height */
+    background-color: rgba(0, 0, 0, 0.5); /* Sets background color with opacity */
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    z-index: 1000; /* Sets z-index */
 }
 
+/* Styles for popup */
 .popup {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%; /* Increase the width of the popup */
-    max-width: 450px; /* Increase the max-width of the popup */
-    text-align: center; /* Center content in the popup */
+    background-color: white; /* Sets background color */
+    padding: 20px; /* Adds padding */
+    border-radius: 10px; /* Adds border radius */
+    width: 90%; /* Sets width */
+    max-width: 450px; /* Sets maximum width */
+    max-height: 80vh; /* Sets maximum height */
+    overflow-y: auto; /* Adds vertical scrollbar if content overflows */
+    text-align: center; /* Centers text horizontally */
 }
 
+/* Styles for popup title */
 .popup h2 {
-    margin-top: 0;
-    text-align: center; /* Center the title */
+    margin-top: 0; /* Removes margin at the top */
+    text-align: center; /* Centers text horizontally */
 }
 
+/* Styles for popup label */
 .popup label {
-    display: flex;
-    align-items: center;
-    margin: 1vh 0;
-    justify-content: space-between;
-    width: 100%;
-    
+    display: flex; /* Sets display type to flex */
+    align-items: center; /* Centers content vertically */
+    margin: 1vh 0; /* Adds margin */
+    justify-content: space-between; /* Distributes space between items */
+    width: 100%; /* Sets width */
 }
 
+/* Styles for popup input */
 .popup input {
-    width: 70%; /* Adjust the width of the input fields */
-    padding: 0.8vh;
-    margin-left: 1vh;
-    box-sizing: border-box;
-    border: 1px solid lightblue; /* Add light grey border */
+    width: 70%; /* Sets width */
+    padding: 0.8vh; /* Adds padding */
+    margin-left: 1vh; /* Adds margin at the left */
+    box-sizing: border-box; /* Sets box-sizing */
+    border: 1px solid lightblue; /* Sets border */
 }
 
+/* Styles for popup buttons */
 .popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2vh;
-    
+    display: flex; /* Sets display type to flex */
+    justify-content: space-between; /* Distributes space between items */
+    margin-top: 2vh; /* Adds margin at the top */
 }
 
+/* Styles for popup buttons */
 .popup-buttons button {
-    padding: 1vh 2vh;
-    border: none;
-    border-radius: 3vh;
-    cursor: pointer;
-    
+    padding: 1vh 2vh; /* Adds padding */
+    border: none; /* Removes border */
+    border-radius: 3vh; /* Adds border radius */
+    cursor: pointer; /* Changes cursor to pointer on hover */
 }
 
+/* Styles for popup buttons */
 .popup-buttons button:first-child {
-    background-color: #ccc;
+    background-color: #ccc; /* Sets background color */
 }
 
+/* Styles for popup buttons */
 .popup-buttons button:last-child {
-    background-color: #f0b36d;
-    color: white;
+    background-color: #f0b36d; /* Sets background color */
+    color: white; /* Sets text color */
 }
 
+/* Styles for popup buttons on hover */
 .popup-buttons button:last-child:hover {
-    background-color: #c86b39;
+    background-color: #c86b39; /* Changes background color on hover */
 }
 
 /* Media queries for responsive design */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .info-container {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Stacks elements vertically */
+        height: auto;
     }
-
+    
     .info-card {
-        width: 100%;
-    }
-
-    .student-details h1, .student-details h2, .student-details h3, .student-details p {
-        font-size: 14px;
+        width: 100%; /* White box occupies full width of the orange box */
     }
 
     .student-buttons {
-        margin-top: 10px;
+        margin-top: 10px; /* Adds margin at the top */
+        margin-left: 0; /* Removes margin at the left */
+    }
+}
+
+@media (max-width: 768px) {
+    .info-container {
+        width: 100%; /* Orange box occupies full screen */
+        height: auto;
+    }
+
+    .info-card {
+        width: 100%; /* White box occupies full width of the orange box */
+    }
+
+    .student-details h1 {
+        font-size: 20px; /* Sets font size */
+    }
+
+    .student-details h2, .student-details h3, .student-details p {
+        font-size: 14px; /* Sets font size */
+    }
+
+    .student-buttons {
+        margin-top: 10px; /* Adds margin at the top */
+        margin-left: 0; /* Removes margin at the left */
     }
 
     .student-buttons button {
-        padding: 8px 16px;
+        padding: 8px 16px; /* Adds padding */
     }
+
+    .calendar {
+        width: 300px;
+        margin: 0 auto;
+      }
+      
+      .calendar-header {
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      
+      .calendar-days {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      .calendar-day {
+        width: 14.28%; /* Equal width for each day */
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      .today {
+        background-color: #f0f0f0;
+      }
+      
 }

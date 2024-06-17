@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../assets/style/SHEPGCCStudentPage.css';
+import '../graphics/calendar.js';
+import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import Navbar from "../components/Navbar.jsx";
-//import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 function SHEPGCCStudentPage() {
     const [showPopup, setShowPopup] = useState(false);
@@ -95,19 +96,9 @@ function SHEPGCCStudentPage() {
         setUnsavedChanges(false);
     };
 
-    const data = [
-        { name: 'Present', value: 68 },
-        { name: 'Absent (Menstrual Cycle)', value: 12 },
-        { name: 'Absent (Other)', value: 20 }
-    ];
-
-    const COLORS = ['#81CA6E', '#CD5C5C', '#FA8072'];
-
     return (
         <div className="App">
-            <header className="header">
                 <Navbar />
-            </header>
             <main className="main">
                 <section className="student-info">
                     <h1>Rafid Chowdhury</h1>
@@ -126,14 +117,18 @@ function SHEPGCCStudentPage() {
                                     </div>
                                 ))}
                                 <br></br>
-                                <h2><strong>Attendance Rate:</strong> {studentInfo.attendanceRate}%</h2>
+                                <h2><strong>Attendance Rate: 70%</strong></h2>
                             </div>
                         </div>
-                        <div className="student-buttons">
-                            <button onClick={handleEditProfileClick}>Edit Student Information</button>
-                            <button>Delete Student</button>
+                        <div classname="student-details-right-side">
+                            <div className="student-buttons">
+                                <button onClick={handleEditProfileClick}>Edit Student</button>
+                                <button>Delete Student</button>
+                            </div>
                         </div>
                     </div>
+                    <div class="calendar"></div>
+                    <script src="script.js"></script>
                 </section>
                 {showPopup && (
                     <div className="popup-overlay">
@@ -194,15 +189,6 @@ function SHEPGCCStudentPage() {
                                 {studentInfo.guardians.length < 3 && (
                                     <button type="button" onClick={handleAddGuardian}>Add Guardian</button>
                                 )}
-                                <label>
-                                    Attendance Rate:
-                                    <input 
-                                        type="text" 
-                                        name="attendanceRate" 
-                                        value={studentInfo.attendanceRate} 
-                                        onChange={handleInputChange} 
-                                    />
-                                </label>
                                 <div className="popup-buttons">
                                     <button type="button" onClick={handleClosePopup}>Close</button>
                                     <button type="submit">Save</button>
