@@ -23,7 +23,7 @@ function SHEPGCCProfilePage() {
     const [passwordStep, setPasswordStep] = useState(1);
 
     useEffect(() => {
-        axios.get('http://172.20.10.3:4000/info', { withCredentials: true })
+        axios.get('http://localhost:4000/info', { withCredentials: true })
             .then(response => {
                 const { email, name, userType: position, phone } = response.data;
                 setPosition(position);
@@ -61,7 +61,7 @@ function SHEPGCCProfilePage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://172.20.10.3:4000/updateProfile', {
+        axios.post('http://localhost:4000/updateProfile', {
             email: tempEmail,
             name: tempName,
             phone: tempPhone,
@@ -81,7 +81,7 @@ function SHEPGCCProfilePage() {
 
     const handleCheckCurrentPassword = (e) => {
         e.preventDefault();
-        axios.post('http://172.20.10.3:4000/checkPassword', { currentPassword }, { withCredentials: true })
+        axios.post('http://localhost:4000/checkPassword', { currentPassword }, { withCredentials: true })
             .then(response => {
                 if (response.data.success) {
                     setPasswordStep(2);
@@ -100,7 +100,7 @@ function SHEPGCCProfilePage() {
             alert("New passwords do not match.");
             return;
         }
-        axios.post('http://172.20.10.3:4000/changePassword', { newPassword }, { withCredentials: true })
+        axios.post('http://localhost:4000/changePassword', { newPassword }, { withCredentials: true })
             .then(response => {
                 if (response.data.success) {
                     setShowChangePasswordPopup(false);

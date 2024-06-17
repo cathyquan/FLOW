@@ -36,9 +36,9 @@ function SHEPGCCHomePage() {
             try {
                 let response;
                 if (schoolId) {
-                    response = await axios.get(`http://172.20.10.3:4000/schools/${schoolId}`);
+                    response = await axios.get(`http://localhost:4000/schools/${schoolId}`);
                 } else {
-                    response = await axios.get('http://172.20.10.3:4000/profile', { withCredentials: true });
+                    response = await axios.get('http://localhost:4000/profile', { withCredentials: true });
                     const { school, schoolId } = response.data;
                     setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
@@ -75,7 +75,7 @@ function SHEPGCCHomePage() {
     const handleAddGrade = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://172.20.10.3:4000/schools/${schoolId}/addClass`, {
+            const response = await axios.post(`http://localhost:4000/schools/${schoolId}/addClass`, {
                 className: gradeNumber,
                 teacherName,
                 teacherEmail
@@ -94,7 +94,7 @@ function SHEPGCCHomePage() {
         e.preventDefault();
         if (window.confirm(`Are you sure you want to delete the grade ${selectedGrade}?`)) {
             try {
-                await axios.delete(`http://172.20.10.3:4000/schools/${schoolId}/deleteClass`, {
+                await axios.delete(`http://localhost:4000/schools/${schoolId}/deleteClass`, {
                     data: { className: selectedGrade }
                 });
                 setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades

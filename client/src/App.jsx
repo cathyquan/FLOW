@@ -10,12 +10,13 @@ import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
 import SHEPGCCStudentPage from "./pages/SHEPGCCStudentPage.jsx";
 import GradeLevelPage from "./pages/GradeLevelPage.jsx";
 import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
+import InboxPage from './pages/InboxPage.jsx';
 
 import axios from "axios";
 import { UserContextProvider } from './UserContext.jsx';
 import { useEffect } from 'react';
 
-axios.defaults.baseURL = 'http://172.20.10.3:4000';
+axios.defaults.baseURL = 'http://localhost:4000';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -25,14 +26,13 @@ function App() {
         <Route path="/login" element={<LogInPage/>} />
         <Route path="/" element={<HomePage/>} />
         <Route path="/profile" element={<SHEPGCCProfilePage />} />
-        <Route path="/shepgcc_inbox" element={<SHEPGCCInboxPage />} />
         <Route path="/student" element={<SHEPGCCStudentPage />} />
         <Route path="/gradelevel" element={<GradeLevelPage />} />
         <Route path="/school/:id" element={<SHEPGCCHomePage/>} />
         <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
         <Route path="/attendance" element={<AttendanceChecklist/>} />
         <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
-        <Route path="/renel_inbox" element={<RenelInboxPage />} />
+        <Route path="/inbox" element={<InboxPage />} />
       </Routes>
     </UserContextProvider>
   )

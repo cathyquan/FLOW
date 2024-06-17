@@ -15,7 +15,7 @@ function RenelHomePage() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     useEffect(() => {
-        axios.get('http://172.20.10.3:4000/getSchools')
+        axios.get('http://localhost:4000/getSchools')
             .then(response => {
                 setSchools(response.data);
             })
@@ -26,14 +26,14 @@ function RenelHomePage() {
 
     const handleAddSchool = (ev) => {
         ev.preventDefault();
-        axios.post('http://172.20.10.3:4000/addSchool', { schoolName, schoolLocation })
+        axios.post('http://localhost:4000/addSchool', { schoolName, schoolLocation })
             .then(response => {
                 console.log(response.data);
                 alert('School added!');
                 setSchoolName('');
                 setSchoolLocation('');
                 setIsAddModalOpen(false);
-                axios.get('http://172.20.10.3:4000/getSchools')
+                axios.get('http://localhost:4000/getSchools')
                     .then(response => {
                         setSchools(response.data);
                     })
@@ -49,13 +49,13 @@ function RenelHomePage() {
     const handleDeleteSchool = (ev) => {
         ev.preventDefault();
         if (window.confirm(`Are you sure you want to delete the school ${selectedSchool}?`)) {
-            axios.delete('http://172.20.10.3:4000/deleteSchool', { data: { schoolName: selectedSchool } })
+            axios.delete('http://localhost:4000/deleteSchool', { data: { schoolName: selectedSchool } })
                 .then(response => {
                     console.log(response.data);
                     alert('School deleted!');
                     setSelectedSchool('');
                     setIsDeleteModalOpen(false);
-                    axios.get('http://172.20.10.3:4000/getSchools')
+                    axios.get('http://localhost:4000/getSchools')
                         .then(response => {
                             setSchools(response.data);
                         })
