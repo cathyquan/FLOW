@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: 'http://172.20.10.3:5173',
 }));
 
 mongoose.connect(process.env.MONGO_URL);
@@ -338,7 +338,8 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
     }
 });
 
-/*app.get('/students/:id', async (req, res) => {
+app.get('/students/:id', async (req, res) => {
+    //console.log('got student endpoint');
     const { id } = req.params;
     try {
         const student = await Student.findById(id);
@@ -351,9 +352,9 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error fetching student details' });
     }
-});*/
+});
 
 
 app.listen(4000, () => {
-    console.log('Server running on http://localhost:4000');
+    console.log('Server running on http://172.20.10.3:4000');
 });
