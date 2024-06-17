@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import '../assets/style/SHEPGCCHomePage.css';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCHomePage() {
-    const { id } = useParams(); // Extract the school ID from the URL, if available
-    const navigate = useNavigate(); // Initialize useNavigate
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [schoolName, setSchoolName] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
@@ -26,6 +26,8 @@ function SHEPGCCHomePage() {
     const [members, setMembers] = useState([]);
     const [newMemberName, setNewMemberName] = useState('');
     const [newMemberRole, setNewMemberRole] = useState('');
+    const [newMemberEmail, setNewMemberEmail] = useState('');
+    const [newMemberPhone, setNewMemberPhone] = useState('');
     const [memberToDelete, setMemberToDelete] = useState('');
 
     useEffect(() => {
@@ -98,14 +100,36 @@ function SHEPGCCHomePage() {
     const handleAddMember = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:4000/schools/${id}/addMember`, {
+            // Check if the role already exists for the school
+            if ((newMemberRole === 'SHEP' && shepInfo) || (newMemberRole === 'GCC' && gccInfo)) {
+                alert(`A ${newMemberRole} already exists for this school.`);
+                return;
+            }
+
+            const response = await axios.post(`http://localhost:4000/register`, {
                 name: newMemberName,
-                role: newMemberRole
+                role: newMemberRole,
+                email: newMemberEmail,
+                phone: newMemberPhone,
+                password: newMemberName,
+                school: id
             });
+
+            // Update the members list
             setMembers([...members, response.data]);
+
+            // Update the SHEP or GCC information accordingly
+            if (newMemberRole === 'SHEP') {
+                setShepInfo(response.data);
+            } else if (newMemberRole === 'GCC') {
+                setGccInfo(response.data);
+            }
+
             setShowAddMemberPopup(false); // Close the popup
             setNewMemberName('');
             setNewMemberRole('');
+            setNewMemberEmail('');
+            setNewMemberPhone('');
         } catch (error) {
             console.error('There was an error adding the member!', error);
         }
@@ -114,12 +138,24 @@ function SHEPGCCHomePage() {
     const handleDeleteMember = async (e) => {
         e.preventDefault();
         try {
-            await axios.delete(`http://localhost:4000/schools/${id}/deleteMember`, {
-                data: { name: memberToDelete }
+            const response = await axios.delete(`http://localhost:4000/deleteMember`, {
+                data: { name: memberToDelete, school: id }
             });
-            setMembers(members.filter(member => member.name !== memberToDelete));
-            setShowDeleteMemberPopup(false);
-            setMemberToDelete('');
+
+            if (response.data.message === 'Member deleted successfully.') {
+                setMembers(members.filter(member => member.name !== memberToDelete));
+
+                if (shepInfo && shepInfo.name === memberToDelete) {
+                    setShepInfo(null);
+                } else if (gccInfo && gccInfo.name === memberToDelete) {
+                    setGccInfo(null);
+                }
+
+                setShowDeleteMemberPopup(false);
+                setMemberToDelete('');
+            } else {
+                console.error(response.data.error);
+            }
         } catch (error) {
             console.error('There was an error deleting the member!', error);
         }
@@ -133,7 +169,7 @@ function SHEPGCCHomePage() {
     };
 
     const handleGradeClick = (gradeId) => {
-        navigate(`/grades/${gradeId}`); // Navigate to the specific grade page
+        navigate(`/grades/${gradeId}`);
     };
 
     return (
@@ -195,7 +231,7 @@ function SHEPGCCHomePage() {
                         </div>
                         <div className="grade-list">
                             {grades.map(grade => (
-                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button> // Update button
+                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button>
                             ))}
                         </div>
                     </div>
@@ -296,6 +332,24 @@ function SHEPGCCHomePage() {
                                     <option value="GCC">GCC</option>
                                 </select>
                             </label>
+                            <label>
+                                Member Email:
+                                <input
+                                    type="email"
+                                    value={newMemberEmail}
+                                    onChange={(e) => setNewMemberEmail(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <label>
+                                Member Phone Number:
+                                <input
+                                    type="text"
+                                    value={newMemberPhone}
+                                    onChange={(e) => setNewMemberPhone(e.target.value)}
+                                    required
+                                />
+                            </label>
                             <div className="popup-buttons">
                                 <button type="button" onClick={handleClosePopup}>Close</button>
                                 <button type="submit">Save</button>
@@ -318,9 +372,8 @@ function SHEPGCCHomePage() {
                                     required
                                 >
                                     <option value="">Select Member</option>
-                                    {members.map(member => (
-                                        <option key={member._id} value={member.name}>{member.name}</option>
-                                    ))}
+                                    {shepInfo && <option value={shepInfo.name}>SHEP - {shepInfo.name}</option>}
+                                    {gccInfo && <option value={gccInfo.name}>GCC - {gccInfo.name}</option>}
                                 </select>
                             </label>
                             <div className="popup-buttons">

@@ -45,6 +45,62 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+app.post('/register', async (req, res) => {
+    const { email, password, role, school, name, phone } = req.body;
+
+    // Check if the userType already exists for the school
+    const existingUser = await User.findOne({ school, role });
+    if (existingUser) {
+        return res.status(400).json({ error: `${userType} already exists for this school.` });
+    }
+
+    const userDoc = await User.create({
+        email,
+        password: bcrypt.hashSync(password, bcryptSalt),
+        userType: role,
+        school,
+        name,
+        phone,
+    });
+
+    // Update the school's SHEP or GCC field
+    const schoolDoc = await School.findById(school);
+    if (role === 'SHEP') {
+        schoolDoc.SHEP = userDoc._id;
+    } else if (role === 'GCC') {
+        schoolDoc.GCC = userDoc._id;
+    }
+    await schoolDoc.save();
+
+    res.json(userDoc);
+});
+
+app.delete('/deleteMember', async (req, res) => {
+    const { name, school } = req.body;
+
+    try {
+        const userDoc = await User.findOneAndDelete({ name, school });
+
+        if (!userDoc) {
+            return res.status(404).json({ error: 'Member not found.' });
+        }
+
+        const schoolDoc = await School.findById(school);
+        if (userDoc.userType === 'SHEP') {
+            schoolDoc.SHEP = null;
+        } else if (userDoc.userType === 'GCC') {
+            schoolDoc.GCC = null;
+        }
+        await schoolDoc.save();
+
+        res.json({ message: 'Member deleted successfully.' });
+    } catch (error) {
+        res.status(500).json({ error: 'There was an error deleting the member.' });
+    }
+});
+
+
 app.post('/logout', async (req, res) => {
     res.cookie('token', '').json(true);
 });
