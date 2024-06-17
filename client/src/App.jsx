@@ -8,6 +8,7 @@ import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
 import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
 import SHEPGCCStudentPage from "./pages/SHEPGCCStudentPage.jsx";
 import GradeLevelPage from "./pages/GradeLevelPage.jsx";
+import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
 
 import axios from "axios";
 import { UserContextProvider } from './UserContext.jsx';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/gradelevel" element={<GradeLevelPage />} />
         <Route path="/school/:id" element={<SHEPGCCHomePage/>} />
         <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
+        <Route path="/attendance" element={<AttendanceChecklist/>} />
         <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
       </Routes>
     </UserContextProvider>
