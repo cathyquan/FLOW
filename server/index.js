@@ -6,6 +6,7 @@ const User = require("./models/User.js");
 const School = require("./models/Schools.js");
 const Class = require("./models/Classes.js");
 const Student = require("./models/Students.js");
+const Message = require("./models/Messages.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -196,11 +197,6 @@ app.get('/info', (req, res) => {
         res.json(null);
     }
 });
-
-
-
-
-
 
 app.post('/updateProfile', async (req, res) => {
     const { email, name, phone, position } = req.body;
@@ -441,6 +437,72 @@ app.post('/checkPassword', async (req, res) => {
     }
 });
 
+app.get('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findById(id).populate('school');
+        if (user) {
+            res.json(user.school);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching user details' });
+    }
+});
+
+app.get('/messages/:userID', async (req, res) => {
+    const { userID } = req.params;
+    try {
+        const user = await User.findById(userID);
+        if (user) {
+            const school = await School.findById(user.school).populate('Messages');
+            const messages = school ? school.Messages : [];
+            res.json(messages);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching messages' });
+    }
+});
+
+app.post('/:userID/sendMessage', async (req, res) => {
+    const { userID } = req.params;
+    const { subject, body } = req.body;
+    try {
+        const user = await User.findById(userID);
+        if(user)
+        id = user.school;
+        const school = await School.findById(id);
+        const newMessage = await Message.create({
+            subject,
+            body,
+            date: new Date(),
+            school: id,
+            sender: school.schoolName,
+        });
+        school.Messages.push(newMessage._id);
+        await school.save();
+        res.json(newMessage);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error sending message' });
+    }
+});
+
+app.get('/admin/messages', async (req, res) => {
+    const limit = 50;
+    try {
+        const messages = await Message.find().sort({ date: -1 }).limit(limit).populate('school', 'schoolName');
+        res.json(messages);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ message: 'Error fetching messages' });
+    }
+});
 
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');
