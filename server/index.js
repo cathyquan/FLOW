@@ -49,31 +49,51 @@ app.post('/login', async (req, res) => {
 app.post('/register', async (req, res) => {
     const { email, password, role, school, name, phone } = req.body;
 
-    // Check if the userType already exists for the school
-    const existingUser = await User.findOne({ school, role });
-    if (existingUser) {
-        return res.status(400).json({ error: `${userType} already exists for this school.` });
+    try {
+        // Convert email to lowercase to ensure consistency
+        const lowercaseEmail = email.toLowerCase();
+
+        // Check if a user with the same email already exists
+        const existingEmailUser = await User.findOne({ email: lowercaseEmail });
+        if (existingEmailUser) {
+            return res.status(400).json({ error: 'Email already exists.' });
+        }
+
+        // Check if the userType already exists for the school
+        const existingUser = await User.findOne({ school, userType: role });
+        if (existingUser) {
+            return res.status(400).json({ error: `${role} already exists for this school.` });
+        }
+
+        // Create the new user
+        const userDoc = await User.create({
+            email: lowercaseEmail,
+            password: bcrypt.hashSync(password, bcryptSalt),
+            userType: role,
+            school,
+            name,
+            phone,
+        });
+
+        // Update the school's SHEP or GCC field
+        const schoolDoc = await School.findById(school);
+        if (!schoolDoc) {
+            return res.status(404).json({ error: 'School not found.' });
+        }
+
+        if (role === 'SHEP') {
+            schoolDoc.SHEP = userDoc._id;
+        } else if (role === 'GCC') {
+            schoolDoc.GCC = userDoc._id;
+        }
+
+        await schoolDoc.save();
+
+        res.json(userDoc);
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Internal server error.' });
     }
-
-    const userDoc = await User.create({
-        email,
-        password: bcrypt.hashSync(password, bcryptSalt),
-        userType: role,
-        school,
-        name,
-        phone,
-    });
-
-    // Update the school's SHEP or GCC field
-    const schoolDoc = await School.findById(school);
-    if (role === 'SHEP') {
-        schoolDoc.SHEP = userDoc._id;
-    } else if (role === 'GCC') {
-        schoolDoc.GCC = userDoc._id;
-    }
-    await schoolDoc.save();
-
-    res.json(userDoc);
 });
 
 app.delete('/deleteMember', async (req, res) => {
@@ -97,6 +117,33 @@ app.delete('/deleteMember', async (req, res) => {
         res.json({ message: 'Member deleted successfully.' });
     } catch (error) {
         res.status(500).json({ error: 'There was an error deleting the member.' });
+    }
+});
+
+// Endpoint to delete a user by their ID
+app.delete('/deleteProfile', async (req, res) => {
+    const { userId } = req.body;
+    try {
+        const userDoc = await User.findByIdAndDelete(userId);
+
+        if (!userDoc) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        const schoolDoc = await School.findById(userDoc.school);
+        if (schoolDoc) {
+            if (userDoc.userType === 'SHEP') {
+                schoolDoc.SHEP = null;
+            } else if (userDoc.userType === 'GCC') {
+                schoolDoc.GCC = null;
+            }
+            await schoolDoc.save();
+        }
+
+        res.json({ message: 'User deleted successfully.' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
 
@@ -138,13 +185,18 @@ app.get('/info', (req, res) => {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
             const user = await User.findById(userData.id);
-            const { email, id, userType, name, phone } = user;
-            res.json({ email, id, userType, name, phone});
+            if (user) {
+                const { email, id, userType, name, phone } = user;
+                res.json({ email, id, userType, name, phone });
+            } else {
+                res.status(404).json({ error: 'User not found' });
+            }
         });
     } else {
         res.json(null);
     }
 });
+
 
 
 
@@ -351,6 +403,41 @@ app.get('/students/:id', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error fetching student details' });
+    }
+});
+
+app.post('/changePassword', async (req, res) => {
+    const { newPassword } = req.body;
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            user.password = bcrypt.hashSync(newPassword, bcryptSalt);
+            await user.save();
+            res.json({ success: true });
+        });
+    } else {
+        res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+});
+
+app.post('/checkPassword', async (req, res) => {
+    const { currentPassword } = req.body;
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            const isPasswordCorrect = bcrypt.compareSync(currentPassword, user.password);
+            if (isPasswordCorrect) {
+                res.json({ success: true });
+            } else {
+                res.json({ success: false });
+            }
+        });
+    } else {
+        res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 });
 
