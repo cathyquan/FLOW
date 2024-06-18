@@ -117,7 +117,7 @@ function RenelInboxPage() {
                     <div className="messages">
                         {messages.map((message, i) => (
                             <div className="message-item" key={i} onClick={() => openModal(message)}>
-                                <h1><span className="message-from">{message.from}</span></h1>
+                                <h1><span className="message-from">{message.from} </span></h1>
                                 <h2><span className="message-subject">{message.subject}</span></h2>
                                 <h3><span className="message-date">{message.date}</span></h3>
                                 <span className="message-preview">{getPreview(message.fullMessage)}</span>
