@@ -17,7 +17,7 @@ const students = [
 
 const AttendanceChecker = () => {
     const [attendance, setAttendance] = useState(students.map(() => "present"));
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const handleChange = (index, event) => {
         const newAttendance = [...attendance];
@@ -25,8 +25,8 @@ const AttendanceChecker = () => {
         setAttendance(newAttendance);
     };
 
-    const handleModalToggle = () => {
-        setIsModalOpen(!isModalOpen);
+    const handlePopupToggle = () => {
+        setIsPopupOpen(!isPopupOpen);
     };
 
     return (
@@ -36,13 +36,16 @@ const AttendanceChecker = () => {
             </header>
             <div className="main">
                 <div className="grade-info">
-                    <button className="grade-button" onClick={handleModalToggle}>1st Grade</button>
-                    {isModalOpen && (
-                        <div className="modal">
-                            <div className="modal-content">
-                                <span className="close" onClick={handleModalToggle}>&times;</span>
+                    <button className="grade-button" onClick={handlePopupToggle}>1st Grade</button>
+                    {isPopupOpen && (
+                        <div className="popup-overlay">
+                            <div className="popup">
+                                <h2>Class Information</h2>
                                 <p><strong>Teacher:</strong> Mouray Hutchinson</p>
                                 <p><strong>Email:</strong> mouray@gmail.com</p>
+                                <div className="popup-buttons">
+                                    <button onClick={handlePopupToggle}>Close</button>
+                                </div>
                             </div>
                         </div>
                     )}

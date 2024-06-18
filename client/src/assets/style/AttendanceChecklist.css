@@ -8,10 +8,7 @@
 }
 
 .grade-info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    text-align: center;
 }
 
 .grade-info h1 {
@@ -25,7 +22,7 @@
 .grade-info .date-picker-container {
     position: absolute;
     top: 175px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
+    right: 50px; /* Adjust as needed */
 }
 
 .grade-info .date-picker {
@@ -150,7 +147,7 @@
     font-size: 13px;
     cursor: pointer;
     margin-right: 20px;
-    width: 10%;
+    width: 140px;
 }
 
 .buttons .default-button {
@@ -161,12 +158,15 @@
     color: #fff;
     font-size: 13px;
     cursor: pointer;
-    width: 11%;
+    width: 150px;
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1200px) {
     .students-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .buttons {
+        margin-top: 10px;
     }
 }
 
@@ -174,4 +174,64 @@
     .students-list {
         grid-template-columns: repeat(1, 1fr);
     }
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grade-info {
+        text-align: center;
+    }
+    .grade-info .date-picker-container {
+        position: static;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+.popup-overlay {
+    position: fixed; /* Sets position to fixed */
+    top: 0; /* Sets distance from top */
+    left: 0; /* Sets distance from left */
+    width: 100%; /* Sets width */
+    height: 100%; /* Sets height */
+    background-color: rgba(0, 0, 0, 0.5); /* Sets background color with opacity */
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    z-index: 1000; /* Sets z-index */
+}
+
+/* Styles for popup */
+.popup {
+    background-color: white; /* Sets background color */
+    padding: 20px; /* Adds padding */
+    border-radius: 10px; /* Adds border radius */
+    width: 90%; /* Sets width */
+    max-width: 450px; /* Sets maximum width */
+    max-height: 80vh; /* Sets maximum height */
+    overflow-y: auto; /* Adds vertical scrollbar if content overflows */
+    text-align: center; /* Centers text horizontally */
+}
+
+/* Styles for popup title */
+.popup h2 {
+    margin-top: 0; /* Removes margin at the top */
+    text-align: center; /* Centers text horizontally */
+}
+
+/* Styles for popup buttons */
+.popup .popup-buttons {
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    margin-top: 2vh; /* Adds margin at the top */
+}
+
+/* Styles for popup buttons on hover */
+.popup .popup-buttons button:hover {
+    background-color: #c86b39; /* Changes background color on hover */
 }

@@ -1,50 +1,21 @@
-/* Resets default margin, padding, and box-sizing */
-body {
-    font-family: Arial, sans-serif; /* Sets the font family for the body */
-    margin: 0; /* Removes default margin */
-    padding: 0; /* Removes default padding */
-    box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
-}
-
-/* Styles for header */
-.header {
-    background-color: #ffffff; /* Sets background color for header */
-}
-
-/* Styles for logo container */
-.logo-container {
-    display: flex; /* Sets display type to flex */
-    justify-content: center; /* Centers the content horizontally */
-    align-items: center; /* Centers the content vertically */
-    padding: 10px 0; /* Adds padding */
-}
-
-/* Styles for logo */
-.logo {
-    height: 60px; /* Sets height of the logo */
-    cursor: pointer; /* Changes cursor to pointer on hover */
-}
-
-/* Styles for main content */
 .main {
-    padding: 20px; /* Adds padding */
+    padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
-/* Styles for student info container */
 .student-info {
     max-width: 1000vh; /* Sets maximum width */
     margin: 0 auto; /* Centers the container horizontally */
     text-align: center; /* Centers text horizontally */
 }
 
-/* Styles for student info title */
 .student-info h1 {
     margin: 0; /* Removes margin */
     padding-bottom: 2vh; /* Adds padding */
     font-size: 200%; /* Sets font size */
 }
 
-/* Styles for info container */
 .info-container {
     display: flex; /* Sets display type to flex */
     flex-direction: column; /* Stacks items vertically */
@@ -57,7 +28,6 @@ body {
     flex-wrap: wrap; /* Allows wrapping for responsiveness */
 }
 
-/* Styles for info card */
 .info-card {
     flex: 1; /* Sets flex-grow */
     background-color: white; /* Sets background color */
