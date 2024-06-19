@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import '../assets/style/SHEPGCCHomePage.css';
 import gcc from '../assets/images/ama-kofi-profile.png';
 import shep from '../assets/images/akosua-mensah-profile.png';
 import Navbar from "../components/Navbar.jsx";
+import { UserContext } from '../UserContext.jsx';
 
 function SHEPGCCHomePage() {
     const { id } = useParams(); // Extract the school ID from the URL, if available
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState('');
@@ -113,26 +116,26 @@ function SHEPGCCHomePage() {
                 alert(`A ${newMemberRole} already exists for this school.`);
                 return;
             }
-
+    
             const response = await axios.post(`http://localhost:4000/register`, {
                 name: newMemberName,
                 role: newMemberRole,
-                email: newMemberEmail,
+                email: newMemberEmail.toLowerCase(),
                 phone: newMemberPhone,
                 password: newMemberName,
-                school: id
+                school: schoolId
             });
-
+    
             // Update the members list
             setMembers([...members, response.data]);
-
+    
             // Update the SHEP or GCC information accordingly
             if (newMemberRole === 'SHEP') {
                 setShepInfo(response.data);
             } else if (newMemberRole === 'GCC') {
                 setGccInfo(response.data);
             }
-
+    
             setShowAddMemberPopup(false); // Close the popup
             setNewMemberName('');
             setNewMemberRole('');
@@ -140,25 +143,42 @@ function SHEPGCCHomePage() {
             setNewMemberPhone('');
         } catch (error) {
             console.error('There was an error adding the member!', error);
+            if (error.response && error.response.data && error.response.data.error) {
+                alert(error.response.data.error);
+            } else {
+                alert('There was an error adding the member. Please try again.');
+            }
         }
     };
+    
 
     const handleDeleteMember = async (e) => {
         e.preventDefault();
+        const confirmed = window.confirm(`Are you sure you want to delete the member ${memberToDelete}? This action cannot be undone.`);
+        if (!confirmed) {
+            return;
+        }
+    
         try {
             const response = await axios.delete(`http://localhost:4000/deleteMember`, {
-                data: { name: memberToDelete, school: id }
+                data: { name: memberToDelete, school: schoolId }
             });
-
+    
             if (response.data.message === 'Member deleted successfully.') {
                 setMembers(members.filter(member => member.name !== memberToDelete));
-
+    
                 if (shepInfo && shepInfo.name === memberToDelete) {
                     setShepInfo(null);
                 } else if (gccInfo && gccInfo.name === memberToDelete) {
                     setGccInfo(null);
                 }
-
+    
+                // Check if the deleted member is the logged-in user
+                if (user.name === memberToDelete) {
+                    setUser(null);  // Clear the user context
+                    navigate('/login');  // Redirect to login page
+                }
+    
                 setShowDeleteMemberPopup(false);
                 setMemberToDelete('');
             } else {
@@ -168,6 +188,7 @@ function SHEPGCCHomePage() {
             console.error('There was an error deleting the member!', error);
         }
     };
+    
 
     const handleClosePopup = () => {
         setShowAddGradePopup(false);

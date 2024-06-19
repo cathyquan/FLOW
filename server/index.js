@@ -6,6 +6,7 @@ const User = require("./models/User.js");
 const School = require("./models/Schools.js");
 const Class = require("./models/Classes.js");
 const Student = require("./models/Students.js");
+const Message = require("./models/Messages.js");
 const Attendance = require("./models/Attendance.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -50,31 +51,51 @@ app.post('/login', async (req, res) => {
 app.post('/register', async (req, res) => {
     const { email, password, role, school, name, phone } = req.body;
 
-    // Check if the userType already exists for the school
-    const existingUser = await User.findOne({ school, role });
-    if (existingUser) {
-        return res.status(400).json({ error: `${userType} already exists for this school.` });
+    try {
+        // Convert email to lowercase to ensure consistency
+        const lowercaseEmail = email.toLowerCase();
+
+        // Check if a user with the same email already exists
+        const existingEmailUser = await User.findOne({ email: lowercaseEmail });
+        if (existingEmailUser) {
+            return res.status(400).json({ error: 'Email already exists.' });
+        }
+
+        // Check if the userType already exists for the school
+        const existingUser = await User.findOne({ school, userType: role });
+        if (existingUser) {
+            return res.status(400).json({ error: `${role} already exists for this school.` });
+        }
+
+        // Create the new user
+        const userDoc = await User.create({
+            email: lowercaseEmail,
+            password: bcrypt.hashSync(password, bcryptSalt),
+            userType: role,
+            school,
+            name,
+            phone,
+        });
+
+        // Update the school's SHEP or GCC field
+        const schoolDoc = await School.findById(school);
+        if (!schoolDoc) {
+            return res.status(404).json({ error: 'School not found.' });
+        }
+
+        if (role === 'SHEP') {
+            schoolDoc.SHEP = userDoc._id;
+        } else if (role === 'GCC') {
+            schoolDoc.GCC = userDoc._id;
+        }
+
+        await schoolDoc.save();
+
+        res.json(userDoc);
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Internal server error.' });
     }
-
-    const userDoc = await User.create({
-        email,
-        password: bcrypt.hashSync(password, bcryptSalt),
-        userType: role,
-        school,
-        name,
-        phone,
-    });
-
-    // Update the school's SHEP or GCC field
-    const schoolDoc = await School.findById(school);
-    if (role === 'SHEP') {
-        schoolDoc.SHEP = userDoc._id;
-    } else if (role === 'GCC') {
-        schoolDoc.GCC = userDoc._id;
-    }
-    await schoolDoc.save();
-
-    res.json(userDoc);
 });
 
 app.delete('/deleteMember', async (req, res) => {
@@ -98,6 +119,33 @@ app.delete('/deleteMember', async (req, res) => {
         res.json({ message: 'Member deleted successfully.' });
     } catch (error) {
         res.status(500).json({ error: 'There was an error deleting the member.' });
+    }
+});
+
+// Endpoint to delete a user by their ID
+app.delete('/deleteProfile', async (req, res) => {
+    const { userId } = req.body;
+    try {
+        const userDoc = await User.findByIdAndDelete(userId);
+
+        if (!userDoc) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        const schoolDoc = await School.findById(userDoc.school);
+        if (schoolDoc) {
+            if (userDoc.userType === 'SHEP') {
+                schoolDoc.SHEP = null;
+            } else if (userDoc.userType === 'GCC') {
+                schoolDoc.GCC = null;
+            }
+            await schoolDoc.save();
+        }
+
+        res.json({ message: 'User deleted successfully.' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
 
@@ -139,17 +187,17 @@ app.get('/info', (req, res) => {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
             const user = await User.findById(userData.id);
-            const { email, id, userType, name, phone } = user;
-            res.json({ email, id, userType, name, phone});
+            if (user) {
+                const { email, id, userType, name, phone } = user;
+                res.json({ email, id, userType, name, phone });
+            } else {
+                res.status(404).json({ error: 'User not found' });
+            }
         });
     } else {
         res.json(null);
     }
 });
-
-
-
-
 
 app.post('/updateProfile', async (req, res) => {
     const { email, name, phone, position } = req.body;
@@ -355,6 +403,107 @@ app.get('/students/:id', async (req, res) => {
     }
 });
 
+app.post('/changePassword', async (req, res) => {
+    const { newPassword } = req.body;
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            user.password = bcrypt.hashSync(newPassword, bcryptSalt);
+            await user.save();
+            res.json({ success: true });
+        });
+    } else {
+        res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+});
+
+app.post('/checkPassword', async (req, res) => {
+    const { currentPassword } = req.body;
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            const isPasswordCorrect = bcrypt.compareSync(currentPassword, user.password);
+            if (isPasswordCorrect) {
+                res.json({ success: true });
+            } else {
+                res.json({ success: false });
+            }
+        });
+    } else {
+        res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+});
+
+app.get('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findById(id).populate('school');
+        if (user) {
+            res.json(user.school);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching user details' });
+    }
+});
+
+app.get('/messages/:userID', async (req, res) => {
+    const { userID } = req.params;
+    try {
+        const user = await User.findById(userID);
+        if (user) {
+            const school = await School.findById(user.school).populate('Messages');
+            const messages = school ? school.Messages : [];
+            res.json(messages);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching messages' });
+    }
+});
+
+app.post('/:userID/sendMessage', async (req, res) => {
+    const { userID } = req.params;
+    const { subject, body } = req.body;
+    try {
+        const user = await User.findById(userID);
+        if(user)
+        id = user.school;
+        const school = await School.findById(id);
+        const newMessage = await Message.create({
+            subject,
+            body,
+            date: new Date(),
+            school: id,
+            sender: school.schoolName,
+        });
+        school.Messages.push(newMessage._id);
+        await school.save();
+        res.json(newMessage);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error sending message' });
+    }
+});
+
+app.get('/admin/messages', async (req, res) => {
+    const limit = 50;
+    try {
+        const messages = await Message.find().sort({ date: -1 }).limit(limit).populate('school', 'schoolName');
+        res.json(messages);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ message: 'Error fetching messages' });
+    }
+});
 app.post('/attendance/save', async (req, res) => {
     const { date, attendance } = req.body;
 
@@ -385,7 +534,6 @@ app.post('/attendance/save', async (req, res) => {
         res.status(500).json({ message: 'Error saving attendance records.' });
     }
 });
-
 
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');
