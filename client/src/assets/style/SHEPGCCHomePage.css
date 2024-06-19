@@ -37,6 +37,15 @@ div .info-container {
     position: relative;
 }
 
+.school-contact-info {
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+.school-contact-info p {
+    margin: 0.5vh 0;
+}
+
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -50,7 +59,6 @@ div .info-container {
 
 .contact-card {
     display: flex;
-    /* background-color: red; */
     justify-content: center;
 }
 
@@ -66,7 +74,6 @@ div .info-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* background-color: green; */
     margin-left: 10%;
 }
 
@@ -94,12 +101,9 @@ div .info-container {
 .chart-container {
     display: flex;
     flex-direction: column;
-    /* align-items: flex-end; */
-    /* margin-left: 0%; */
     position: absolute;
     bottom: 2vh;
     right: 2.3vh;
-    /* background-color: blue; */
     width: 27%;
     justify-content: center;
 }
@@ -114,11 +118,9 @@ div .info-container {
     color: black;
     padding: 1vh;
     margin-top: 2vh;
-    margin-bottom: 0vh;
     border-radius: 3vh;
     width: 100%;
     cursor: pointer;
-    /* justify-content: right; */
     font-size: 90%;
 }
 
@@ -218,7 +220,7 @@ div .info-container {
 }
 
 .popup input, .popup select {
-    width: 0%; /* Adjust the width of the input fields */
+    width: 100%; /* Adjust the width of the input fields */
     padding: 0.8vh;
     margin-top: 0.5vh;
     box-sizing: border-box;

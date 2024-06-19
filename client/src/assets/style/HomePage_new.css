@@ -1,0 +1,294 @@
+.main-content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    padding-top: 2vh;
+}
+
+.school-info {
+    padding: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.school-info h1 {
+    margin-bottom: 1.5vh;
+    text-align: center;
+    font-size: 170%;
+}
+
+.school-info-container {
+    background-color: #f0b36d;
+    border-radius: 3vh;
+    padding: 3vh;
+}
+
+.basic-school-info {
+    text-align: center;
+    background-color: #ffe1be;
+    border-radius: 2vh;
+    padding: 2vh;
+    margin-bottom: 3vh;
+}
+
+.basic-school-info h1 {
+    padding-bottom: 2vh;
+    font-size: 200%;
+}
+
+.basic-school-info button {
+    background-color: #d3732d;
+    color: white;
+    width: 200px;
+    margin-top: 1.5vh;
+    border-radius: 3vh;
+    font-size: 12px;
+}
+
+.shep-gcc-container {
+    background-color: white;
+    border-radius: 2vh;
+    margin-bottom: 2vh;
+}
+
+.shep-gcc-contact-info {
+    display: flex; /* Add this */
+    justify-content: center; /* Add this */
+    align-items: center; /* Center items vertically */
+    border-radius: 2vh;
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+    margin-right: 0vh;
+    margin-left: 0vh;
+}
+
+.buttons {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.buttons button {
+    background-color: #d3732d;
+    color: white;
+    width: 200px;
+    margin-top: 0vh;
+    font-size: 12px;
+    padding: 0vh;
+    margin-bottom: 2vh;
+    border-radius: 3vh;
+    cursor: pointer;
+    margin-right: 3vh;
+    margin-left: 3vh;
+}
+
+.contact-card {
+    margin: 0 10vh; /* Add this to create space between the cards */
+}
+
+.contact-card div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-card h2 {
+    margin: 0;
+    font-size: 100%;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.contact-card h3 {
+    margin: 0;
+    font-size: 100%;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 1.5vh;
+}
+
+.contact-card p {
+    margin: 0%;
+    font-size: 90%;
+    font-style: italic;
+}
+
+.grade-buttons {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.grade-buttons button {
+    background-color: white;
+    padding: 0vh;
+    border-radius: 3vh;
+    width: 20vh;
+}
+
+.grade-list button {
+    display: flex; /* Add this */
+    align-items: center; /* Add this */
+    justify-content: center; /* Add this if you want the text horizontally centered as well */
+    background-color: #f0b36d;
+    padding: 1px;
+    border-radius: 3vh;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1em;
+    height: 6vh;
+}
+
+/* Divider styling */
+.divider {
+    width: 3px;
+    background-color: #e0e0e0;
+    cursor: col-resize;
+    position: relative;
+    height: 73vh;
+    margin-left: 2vh;
+    margin-right: 2vh;
+}
+
+.divider:hover {
+    background-color: #c1c1c1;
+}
+
+/* Grade list styles */
+.grade-list {
+    display: grid;
+    gap: 1vh;
+    overflow-y: auto;
+    border-radius: 3vh;
+}
+
+/* Single column layout */
+.grade-list.single-column {
+    grid-template-columns: 1fr;
+}
+
+/* Two columns layout */
+.grade-list.two-columns {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grade-list button {
+    background-color: #f0b36d;
+    padding: 15px;
+    margin: 1vh;
+    border-radius: 3vh;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1em;
+    height: 6vh;
+}
+
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.popup h2 {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+.popup label {
+    display: block;
+    margin: 1vh 0;
+    text-align: left;
+}
+
+.popup input, .popup select {
+    width: 100%;
+    padding: 0.8vh;
+    margin-top: 0.5vh;
+    box-sizing: border-box;
+    border: 1px solid lightblue;
+}
+
+.popup select {
+    display: inline-block;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
+
+.popup-buttons button {
+    padding: 1vh 2vh;
+    border: none;
+    border-radius: 3vh;
+    cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+    background-color: #ccc;
+}
+
+.popup-buttons button:last-child {
+    background-color: #f0b36d;
+    color: white;
+}
+
+.popup-buttons button:last-child:hover {
+    background-color: #c86b39;
+}
+
+@media (max-width: 1000px) {
+    .contact-info {
+        width: 100%;
+        height: 45vh;
+        margin-bottom: 1vh;
+    }
+
+    .buttons {
+        align-items: center;
+        width: 100%;
+    }
+
+    .buttons button {
+        width: 100%;
+        margin: 1vh 0;
+    }
+
+}
+
+@media (max-width: 768px) {
+    div .info-container {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 2vh;
+    }
+
+    .grade-list {
+        width: 100%;
+        margin-top: 2vh;
+    }
+}
