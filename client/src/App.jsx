@@ -7,8 +7,6 @@ import SHEPGCCHomePage from "./pages/SHEPGCCHomePage.jsx";
 import HomePage_new from "./pages/HomePage_new.jsx";
 import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
 import RenelInboxPage from "./pages/RenelInboxPage.jsx";
-import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
-import SHEPGCCStudentPage from "./pages/SHEPGCCStudentPage.jsx";
 import GradeLevelPage from "./pages/GradeLevelPage.jsx";
 import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
 import InboxPage from './pages/InboxPage.jsx';
