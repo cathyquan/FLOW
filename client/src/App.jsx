@@ -4,6 +4,7 @@ import LogInPage from "./pages/LogInPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import RenelHomePage from "./pages/RenelHomePage.jsx";
 import SHEPGCCHomePage from "./pages/SHEPGCCHomePage.jsx";
+import HomePage_new from "./pages/HomePage_new.jsx";
 import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
 import RenelInboxPage from "./pages/RenelInboxPage.jsx";
 import SHEPGCCProfilePage from "./pages/SHEPGCCProfilePage.jsx";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/student" element={<SHEPGCCStudentPage />} />
         <Route path="/gradelevel" element={<GradeLevelPage />} />
         <Route path="/school/:id" element={<SHEPGCCHomePage/>} />
+        <Route path="/home_page" element={<HomePage_new/>} />
         <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
         <Route path="/attendance" element={<AttendanceChecklist/>} />
         <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
