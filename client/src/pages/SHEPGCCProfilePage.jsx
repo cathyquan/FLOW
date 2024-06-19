@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
 import '../assets/style/SHEPGCCProfilePage.css';
 import profile_pic from '../assets/images/ama-kofi-profile.png';
 import Navbar from "../components/Navbar.jsx";
@@ -11,6 +13,7 @@ function SHEPGCCProfilePage() {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [userId, setUserId] = useState('');
 
     const [tempPosition, setTempPosition] = useState('');
     const [tempName, setTempName] = useState('');
@@ -22,14 +25,18 @@ function SHEPGCCProfilePage() {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [passwordStep, setPasswordStep] = useState(1);
 
+    const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+
     useEffect(() => {
         axios.get('http://localhost:4000/info', { withCredentials: true })
             .then(response => {
-                const { email, name, userType: position, phone } = response.data;
+                const { email, name, userType: position, phone, id } = response.data;
                 setPosition(position);
                 setName(name);
                 setPhone(phone);
                 setEmail(email);
+                setUserId(id);
             })
             .catch(error => {
                 console.error('Error fetching profile data:', error);
@@ -117,6 +124,34 @@ function SHEPGCCProfilePage() {
             });
     };
 
+    const handleDeleteProfile = async () => {
+        if (position === 'admin') {
+            alert('You cannot delete the admin account.');
+            return;
+        }
+
+        const confirmed = window.confirm('Are you sure you want to delete your profile? This action cannot be undone.');
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            const response = await axios.delete('http://localhost:4000/deleteProfile', {
+                data: { userId },
+                withCredentials: true
+            });
+
+            if (response.data.message === 'User deleted successfully.') {
+                setUser(null);  // Clear the user context
+                navigate('/login');  // Redirect to login page
+            } else {
+                console.error(response.data.error);
+            }
+        } catch (error) {
+            console.error('There was an error deleting the profile!', error);
+        }
+    };
+
     return (
         <div className="App">
             <header className="header">
@@ -134,7 +169,7 @@ function SHEPGCCProfilePage() {
                                 <p><strong>Email Address:</strong> {email}</p>
                                 <div className="profile-buttons">
                                     <button onClick={handleEditProfileClick}>Edit Profile</button>
-                                    <button>Delete Profile</button>
+                                    <button onClick={handleDeleteProfile}>Delete Profile</button>
                                     <button onClick={() => setShowChangePasswordPopup(true)}>Change Password</button>
                                 </div>
                             </div>

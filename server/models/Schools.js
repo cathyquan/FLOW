@@ -6,6 +6,7 @@ const schoolSchema = new Schema({
     SHEP: {type: Schema.Types.ObjectId, ref: 'User'},
     GCC: {type: Schema.Types.ObjectId, ref: 'User'},
     Classes: [{ type: Schema.Types.ObjectId, ref: 'Class' }],
+    Messages: [{ type: Schema.Types.ObjectId, ref: 'Message', default: []}],
 });
 
 const schoolModel = mongoose.model('School', schoolSchema);
