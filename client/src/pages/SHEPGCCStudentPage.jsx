@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import '../assets/style/SHEPGCCStudentPage.css';
 import '../graphics/calendar.js';
 import renel_logo from '../assets/images/renel-gh-logo.jpg';
 import Navbar from "../components/Navbar.jsx";
+import CalendarComponent from "../components/Calendar.jsx";
 
 function SHEPGCCStudentPage() {
-    const { studentId } = useParams();
+    const {studentId} = useParams();
     const [showPopup, setShowPopup] = useState(false);
     const [showConfirmClose, setShowConfirmClose] = useState(false);
     const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -23,9 +24,9 @@ function SHEPGCCStudentPage() {
                 const mappedStudentInfo = {
                     ...studentData,
                     guardians: [
-                        { name: studentData.g1_name, phone: studentData.g1_phone },
-                        studentData.g2_name ? { name: studentData.g2_name, phone: studentData.g2_phone } : null,
-                        studentData.g3_name ? { name: studentData.g3_name, phone: studentData.g3_phone } : null
+                        {name: studentData.g1_name, phone: studentData.g1_phone},
+                        studentData.g2_name ? {name: studentData.g2_name, phone: studentData.g2_phone} : null,
+                        studentData.g3_name ? {name: studentData.g3_name, phone: studentData.g3_phone} : null
                     ].filter(Boolean) // Filter out any null values
                 };
 
@@ -63,7 +64,7 @@ function SHEPGCCStudentPage() {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setStudentInfo((prevInfo) => ({
             ...prevInfo,
             [name]: value,
@@ -85,7 +86,7 @@ function SHEPGCCStudentPage() {
         if (studentInfo.guardians.length < 3) {
             setStudentInfo((prevInfo) => ({
                 ...prevInfo,
-                guardians: [...prevInfo.guardians, { name: '', phone: '' }]
+                guardians: [...prevInfo.guardians, {name: '', phone: ''}]
             }));
             setUnsavedChanges(true);
         }
@@ -130,10 +131,10 @@ function SHEPGCCStudentPage() {
 
     return (
         <div className="App">
-            <Navbar />
+            <Navbar/>
             <main className="main">
-                <section className="student-info">
-                    <h1>{studentInfo.name}</h1>
+                <h1>{studentInfo.name}</h1>
+                <div className="container">
                     <div className="info-container">
                         <div className="info-card">
                             <div className="student-details">
@@ -152,16 +153,19 @@ function SHEPGCCStudentPage() {
                                 <h2><strong>Attendance Rate: {studentInfo.attendanceRate}%</strong></h2>
                             </div>
                         </div>
-                        <div className="student-details-right-side">
-                            <div className="student-buttons">
-                                <button onClick={handleEditProfileClick}>Edit Student</button>
-                                <button>Delete Student</button>
-                            </div>
+                        <div className="student-buttons">
+                            <button onClick={handleEditProfileClick}>Edit Student</button>
+                            <button>Delete Student</button>
                         </div>
                     </div>
-                    <div className="calendar"></div>
-                    <script src="script.js"></script>
-                </section>
+
+                    <div className="calendar-container">
+                        <div className="calendar">
+                            <CalendarComponent/>
+                        </div>
+                    </div>
+                </div>
+
                 {showPopup && (
                     <div className="popup-overlay">
                         <div className="popup">
@@ -169,53 +173,55 @@ function SHEPGCCStudentPage() {
                             <form onSubmit={handleSubmit}>
                                 <label>
                                     Student ID:
-                                    <input type="text" name="id" value={studentInfo._id} readOnly />
+                                    <input type="text" name="id" value={studentInfo._id} readOnly/>
                                 </label>
                                 <label>
                                     Grade:
-                                    <input 
-                                        type="text" 
-                                        name="grade" 
-                                        value={studentInfo.grade} 
-                                        onChange={handleInputChange} 
+                                    <input
+                                        type="text"
+                                        name="grade"
+                                        value={studentInfo.grade}
+                                        onChange={handleInputChange}
                                     />
                                 </label>
                                 <label>
                                     Date of Birth:
-                                    <input 
-                                        type="text" 
-                                        name="dob" 
-                                        value={studentInfo.dob} 
-                                        onChange={handleInputChange} 
+                                    <input
+                                        type="text"
+                                        name="dob"
+                                        value={studentInfo.dob}
+                                        onChange={handleInputChange}
                                     />
                                 </label>
                                 {studentInfo.guardians.map((guardian, index) => (
                                     <div key={index}>
                                         <label>
                                             Guardian Name:
-                                            <input 
-                                                type="text" 
-                                                value={guardian.name} 
-                                                onChange={(e) => handleGuardianChange(index, 'name', e.target.value)} 
+                                            <input
+                                                type="text"
+                                                value={guardian.name}
+                                                onChange={(e) => handleGuardianChange(index, 'name', e.target.value)}
                                             />
                                         </label>
                                         <label>
                                             Phone Number:
-                                            <input 
-                                                type="text" 
-                                                value={guardian.phone} 
-                                                onChange={(e) => handleGuardianChange(index, 'phone', e.target.value)} 
+                                            <input
+                                                type="text"
+                                                value={guardian.phone}
+                                                onChange={(e) => handleGuardianChange(index, 'phone', e.target.value)}
                                             />
                                         </label>
                                         <label>
                                             Email Address:
-                                            <input 
-                                                type="email" 
-                                                value={guardian.email} 
-                                                onChange={(e) => handleGuardianChange(index, 'email', e.target.value)} 
+                                            <input
+                                                type="email"
+                                                value={guardian.email}
+                                                onChange={(e) => handleGuardianChange(index, 'email', e.target.value)}
                                             />
                                         </label>
-                                        <button type="button" onClick={() => handleRemoveGuardian(index)}>Remove Guardian</button>
+                                        <button type="button" onClick={() => handleRemoveGuardian(index)}>Remove
+                                            Guardian
+                                        </button>
                                     </div>
                                 ))}
                                 {studentInfo.guardians.length < 3 && (
