@@ -6,6 +6,7 @@ const User = require("./models/User.js");
 const School = require("./models/Schools.js");
 const Class = require("./models/Classes.js");
 const Student = require("./models/Students.js");
+const Attendance = require("./models/Attendance.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -351,6 +352,37 @@ app.get('/students/:id', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error fetching student details' });
+    }
+});
+
+app.post('/attendance/save', async (req, res) => {
+    const { date, attendance } = req.body;
+
+    try {
+        const promises = attendance
+            .filter(att => att.status !== 'Present') // Only process absences
+            .map(async (att) => {
+                const existingRecord = await Attendance.findOne({ date, student: att.student });
+
+                if (existingRecord) {
+                    // Update the existing record
+                    existingRecord.status = att.status;
+                    return existingRecord.save();
+                } else {
+                    // Create a new record
+                    return Attendance.create({
+                        date,
+                        student: att.student,
+                        status: att.status
+                    });
+                }
+            });
+
+        await Promise.all(promises);
+        res.status(200).json({ message: 'Attendance records saved successfully.' });
+    } catch (error) {
+        console.error('Error saving attendance:', error);
+        res.status(500).json({ message: 'Error saving attendance records.' });
     }
 });
 

@@ -33,6 +33,7 @@ function App() {
         <Route path="/attendance" element={<AttendanceChecklist/>} />
         <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
         <Route path="/inbox" element={<InboxPage />} />
+        <Route path="/grades/:gradeId/attendance" element={<AttendanceChecklist />} />
       </Routes>
     </UserContextProvider>
   )
