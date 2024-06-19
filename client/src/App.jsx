@@ -30,6 +30,7 @@ function App() {
           <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
           <Route path="/attendance" element={<AttendanceChecklist />} />
           <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
+          <Route path="/grades/:gradeId/attendance" element={<AttendanceChecklist />} />
           <Route path="/inbox" element={<InboxPage />} />
         </Route>
       </Routes>

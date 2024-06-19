@@ -115,10 +115,9 @@
 
 /* Hover effect for the search button */
 .search-button:hover {
-    /*background-color: #0056b3;*/
+    background-color: #0056b3;
 }
 
- Responsive adjustments
 @media (max-width: 600px) {
     .all-schools {
         flex-direction: row;
