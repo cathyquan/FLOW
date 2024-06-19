@@ -1,56 +1,48 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Navbar from "../components/Navbar.jsx";
 import Modal from '../components/Modal.jsx';
 import '../assets/style/SHEPGCCInboxPage.css'; // Ensure this path is correct
+import axios from 'axios';
+import { UserContext } from '../UserContext';
 
 function SHEPGCCInboxPage() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [leftWidth, setLeftWidth] = useState(() => {
-        // Retrieve the stored value from localStorage or use a default value
         const savedWidth = localStorage.getItem('leftWidth');
         return savedWidth ? parseFloat(savedWidth) : 50;
     });
+    const [subject, setSubject] = useState('');
+    const [message, setMessage] = useState('');
+    const [charCount, setCharCount] = useState(0);
+    const [messages, setMessages] = useState([]);
+    const [loadingMessages, setLoadingMessages] = useState(false);
     const dividerRef = useRef(null);
+    const { user, loading, fetchUser } = useContext(UserContext);
 
-    const messages = [
-        {
-            date: 'June 17, 2024',
-            subject: 'Menstrual Products Needed',
-            fullMessage: 'We have three girls who have been missing class for the past three to five days. We\'ve contacted their parents and found that they\'re in need of supplies. Please send some if possible!'
-        },
-        {
-            date: 'June 4, 2024',
-            subject: 'New SHEP Hiree',
-            fullMessage: 'We have a new SHEP coming in to replace the current one. Her name is Chelsea Nguyen and her contact information is as follows: email - contact@gmail.com, number - (233)000000000'
-        },
-        {
-            date: 'May 30, 2024',
-            subject: 'It\'s Cathy\'s birthday today!!',
-            fullMessage: 'happy birthday to cathy woot woot go crazy go stupid'
-        },
-        {
-            date: 'May 24, 2024',
-            subject: 'hella girls on their period',
-            fullMessage: 'send more products plz we need pads and tampons'
-        },
-        {
-            date: 'May 20, 2024',
-            subject: 'last message',
-            fullMessage: 'last message last message last message last message last message last message last message last message last message'
-        },
-        {
-            date: 'February 20, 2024',
-            subject: 'It\'s Rafid\'s birthday today!!',
-            fullMessage: 'happy birthday to rafid woot woot go crazy go stupid'
-        },
-        {
-            date: 'April 8, 2024',
-            subject: 'It\'s Chelsea\'s birthday today!!',
-            fullMessage: 'happy birthday to chelsea woot woot go crazy go stupid'
-        },
-        // Add more messages here
-    ];
+    useEffect(() => {
+        const fetchMessages = async () => {
+            if (user && user.id) {
+                try {
+                    setLoadingMessages(true);
+                    const response = await axios.get(`http://localhost:4000/messages/${user.id}`);
+                    console.log('Messages fetched:', response.data);
+                    setMessages(response.data || []);
+                } catch (error) {
+                    console.error('Error fetching messages:', error);
+                } finally {
+                    setLoadingMessages(false);
+                }
+            }
+            else {
+                fetchUser();
+            }
+        };
+
+        if (!loading && user) {
+            fetchMessages();
+        }
+    }, [user, loading, fetchUser]);
 
     const openModal = (message) => {
         setSelectedMessage(message);
@@ -97,6 +89,38 @@ function SHEPGCCInboxPage() {
         };
     }, []);
 
+    const handleSubjectChange = (e) => {
+        setSubject(e.target.value);
+    };
+
+    const handleMessageChange = (e) => {
+        const newMessage = e.target.value;
+        if (newMessage.length <= 250) {
+            setMessage(newMessage);
+            setCharCount(newMessage.length);
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:4000/${user.id}/sendMessage`, {
+                subject: subject, // Use the actual subject from the input field
+                body: message,
+            });
+            setMessages(prevMessages => [response.data, ...prevMessages]);
+            setSubject('');
+            setMessage('');
+            setCharCount(0);
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    };
+
+    if (loading) {
+        return <p>Loading user data...</p>;
+    }
+
     return (
         <div className="inbox-page">
             <header className="header">
@@ -105,9 +129,23 @@ function SHEPGCCInboxPage() {
             <div className="main-content">
                 <div className="contact-form" style={{ width: `${leftWidth}%` }}>
                     <h2>Contact RENEL</h2>
-                    <form>
-                        <input type="text" placeholder="Subject" className="subject-input" />
-                        <textarea placeholder="New Message..." className="message-textarea"></textarea>
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Subject"
+                            className="subject-input"
+                            value={subject}
+                            onChange={handleSubjectChange}
+                        />
+                        <div className="textarea-container">
+                            <textarea
+                                placeholder="New Message..."
+                                className="message-textarea"
+                                value={message}
+                                onChange={handleMessageChange}
+                            ></textarea>
+                            <div className="char-count">{charCount}/250</div>
+                        </div>
                         <button type="submit" className="submit-button">Submit</button>
                     </form>
                 </div>
@@ -116,15 +154,19 @@ function SHEPGCCInboxPage() {
                     <div className="message-list-header">
                         <input type="text" placeholder="Search Messages" className="search-input" />
                     </div>
-                    <div className="messages">
-                        {messages.map((message, i) => (
-                            <div className="message-item" key={i} onClick={() => openModal(message)}>
-                                <h2><span className="message-subject">{message.subject}</span></h2>
-                                <h3><span className="message-date">{message.date}</span></h3>
-                                <span className="message-preview">{getPreview(message.fullMessage)}</span>
-                            </div>
-                        ))}
-                    </div>
+                    {loadingMessages ? (
+                        <p>Loading messages...</p>
+                    ) : (
+                        <div className="messages">
+                            {messages.map((message, i) => (
+                                <div className="message-item" key={i} onClick={() => openModal(message)}>
+                                    <h2><span className="message-subject">{message.subject}</span></h2>
+                                    <h3><span className="message-date">{new Date(message.date).toLocaleDateString()}</span></h3>
+                                    <span className="message-preview">{getPreview(message.body)}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
             {selectedMessage && (

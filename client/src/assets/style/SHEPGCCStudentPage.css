@@ -1,33 +1,13 @@
-/* Resets default margin, padding, and box-sizing */
-body {
-    font-family: Arial, sans-serif; /* Sets the font family for the body */
-    margin: 0; /* Removes default margin */
-    padding: 0; /* Removes default padding */
-    box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
-}
-
-/* Styles for header */
-.header {
-    background-color: #ffffff; /* Sets background color for header */
-}
-
-/* Styles for logo container */
-.logo-container {
-    display: flex; /* Sets display type to flex */
-    justify-content: center; /* Centers the content horizontally */
-    align-items: center; /* Centers the content vertically */
-    padding: 10px 0; /* Adds padding */
-}
-
-/* Styles for logo */
-.logo {
-    height: 60px; /* Sets height of the logo */
-    cursor: pointer; /* Changes cursor to pointer on hover */
-}
-
-/* Styles for main content */
 .main {
-    padding: 20px; /* Adds padding */
+    padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.student-info {
+    max-width: 1000vh; /* Sets maximum width */
+    margin: 0 auto; /* Centers the container horizontally */
+    text-align: center; /* Centers text horizontally */
 }
 
 /* Add a flex container around the info and calendar containers */
@@ -39,14 +19,6 @@ body {
     flex-wrap: wrap; /* Allows wrapping of flex items */
 }
 
-/* Styles for student info container */
-/*.student-info {*/
-/*    max-width: 1000vh; !* Sets maximum width *!*/
-/*    margin: 0 auto; !* Centers the container horizontally *!*/
-/*    text-align: center; !* Centers text horizontally *!*/
-/*}*/
-
-/* Styles for student info title */
 .main h1 {
     margin: 0; /* Removes margin */
     padding-bottom: 2vh; /* Adds padding */
@@ -54,7 +26,6 @@ body {
     text-align: center;
 }
 
-/* Styles for info container */
 .info-container {
     width: 60%; /* Adjust the width as needed */
     background-color: #f0b36d;
@@ -63,20 +34,6 @@ body {
     margin-bottom: 20px; /* Adds space below the info container */
 }
 
-/* Styles for info container */
-/*.info-container {*/
-/*    display: flex; !* Sets display type to flex *!*/
-/*    flex-direction: column; !* Stacks items vertically *!*/
-/*    width: 50%; !* Sets width *!*/
-/*    background-color: #f0b36d; !* Sets background color *!*/
-/*    padding: 2vh; !* Adds padding *!*/
-/*    border-radius: 3vh; !* Adds border radius *!*/
-/*    position: relative; !* Sets position to relative *!*/
-/*    margin: 0; !* Removes horizontal margin *!*/
-/*    flex-wrap: wrap; !* Allows wrapping for responsiveness *!*/
-/*}*/
-
-/* Styles for info card */
 .info-card {
     flex: 1; /* Sets flex-grow */
     background-color: white; /* Sets background color */

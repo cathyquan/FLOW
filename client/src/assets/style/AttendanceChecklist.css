@@ -1,0 +1,237 @@
+.header {
+    margin-bottom: 10px;
+}
+
+.main {
+    padding-top: 10px;
+    /* background-color: red; */
+}
+
+.grade-info {
+    text-align: center;
+}
+
+.grade-info h1 {
+    font-size: 200%;
+}
+
+.grade-info h2 {
+    font-size: 130%;
+}
+
+.grade-info .date-picker-container {
+    position: absolute;
+    top: 175px; /* Adjust as needed */
+    right: 50px; /* Adjust as needed */
+}
+
+.grade-info .date-picker {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.grade-info .grade-button {
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.attendance-checklist {
+    margin-top: 10px;
+    background: #f0b36d;
+    border-radius: 3vh;
+    height: 59vh;
+    position: relative; /* Needed for positioning the date picker */
+}
+
+.students-list-container {
+    height: 59vh;
+    margin-left: 5vh;
+    margin-right: 5vh;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+}
+
+.students-list {
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1vh;
+    padding: 1.5vh;
+    border-radius: 10px;
+    max-height: 100%; /* Use full height of the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 5px;
+}
+
+.attendance-select {
+    width: 50%;
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #155724; /* Default to present color */
+}
+
+.attendance-select.absent {
+    background-color: #f8d7da;
+    color: #420007;
+}
+
+.attendance-select.present {
+    background-color: #d4edda;
+    color: #00340c;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.buttons .save-button {
+    padding: 7px 20px;
+    background: #c89c8d;
+    border: none;
+    border-radius: 1.5vh;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    margin-right: 20px;
+    width: 140px;
+}
+
+.buttons .default-button {
+    padding: 7px 20px;
+    background: #c89c8d;
+    border: none;
+    border-radius: 1.5vh;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    width: 150px;
+}
+
+@media (max-width: 1200px) {
+    .students-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 850px) {
+    .students-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grade-info {
+        text-align: center;
+    }
+    .grade-info .date-picker-container {
+        position: static;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+.popup-overlay {
+    position: fixed; /* Sets position to fixed */
+    top: 0; /* Sets distance from top */
+    left: 0; /* Sets distance from left */
+    width: 100%; /* Sets width */
+    height: 100%; /* Sets height */
+    background-color: rgba(0, 0, 0, 0.5); /* Sets background color with opacity */
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    z-index: 1000; /* Sets z-index */
+}
+
+/* Styles for popup */
+.popup {
+    background-color: white; /* Sets background color */
+    padding: 20px; /* Adds padding */
+    border-radius: 10px; /* Adds border radius */
+    width: 90%; /* Sets width */
+    max-width: 450px; /* Sets maximum width */
+    max-height: 80vh; /* Sets maximum height */
+    overflow-y: auto; /* Adds vertical scrollbar if content overflows */
+    text-align: center; /* Centers text horizontally */
+}
+
+/* Styles for popup title */
+.popup h2 {
+    margin-top: 0; /* Removes margin at the top */
+    text-align: center; /* Centers text horizontally */
+}
+
+/* Styles for popup buttons */
+.popup .popup-buttons {
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    margin-top: 2vh; /* Adds margin at the top */
+}
+
+/* Styles for popup buttons on hover */
+.popup .popup-buttons button:hover {
+    background-color: #c86b39; /* Changes background color on hover */
+}

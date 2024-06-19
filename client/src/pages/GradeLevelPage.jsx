@@ -91,6 +91,10 @@ const GradeLevelPage = () => {
         navigate(`/students/${studentId}`);
     };
 
+    const handleAttendanceClick = () => {
+      navigate(`/grades/${gradeId}/attendance`);
+    };
+
     return (
         <div className="grade-level-page">
             <header className="header">
@@ -111,7 +115,7 @@ const GradeLevelPage = () => {
                         {/* Insert your chart component here */}
                     </div>
                     <div className="buttons">
-                        <button onClick={() => setAction('attendance')}>Attendance</button>
+                        <button onClick={handleAttendanceClick}>Attendance</button>
                         <button onClick={handleShowAddStudentPopup} className="add-student-button">Add Student</button>
                         {isPopupVisible && (
                             <div className="popup-overlay">

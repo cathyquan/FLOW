@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import '../assets/style/SHEPGCCHomePage.css';
-import gcc from '../assets/images/ama-kofi-profile.png';
-import shep from '../assets/images/akosua-mensah-profile.png';
+import '../assets/style/HomePage_new.css';
 import Navbar from "../components/Navbar.jsx";
-import { UserContext } from '../UserContext.jsx';
 
-function SHEPGCCHomePage() {
-    const { id } = useParams(); // Extract the school ID from the URL, if available
-    const { user, setUser } = useContext(UserContext);
+function HomePage_new() {
+    const { id } = useParams();
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState('');
@@ -33,6 +28,45 @@ function SHEPGCCHomePage() {
     const [newMemberEmail, setNewMemberEmail] = useState('');
     const [newMemberPhone, setNewMemberPhone] = useState('');
     const [memberToDelete, setMemberToDelete] = useState('');
+    const [leftWidth, setLeftWidth] = useState(() => {
+        const savedWidth = localStorage.getItem('leftWidth');
+        return savedWidth ? parseFloat(savedWidth) : 50;
+    });
+    const dividerRef = useRef(null);
+
+    const MIN_WIDTH = 37;
+    const MAX_WIDTH = 63;
+
+    const handleMouseDown = (e) => {
+        e.preventDefault();
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    };
+
+    const handleMouseMove = (e) => {
+        const newLeftWidth = (e.clientX / window.innerWidth) * 100;
+        if (newLeftWidth >= MIN_WIDTH && newLeftWidth <= MAX_WIDTH) {
+            setLeftWidth(newLeftWidth);
+            localStorage.setItem('leftWidth', newLeftWidth);
+        }
+    };
+
+    const handleMouseUp = () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    useEffect(() => {
+        const divider = dividerRef.current;
+        if (divider) {
+            divider.addEventListener('mousedown', handleMouseDown);
+        }
+        return () => {
+            if (divider) {
+                divider.removeEventListener('mousedown', handleMouseDown);
+            }
+        };
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -100,7 +134,7 @@ function SHEPGCCHomePage() {
                 await axios.delete(`http://localhost:4000/schools/${schoolId}/deleteClass`, {
                     data: { className: selectedGrade }
                 });
-                setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); // Update and sort grades
+                setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); 
                 setShowDeleteGradePopup(false);
             } catch (error) {
                 console.error('There was an error deleting the grade!', error);
@@ -111,74 +145,54 @@ function SHEPGCCHomePage() {
     const handleAddMember = async (e) => {
         e.preventDefault();
         try {
-            // Check if the role already exists for the school
             if ((newMemberRole === 'SHEP' && shepInfo) || (newMemberRole === 'GCC' && gccInfo)) {
                 alert(`A ${newMemberRole} already exists for this school.`);
                 return;
             }
-    
+
             const response = await axios.post(`http://localhost:4000/register`, {
                 name: newMemberName,
                 role: newMemberRole,
-                email: newMemberEmail.toLowerCase(),
+                email: newMemberEmail,
                 phone: newMemberPhone,
                 password: newMemberName,
-                school: schoolId
+                school: id
             });
-    
-            // Update the members list
+
             setMembers([...members, response.data]);
-    
-            // Update the SHEP or GCC information accordingly
+
             if (newMemberRole === 'SHEP') {
                 setShepInfo(response.data);
             } else if (newMemberRole === 'GCC') {
                 setGccInfo(response.data);
             }
-    
-            setShowAddMemberPopup(false); // Close the popup
+
+            setShowAddMemberPopup(false);
             setNewMemberName('');
             setNewMemberRole('');
             setNewMemberEmail('');
             setNewMemberPhone('');
         } catch (error) {
             console.error('There was an error adding the member!', error);
-            if (error.response && error.response.data && error.response.data.error) {
-                alert(error.response.data.error);
-            } else {
-                alert('There was an error adding the member. Please try again.');
-            }
         }
     };
-    
 
     const handleDeleteMember = async (e) => {
         e.preventDefault();
-        const confirmed = window.confirm(`Are you sure you want to delete the member ${memberToDelete}? This action cannot be undone.`);
-        if (!confirmed) {
-            return;
-        }
-    
         try {
             const response = await axios.delete(`http://localhost:4000/deleteMember`, {
-                data: { name: memberToDelete, school: schoolId }
+                data: { name: memberToDelete, school: id }
             });
-    
+
             if (response.data.message === 'Member deleted successfully.') {
                 setMembers(members.filter(member => member.name !== memberToDelete));
-    
+
                 if (shepInfo && shepInfo.name === memberToDelete) {
                     setShepInfo(null);
                 } else if (gccInfo && gccInfo.name === memberToDelete) {
                     setGccInfo(null);
                 }
-    
-                // Check if the deleted member is the logged-in user
-                if (user.name === memberToDelete) {
-                    setUser(null);  // Clear the user context
-                    navigate('/login');  // Redirect to login page
-                }
-    
+
                 setShowDeleteMemberPopup(false);
                 setMemberToDelete('');
             } else {
@@ -188,7 +202,6 @@ function SHEPGCCHomePage() {
             console.error('There was an error deleting the member!', error);
         }
     };
-    
 
     const handleClosePopup = () => {
         setShowAddGradePopup(false);
@@ -201,21 +214,34 @@ function SHEPGCCHomePage() {
         navigate(`/grades/${gradeId}`);
     };
 
+    const getGridClass = () => {
+        if (leftWidth < 55) {
+            return 'two-columns';
+        } else {
+            return 'single-column';
+        }
+    };
+
     return (
         <div className="shepgcc-home-page">
             <header className="header">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <Navbar/>
             </header>
-            <main className="main">
-                <section className="school-info">
+            <div className="main-content">
+                <div className="school-info" style={{ width: `${leftWidth}%` }}>
                     <h1>{schoolName}</h1>
-                    <div className="info-grade-container">
-                        <div className="info-container">
-                            <div className="contact-info">
+                    <div className="school-info-container">
+                        <div className="basic-school-info">
+                            <p>12200 West Broward Boulevard</p>
+                            <p>Plantation, FL 33325</p>
+                            <p>(954) 472-0022 | admissions.broward@ahschool.com</p>
+                            <button>Edit Information</button>
+                        </div>
+                        <div className='shep-gcc-container'>
+                            <div className="shep-gcc-contact-info">
                                 {gccInfo ? (
                                     <div className="contact-card">
-                                        <img src={gcc} alt="GCC"/>
                                         <div>
                                             <h2>GCC</h2>
                                             <h3>{gccInfo.name}</h3>
@@ -226,10 +252,8 @@ function SHEPGCCHomePage() {
                                 ) : (
                                     <div>No GCC</div>
                                 )}
-                                <br/>
                                 {shepInfo ? (
                                     <div className="contact-card">
-                                        <img src={shep} alt="SHEP"/>
                                         <div>
                                             <h2>SHEP</h2>
                                             <h3>{shepInfo.name}</h3>
@@ -241,31 +265,24 @@ function SHEPGCCHomePage() {
                                     <div>No SHEP</div>
                                 )}
                             </div>
-                            <div className="chart-container">
-                                <div className="chart">
-                                    <body>
-                                        <div className="piechart"></div>
-                                    </body>
-                                </div>
-                                <div className="buttons">
-                                    <button onClick={() => setShowAddMemberPopup(true)}>Add Member</button>
-                                    <br></br>
-                                    <button onClick={() => setShowDeleteMemberPopup(true)}>Delete Member</button>
-                                    <br></br>
-                                    <button onClick={() => setShowAddGradePopup(true)}>Add Grade</button>
-                                    <br></br>
-                                    <button onClick={() => setShowDeleteGradePopup(true)}>Delete Grade</button>
-                                </div>
+                            <div className="buttons">
+                                <button onClick={() => setShowAddMemberPopup(true)}>Add Member</button>
+                                <button onClick={() => setShowDeleteMemberPopup(true)}>Edit/Delete Member</button>
                             </div>
                         </div>
-                        <div className="grade-list">
-                            {grades.map(grade => (
-                                <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button>
-                            ))}
+                        <div className='grade-buttons'>
+                            <button onClick={() => setShowAddGradePopup(true)}>Add Grade</button>
+                            <button onClick={() => setShowDeleteGradePopup(true)}>Delete Grade</button>
                         </div>
                     </div>
-                </section>
-            </main>
+                </div>
+                <div className="divider" ref={dividerRef}></div>
+                <div className={`grade-list ${getGridClass()}`} style={{ width: `${100 - leftWidth}%` }}>
+                    {grades.map(grade => (
+                        <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button>
+                    ))}
+                </div>
+            </div>
 
             {showAddGradePopup && (
                 <div className="popup-overlay">
@@ -417,4 +434,4 @@ function SHEPGCCHomePage() {
     );
 }
 
-export default SHEPGCCHomePage;
+export default HomePage_new;
