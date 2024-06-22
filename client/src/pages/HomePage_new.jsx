@@ -9,6 +9,12 @@ function HomePage_new() {
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState('');
+    const [schoolAddress, setSchoolAddress] = useState('8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+    const [schoolPhone, setSchoolPhone] = useState('5619005802');
+    const [schoolEmail, setSchoolEmail] = useState('cathy.t.quan@gmail.com');
+    const [editedSchoolAddress, setEditedSchoolAddress] = useState(schoolAddress);
+    const [editedSchoolPhone, setEditedSchoolPhone] = useState(schoolPhone);
+    const [editedSchoolEmail, setEditedSchoolEmail] = useState(schoolEmail);
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -17,6 +23,7 @@ function HomePage_new() {
     const [showDeleteGradePopup, setShowDeleteGradePopup] = useState(false);
     const [showAddMemberPopup, setShowAddMemberPopup] = useState(false);
     const [showDeleteMemberPopup, setShowDeleteMemberPopup] = useState(false);
+    const [showEditInfoPopup, setShowEditInfoPopup] = useState(false);
     const [gradeNumber, setGradeNumber] = useState('');
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -79,6 +86,9 @@ function HomePage_new() {
                     const { school, schoolId } = response.data;
                     setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
+                    setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+                    setSchoolPhone(school.phone || '5619005802');
+                    setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
@@ -86,6 +96,9 @@ function HomePage_new() {
                 if (response.data.school) {
                     const school = response.data.school;
                     setSchoolName(school.schoolName);
+                    setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+                    setSchoolPhone(school.phone || '5619005802');
+                    setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
@@ -204,14 +217,52 @@ function HomePage_new() {
     };
 
     const handleClosePopup = () => {
-        setShowAddGradePopup(false);
-        setShowDeleteGradePopup(false);
-        setShowAddMemberPopup(false);
-        setShowDeleteMemberPopup(false);
+        if (showEditInfoPopup && (
+            editedSchoolAddress !== schoolAddress ||
+            editedSchoolPhone !== schoolPhone ||
+            editedSchoolEmail !== schoolEmail)) {
+            if (window.confirm('Are you sure you want to exit? Your changes will not be saved.')) {
+                setShowAddGradePopup(false);
+                setShowDeleteGradePopup(false);
+                setShowAddMemberPopup(false);
+                setShowDeleteMemberPopup(false);
+                setShowEditInfoPopup(false);
+            }
+        } else {
+            setShowAddGradePopup(false);
+            setShowDeleteGradePopup(false);
+            setShowAddMemberPopup(false);
+            setShowDeleteMemberPopup(false);
+            setShowEditInfoPopup(false);
+        }
     };
 
     const handleGradeClick = (gradeId) => {
         navigate(`/grades/${gradeId}`);
+    };
+
+    const handleEditInfo = () => {
+        setEditedSchoolAddress(schoolAddress);
+        setEditedSchoolPhone(schoolPhone);
+        setEditedSchoolEmail(schoolEmail);
+        setShowEditInfoPopup(true);
+    };
+
+    const handleSaveInfo = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.put(`http://localhost:4000/schools/${schoolId}/updateInfo`, {
+                address: editedSchoolAddress,
+                phone: editedSchoolPhone,
+                email: editedSchoolEmail
+            });
+            setSchoolAddress(response.data.address);
+            setSchoolPhone(response.data.phone);
+            setSchoolEmail(response.data.email);
+            setShowEditInfoPopup(false);
+        } catch (error) {
+            console.error('There was an error updating the school info!', error);
+        }
     };
 
     const getGridClass = () => {
@@ -228,15 +279,17 @@ function HomePage_new() {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <Navbar/>
             </header>
+            <div className="school-name">
+                <h1>{schoolName}</h1>
+            </div>
             <div className="main-content">
                 <div className="school-info" style={{ width: `${leftWidth}%` }}>
-                    <h1>{schoolName}</h1>
                     <div className="school-info-container">
                         <div className="basic-school-info">
-                            <p>12200 West Broward Boulevard</p>
-                            <p>Plantation, FL 33325</p>
-                            <p>(954) 472-0022 | admissions.broward@ahschool.com</p>
-                            <button>Edit Information</button>
+                            <p>{schoolAddress}</p>
+                            <p>{schoolPhone}</p>
+                            <p>{schoolEmail}</p>
+                            <button onClick={handleEditInfo}>Edit Information</button>
                         </div>
                         <div className='shep-gcc-container'>
                             <div className="shep-gcc-contact-info">
@@ -267,7 +320,7 @@ function HomePage_new() {
                             </div>
                             <div className="buttons">
                                 <button onClick={() => setShowAddMemberPopup(true)}>Add Member</button>
-                                <button onClick={() => setShowDeleteMemberPopup(true)}>Edit/Delete Member</button>
+                                <button onClick={() => setShowDeleteMemberPopup(true)}>Edit / Delete Member</button>
                             </div>
                         </div>
                         <div className='grade-buttons'>
@@ -425,6 +478,47 @@ function HomePage_new() {
                             <div className="popup-buttons">
                                 <button type="button" onClick={handleClosePopup}>Close</button>
                                 <button type="submit">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {showEditInfoPopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <h2>Edit School Information</h2>
+                        <form onSubmit={handleSaveInfo}>
+                            <label>
+                                Address:
+                                <input
+                                    type="text"
+                                    value={editedSchoolAddress}
+                                    onChange={(e) => setEditedSchoolAddress(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <label>
+                                Phone Number:
+                                <input
+                                    type="text"
+                                    value={editedSchoolPhone}
+                                    onChange={(e) => setEditedSchoolPhone(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <label>
+                                Email:
+                                <input
+                                    type="email"
+                                    value={editedSchoolEmail}
+                                    onChange={(e) => setEditedSchoolEmail(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <div className="popup-buttons">
+                                <button type="button" onClick={handleClosePopup}>Close</button>
+                                <button type="submit">Save</button>
                             </div>
                         </form>
                     </div>
