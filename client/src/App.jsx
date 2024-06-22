@@ -33,6 +33,7 @@ function App() {
           <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
           <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
           <Route path="/grades/:gradeId/attendance" element={<AttendanceChecklist />} />
+          <Route path="/homepage" element={<HomePage_new />} />
           <Route path="/inbox" element={<InboxPage />} />
         </Route>
       </Routes>
