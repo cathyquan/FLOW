@@ -52,7 +52,7 @@ const GradeLevelPage = () => {
             const response = await axios.post(`http://localhost:4000/grades/${gradeId}/addStudent`, {
                 name: studentName,
                 student_id: studentID,
-                student_dob: studentDOB,
+                dob: studentDOB,
                 g1_name: guardianName,
                 g1_phone: guardianPhoneNumber
             });
@@ -92,13 +92,13 @@ const GradeLevelPage = () => {
     };
 
     const handleAttendanceClick = () => {
-      navigate(`/grades/${gradeId}/attendance`);
+        navigate(`/grades/${gradeId}/attendance`);
     };
 
     return (
         <div className="grade-level-page">
             <header className="header">
-                <RenelNavbar/>
+                <RenelNavbar />
             </header>
             <div className="class-info">
                 <h1>{gradeInfo ? gradeInfo.className : 'Loading...'}</h1>
@@ -128,6 +128,7 @@ const GradeLevelPage = () => {
                                             placeholder="Student Name"
                                             value={studentName}
                                             onChange={(e) => setStudentName(e.target.value)}
+                                            required
                                         />
                                         <label>Student ID</label>
                                         <input
@@ -135,12 +136,14 @@ const GradeLevelPage = () => {
                                             placeholder="Student ID"
                                             value={studentID}
                                             onChange={(e) => setStudentID(e.target.value)}
+                                            required
                                         />
                                         <label>Date of Birth</label>
                                         <input
                                             type="date"
                                             value={studentDOB}
                                             onChange={(e) => setStudentDOB(e.target.value)}
+                                            required
                                         />
                                         <label>Guardian Name</label>
                                         <input
@@ -148,6 +151,7 @@ const GradeLevelPage = () => {
                                             placeholder="Guardian Name"
                                             value={guardianName}
                                             onChange={(e) => setGuardianName(e.target.value)}
+                                            required
                                         />
                                         <label>Guardian Phone Number</label>
                                         <input
@@ -155,6 +159,7 @@ const GradeLevelPage = () => {
                                             placeholder="Guardian Phone Number"
                                             value={guardianPhoneNumber}
                                             onChange={(e) => setGuardianPhoneNumber(e.target.value)}
+                                            required
                                         />
                                         <div className="popup-buttons">
                                             <button type="button" onClick={handleClosePopup}>Close</button>

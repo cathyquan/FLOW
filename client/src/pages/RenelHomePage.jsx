@@ -9,7 +9,6 @@ function RenelHomePage() {
     const [schoolLocation, setSchoolLocation] = useState('');
     const [schools, setSchools] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState('');
-    const [action, setAction] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -28,7 +27,6 @@ function RenelHomePage() {
         ev.preventDefault();
         axios.post('http://localhost:4000/addSchool', { schoolName, schoolLocation })
             .then(response => {
-                console.log(response.data);
                 alert('School added!');
                 setSchoolName('');
                 setSchoolLocation('');
@@ -51,7 +49,6 @@ function RenelHomePage() {
         if (window.confirm(`Are you sure you want to delete the school ${selectedSchool}?`)) {
             axios.delete('http://localhost:4000/deleteSchool', { data: { schoolName: selectedSchool } })
                 .then(response => {
-                    console.log(response.data);
                     alert('School deleted!');
                     setSelectedSchool('');
                     setIsDeleteModalOpen(false);
@@ -111,9 +108,8 @@ function RenelHomePage() {
                 <section className="manage-schools">
                     <div className="info">
                         {isAddModalOpen && (
-                            <div className="modal">
-                                <div className="modal-content">
-                                    <span className="close" onClick={() => setIsAddModalOpen(false)}>&times;</span>
+                            <div className="popup-overlay">
+                                <div className="popup">
                                     <h2>Add School</h2>
                                     <form onSubmit={handleAddSchool}>
                                         <label>
@@ -124,16 +120,17 @@ function RenelHomePage() {
                                             School Location:
                                             <input type="text" value={schoolLocation} onChange={(e) => setSchoolLocation(e.target.value)} />
                                         </label>
-                                        <button type="submit">Add</button>
-                                        <button type="button" onClick={() => setIsAddModalOpen(false)}>Cancel</button>
+                                        <div className="popup-buttons">
+                                            <button type="button" onClick={() => setIsAddModalOpen(false)}>Close</button>
+                                            <button type="submit">Save</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         )}
                         {isDeleteModalOpen && (
-                            <div className="modal">
-                                <div className="modal-content">
-                                    <span className="close" onClick={() => setIsDeleteModalOpen(false)}>&times;</span>
+                            <div className="popup-overlay">
+                                <div className="popup">
                                     <h2>Delete School</h2>
                                     <form onSubmit={handleDeleteSchool}>
                                         <label>
@@ -147,8 +144,10 @@ function RenelHomePage() {
                                                 ))}
                                             </select>
                                         </label>
-                                        <button type="submit">Delete</button>
-                                        <button type="button" onClick={() => setIsDeleteModalOpen(false)}>Cancel</button>
+                                        <div className="popup-buttons">
+                                            <button type="button" onClick={() => setIsDeleteModalOpen(false)}>Close</button>
+                                            <button type="submit">Delete</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

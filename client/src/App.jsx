@@ -29,7 +29,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<SHEPGCCProfilePage />} />
-          <Route path="/school/:id" element={<SHEPGCCHomePage />} />
+          <Route path="/school/:id" element={<HomePage_new />} />
           <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
           <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
           <Route path="/grades/:gradeId/attendance" element={<AttendanceChecklist />} />
