@@ -1,11 +1,14 @@
-// src/App.jsx
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import LogInPage from './pages/LogInPage.jsx';
-import HomePage from './pages/HomePage.jsx';
-import SHEPGCCHomePage from './pages/SHEPGCCHomePage.jsx';
-import GradeLevelPage from './pages/GradeLevelPage.jsx';
-import AttendanceChecklist from './pages/AttendanceChecklist.jsx';
+import './App.css'
+import {Route, Routes} from "react-router-dom";
+import LogInPage from "./pages/LogInPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import RenelHomePage from "./pages/RenelHomePage.jsx";
+import SHEPGCCHomePage from "./pages/SHEPGCCHomePage.jsx";
+import HomePage_new from "./pages/HomePage_new.jsx";
+import SHEPGCCInboxPage from "./pages/SHEPGCCInboxPage.jsx";
+import RenelInboxPage from "./pages/RenelInboxPage.jsx";
+import GradeLevelPage from "./pages/GradeLevelPage.jsx";
+import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
 import InboxPage from './pages/InboxPage.jsx';
 import SHEPGCCProfilePage from './pages/SHEPGCCProfilePage.jsx';
 import SHEPGCCStudentPage from './pages/SHEPGCCStudentPage.jsx';
@@ -26,10 +29,11 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<SHEPGCCProfilePage />} />
-          <Route path="/school/:id" element={<SHEPGCCHomePage />} />
+          <Route path="/school/:id" element={<HomePage_new />} />
           <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
-          <Route path="/attendance" element={<AttendanceChecklist />} />
           <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
+          <Route path="/grades/:gradeId/attendance" element={<AttendanceChecklist />} />
+          <Route path="/homepage" element={<HomePage_new />} />
           <Route path="/inbox" element={<InboxPage />} />
         </Route>
       </Routes>

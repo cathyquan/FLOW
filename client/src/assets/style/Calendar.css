@@ -1,0 +1,64 @@
+/* Calendar.css */
+.calendar-container {
+  background-color: #fff;
+  justify-content: center;
+}
+
+/* Custom styles for the calendar */
+.react-calendar {
+  border: none; /* Removes the default border */
+  border-radius: 15px; /* Adds a curved border radius */
+  overflow: hidden; /* Ensures the content stays within the rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
+
+.react-calendar__tile--bg-success {
+  background-color: #c3e6cb !important;
+  color: #155724;
+}
+
+.react-calendar__tile--bg-danger {
+  background-color: #f5c6cb !important;
+  color: #721c24;
+}
+
+/* Custom styles for the modal */
+.attendance-modal .modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.attendance-modal .modal-content {
+  border-radius: 15px; /* Adds a curved border radius */
+  padding: 20px;
+  text-align: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.5) !important; /* Adds semi-transparent background */
+  backdrop-filter: blur(10px); /* Optional: adds a blur effect */
+}
+
+.attendance-modal .modal-header, .attendance-modal .modal-footer {
+  border: none; /* Removes the default border */
+  justify-content: center;
+}
+
+.attendance-modal .modal-title {
+  font-size: 20px;
+  margin: 0;
+}
+
+.attendance-modal .modal-body {
+  padding: 20px;
+  font-size: 16px;
+}
+
+.attendance-modal .btn {
+  margin: 5px;
+}
+
+/* Dark background for the modal backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Sets transparent grey background */
+}

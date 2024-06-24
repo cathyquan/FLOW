@@ -105,14 +105,15 @@
 
 /* From styling */
 .message-from {
-    font-size: 12px;
-    color: #999;
+    font-size: 15px;
+    font-weight: bold;
     line-height: 1.2; /* Adjust the line height here */
+    color: brown;
 }
 
 /* Sender and subject styling */
-.message-sender,
 .message-subject {
+    font-size: 14px;
     font-weight: bold;
     line-height: 1.2; /* Adjust the line height here */
 }

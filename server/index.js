@@ -7,6 +7,7 @@ const School = require("./models/Schools.js");
 const Class = require("./models/Classes.js");
 const Student = require("./models/Students.js");
 const Message = require("./models/Messages.js");
+const Attendance = require("./models/Attendance.js");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -318,33 +319,22 @@ app.delete('/deleteSchool', async (req, res) => {
     }
 });
 
-app.post('/classes/:classId/addStudent', async (req, res) => {
-    const { classId } = req.params;
-    const { name, g1_name, g1_email, g2_name, g2_email, g3_name, g3_email, schoolId } = req.body;
+app.post('/grades/:id/addStudent', async (req, res) => {
+    const { id } = req.params;
+    const { name, student_id, dob, g1_name, g1_phone } = req.body;
 
     try {
-        const newStudent = await Student.create({
-            name,
-            g1_name,
-            g1_email,
-            g2_name,
-            g2_email,
-            g3_name,
-            g3_email,
-            school: schoolId,
-            class: classId
-        });
-
-        const classDoc = await Class.findById(classId);
-        classDoc.students.push(newStudent._id);
+        const student = await Student.create({ name, student_id, dob, g1_name, g1_phone, class: id });
+        const classDoc = await Class.findById(id);
+        classDoc.students.push(student._id);
         await classDoc.save();
-
-        res.json(newStudent);
+        res.json(student);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error adding student' });
     }
 });
+
 
 // Add a student to a class
 app.post('/grades/:id/addStudent', async (req, res) => {
@@ -387,10 +377,9 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
 });
 
 app.get('/students/:id', async (req, res) => {
-    //console.log('got student endpoint');
     const { id } = req.params;
     try {
-        const student = await Student.findById(id);
+        const student = await Student.findById(id).populate('class', 'className'); // Populate class information
         if (student) {
             res.json(student);
         } else {
@@ -503,6 +492,49 @@ app.get('/admin/messages', async (req, res) => {
         res.status(500).json({ message: 'Error fetching messages' });
     }
 });
+app.post('/attendance/save', async (req, res) => {
+    const { date, attendance } = req.body;
+
+    try {
+        const promises = attendance
+            .filter(att => att.status !== 'Present') // Only process absences
+            .map(async (att) => {
+                const existingRecord = await Attendance.findOne({ date, student: att.student });
+
+                if (existingRecord) {
+                    // Update the existing record
+                    existingRecord.status = att.status;
+                    return existingRecord.save();
+                } else {
+                    // Create a new record
+                    return Attendance.create({
+                        date,
+                        student: att.student,
+                        status: att.status
+                    });
+                }
+            });
+
+        await Promise.all(promises);
+        res.status(200).json({ message: 'Attendance records saved successfully.' });
+    } catch (error) {
+        console.error('Error saving attendance:', error);
+        res.status(500).json({ message: 'Error saving attendance records.' });
+    }
+});
+
+app.get('/attendance/student/:studentId', async (req, res) => {
+    const { studentId } = req.params;
+
+    try {
+        const attendanceRecords = await Attendance.find({ student: studentId });
+        res.status(200).json(attendanceRecords);
+    } catch (error) {
+        console.error('Error fetching attendance data:', error);
+        res.status(500).json({ message: 'Error fetching attendance data.' });
+    }
+});
+
 
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');
