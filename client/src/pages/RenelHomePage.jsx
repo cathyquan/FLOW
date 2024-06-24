@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/style/RenelHomePage.css';
+import '../assets/style/Popup.css';
 import RenelNavbar from '../components/Navbar.jsx';
 import { Link } from "react-router-dom";
 
@@ -141,7 +142,7 @@ function RenelHomePage() {
                                         School Location:
                                         <input type="text" value={schoolLocation} onChange={(e) => setSchoolLocation(e.target.value)} />
                                     </label>
-                                    <div className="form-buttons">
+                                    <div className="popup-buttons">
                                         <button type="button" onClick={() => setIsAddPopupOpen(false)}>Cancel</button>
                                         <button type="submit">Add</button>
                                     </div>
@@ -158,7 +159,7 @@ function RenelHomePage() {
                                     <label>
                                         Select School:
                                         <select value={selectedSchool} onChange={(e) => setSelectedSchool(e.target.value)}>
-                                            <option value="">--Select a school--</option>
+                                            <option value="">Select a school</option>
                                             {schools.map(school => (
                                                 <option key={school._id} value={school.schoolName}>
                                                     {school.schoolName}
@@ -166,7 +167,7 @@ function RenelHomePage() {
                                             ))}
                                         </select>
                                     </label>
-                                    <div className="form-buttons">
+                                    <div className="popup-buttons">
                                         <button type="button" onClick={() => setIsDeletePopupOpen(false)}>Cancel</button>
                                         <button type="submit">Delete</button>
                                     </div>

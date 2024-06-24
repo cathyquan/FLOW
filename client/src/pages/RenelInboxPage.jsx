@@ -76,7 +76,7 @@ function RenelInboxPage() {
     }, []);
 
     return (
-        <div className="inbox-page">
+        <div className="renel-inbox-page">
             <header className="header">
                 <Navbar />
             </header>

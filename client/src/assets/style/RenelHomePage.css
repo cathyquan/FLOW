@@ -1,3 +1,11 @@
+.main-content {
+    width: 100%;
+    height: 100%;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    padding-top: 2vh;
+}
+
 .renel-home-page {
     display: flex;
     flex-direction: column;
@@ -9,10 +17,12 @@
     margin-bottom: 10px;
 }
 
-.main-content {
+.renel-home-page .main-content {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    display: flex;
+    justify-content: center;
 }
 
 .most-urgent {
@@ -171,66 +181,8 @@
     background-color: #e78618;
 }
 
-/* Form container styles */
-.form-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.form-container h2 {
-    margin-top: 0;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 2vh;
-}
-
-.form-container label {
-    display: block;
-    margin: 1vh 0;
-    text-align: left;
-}
-
-.form-container input, .form-container select {
-    width: 100%;
-    padding: 0.8vh;
-    margin-top: 0.5vh;
-    box-sizing: border-box;
-    border: 1px solid lightblue;
-}
-
-.form-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2vh;
-}
-
-.form-buttons button {
-    padding: 1vh 2vh;
-    border: none;
-    border-radius: 3vh;
-    cursor: pointer;
-}
-
-.form-buttons button:first-child {
-    background-color: #ccc;
-}
-
-.form-buttons button:last-child {
-    background-color: #f0b36d;
-    color: white;
-}
-
-.form-buttons button:last-child:hover {
-    background-color: #c86b39;
-}
-
 @media (max-width: 1200px) {
-    .main-content {
+    .renel-home-page .main-content {
         flex-direction: column;
     }
 

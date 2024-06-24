@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../assets/style/SHEPGCCStudentPage.css';
+import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
 import CalendarComponent from "../components/Calendar.jsx";
 

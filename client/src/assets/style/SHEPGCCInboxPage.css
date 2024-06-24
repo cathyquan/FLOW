@@ -1,18 +1,13 @@
 /* Ensure the whole page is a flex container with column direction */
-.inbox-page {
+.shepgcc-inbox-page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 /* Flex container for the main content */
-.main-content {
+.shepgcc-inbox-page .main-content {
     display: flex;
-    width: 100%;
-    height: 100%;
-    padding-left: 5vh;
-    padding-right: 5vh;
-    padding-top: 2vh;
 }
 
 /* Left side contact form styling */
@@ -23,6 +18,8 @@
     justify-content: center; /* Ensures form contents are centered vertically */
     box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
     margin-right: 1.3vh;
+    margin-left: 0vh;
+    flex-grow: 1; /* Allow flex-grow to take available space */
 }
 
 /* Centering the heading */
@@ -74,7 +71,7 @@
     background-color: #e0e0e0; /* Change this to the desired color */
     cursor: col-resize; /* Cursor indicates horizontal resize */
     position: relative;
-    height: 73vh; /* Ensure the divider spans the full height */
+    height: auto;
 }
 
 .divider:hover {
@@ -87,6 +84,7 @@
     box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* Allow flex-grow to take available space */
 }
 
 .message-list .search-input {
@@ -160,6 +158,13 @@
     background-color: white;
     padding: 2vh;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px; /* Set a max width for the modal */
+    box-sizing: border-box;
+}
+
+.modal-content {
+    word-wrap: break-word; /* Ensures text wraps within the modal */
 }
 
 .textarea-container {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import '../assets/style/SHEPGCCProfilePage.css';
-import profile_pic from '../assets/images/ama-kofi-profile.png';
+import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCProfilePage() {
@@ -172,9 +172,6 @@ function SHEPGCCProfilePage() {
                                     <button onClick={handleDeleteProfile}>Delete Profile</button>
                                     <button onClick={() => setShowChangePasswordPopup(true)}>Change Password</button>
                                 </div>
-                            </div>
-                            <div className="profile-image">
-                                <img src={profile_pic} alt="Profile" />
                             </div>
                         </div>
                     </div>

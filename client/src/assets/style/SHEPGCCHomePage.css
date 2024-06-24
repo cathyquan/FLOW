@@ -1,8 +1,7 @@
-.main {
+/* .main {
     padding-top: 0vh;
     padding-left: 5vh;
     padding-right: 5vh;
-    /* background-color: blue; */
 }
 
 .school-info {
@@ -10,23 +9,22 @@
     margin-left: 5vh;
     margin-right: 5vh;
     text-align: center;
-}
-
+} 
+ 
 .school-info h1 {
     padding-bottom: 2vh;
     font-size: 200%;
-}
+} 
 
 .info-grade-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    /* background-color: purple; */
-}
+} 
 
-div .info-container {
-    width: 63%; /* Set the width to 60% of the screen */
+ div .info-container {
+    width: 63%;
     height: 64vh;
     display: flex;
     flex-direction: column;
@@ -53,13 +51,14 @@ div .info-container {
     width: 69%;
     height: 60vh;
     border-radius: 3vh;
-    align-self: flex-start; /* Align the contact info to the start of the container */
-    justify-content: center; /* Center the contact info vertically */
-}
+    align-self: flex-start;
+    justify-content: center;
+} 
 
 .contact-card {
     display: flex;
     justify-content: center;
+    width: auto;
 }
 
 .contact-card img {
@@ -96,7 +95,7 @@ div .info-container {
     margin: 0%;
     font-size: 90%;
     font-style: italic;
-}
+} 
 
 .chart-container {
     display: flex;
@@ -111,7 +110,7 @@ div .info-container {
 .chart {
     align-items: center;
     justify-content: center;
-}
+} 
 
 .buttons button {
     background-color: white;
@@ -122,7 +121,7 @@ div .info-container {
     width: 100%;
     cursor: pointer;
     font-size: 90%;
-}
+} 
 
 .grade-list {
     display: flex;
@@ -132,12 +131,11 @@ div .info-container {
     height: 64.3vh;
     overflow-y: auto;
     border-radius: 3vh;
-    /* background-color: pink; */
-}
+} 
 
 @media (max-width: 1000px) {
     .contact-info {
-        width: 100%; /* Full width for the contact info */
+        width: 100%;
         height: 45vh;
         margin-bottom: 1vh;
     }
@@ -161,13 +159,13 @@ div .info-container {
 
 @media (max-width: 768px) {
     div .info-container {
-        width: 100%; /* Full width on narrow screens */
-        margin-right: 0; /* Remove margin on narrow screens */
-        margin-bottom: 2vh; /* Add some space below the info container */
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 2vh;
     }
 
     .grade-list {
-        width: 100%; /* Full width on narrow screens */
+        width: 100%;
         margin-top: 2vh;
     }
 }
@@ -181,9 +179,8 @@ div .info-container {
     cursor: pointer;
     text-align: center;
     font-size: 1em;
-}
+} 
 
-/* Popup styles */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -201,15 +198,15 @@ div .info-container {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    width: 90%; /* Adjust the width of the popup */
-    max-width: 450px; /* Adjust the max-width of the popup */
-    text-align: center; /* Center content in the popup */
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
 }
 
 .popup h2 {
     margin-top: 0;
     font-size: 20px;
-    text-align: center; /* Center the title */
+    text-align: center;
     margin-bottom: 2vh;
 }
 
@@ -220,11 +217,11 @@ div .info-container {
 }
 
 .popup input, .popup select {
-    width: 100%; /* Adjust the width of the input fields */
+    width: 100%;
     padding: 0.8vh;
     margin-top: 0.5vh;
     box-sizing: border-box;
-    border: 1px solid lightblue; /* Add light grey border */
+    border: 1px solid lightblue;
 }
 
 .popup select {
@@ -255,4 +252,4 @@ div .info-container {
 
 .popup-buttons button:last-child:hover {
     background-color: #c86b39;
-}
+}  */

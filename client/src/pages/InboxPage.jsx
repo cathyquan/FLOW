@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import RenelInboxPage from './RenelInboxPage';
 import SHEPGCCInboxPage from './SHEPGCCInboxPage';
-import LogInPage from './LogInPage';
+import LogInPage from './LogInPage'; 
 
 function InboxPage() {
     const { user, loading } = useContext(UserContext);
