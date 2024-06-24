@@ -10,6 +10,7 @@ function RenelHomePage() {
     const [schoolEmail, setSchoolEmail] = useState('');
     const [schoolPhone, setSchoolPhone] = useState('');
     const [schools, setSchools] = useState([]);
+    const [mostUrgentSchools, setMostUrgentSchools] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
@@ -21,6 +22,14 @@ function RenelHomePage() {
         axios.get('http://localhost:4000/getSchools')
             .then(response => {
                 setSchools(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        axios.get('http://localhost:4000/admin/schools-with-most-absences')
+            .then(response => {
+                setMostUrgentSchools(response.data);
             })
             .catch(error => {
                 console.error(error);
@@ -103,9 +112,11 @@ function RenelHomePage() {
                         Most Urgent {windowWidth < 1200 && <button>{isMostUrgentExpanded ? '-' : '+'}</button>}
                     </h1>
                     <div className="most-urgent-content">
-                        {filteredSchools.slice(0, 7).map((school, index) => (
+                        {mostUrgentSchools.map(({ school, absences }, index) => (
                             <p key={index}>
-                                <Link to={`/school/${school.id}`} className="school-link">{school.schoolName}</Link>
+                                <Link to={`/school/${school._id}`} className="school-link">
+                                    {school.schoolName}: {absences} absences
+                                </Link>
                             </p>
                         ))}
                     </div>

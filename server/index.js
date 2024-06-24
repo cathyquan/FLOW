@@ -657,6 +657,42 @@ app.get('/attendance/school/:schoolId/past-month', async (req, res) => {
     }
 });
 
+app.get('/admin/schools-with-most-absences', async (req, res) => {
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    try {
+        const schools = await School.find().populate({
+            path: 'Classes',
+            populate: {
+                path: 'students',
+                select: '_id'
+            }
+        });
+
+        const schoolAbsenceCounts = await Promise.all(schools.map(async (school) => {
+            const studentIds = school.Classes.flatMap(cls => cls.students.map(student => student._id));
+
+            const absences = await Attendance.find({
+                student: { $in: studentIds },
+                date: { $gte: oneMonthAgo }
+            });
+
+            return { school, absences: absences.length };
+        }));
+
+        // Sort schools by absences in descending order
+        schoolAbsenceCounts.sort((a, b) => b.absences - a.absences);
+
+        // Return the top N schools with the most absences
+        res.status(200).json(schoolAbsenceCounts.slice(0, 20));
+    } catch (error) {
+        console.error('Error fetching schools with most absences:', error);
+        res.status(500).json({ message: 'Error fetching schools with most absences.' });
+    }
+});
+
+
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');
 });
