@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import '../assets/style/SHEPGCCProfilePage.css';
-import profile_pic from '../assets/images/ama-kofi-profile.png';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCProfilePage() {
@@ -173,9 +172,6 @@ function SHEPGCCProfilePage() {
                                     <button onClick={() => setShowChangePasswordPopup(true)}>Change Password</button>
                                 </div>
                             </div>
-                            <div className="profile-image">
-                                <img src={profile_pic} alt="Profile" />
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -186,38 +182,38 @@ function SHEPGCCProfilePage() {
                             <form onSubmit={handleSubmit}>
                                 <label>
                                     Position:
-                                    <input 
-                                        type="text" 
-                                        name="position" 
-                                        value={tempPosition} 
-                                        onChange={(e) => setTempPosition(e.target.value)} 
+                                    <input
+                                        type="text"
+                                        name="position"
+                                        value={tempPosition}
+                                        onChange={(e) => setTempPosition(e.target.value)}
                                     />
                                 </label>
                                 <label>
                                     Name:
-                                    <input 
-                                        type="text" 
-                                        name="name" 
-                                        value={tempName} 
-                                        onChange={(e) => setTempName(e.target.value)} 
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={tempName}
+                                        onChange={(e) => setTempName(e.target.value)}
                                     />
                                 </label>
                                 <label>
                                     Phone Number:
-                                    <input 
-                                        type="text" 
-                                        name="phone" 
-                                        value={tempPhone} 
-                                        onChange={(e) => setTempPhone(e.target.value)} 
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={tempPhone}
+                                        onChange={(e) => setTempPhone(e.target.value)}
                                     />
                                 </label>
                                 <label>
                                     Email Address:
-                                    <input 
-                                        type="email" 
-                                        name="email" 
-                                        value={tempEmail} 
-                                        onChange={(e) => setTempEmail(e.target.value)} 
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={tempEmail}
+                                        onChange={(e) => setTempEmail(e.target.value)}
                                     />
                                 </label>
                                 <div className="popup-buttons">
@@ -236,12 +232,12 @@ function SHEPGCCProfilePage() {
                                 <form onSubmit={handleCheckCurrentPassword}>
                                     <label>
                                         Current Password:
-                                        <input 
-                                            type="password" 
-                                            name="currentPassword" 
-                                            value={currentPassword} 
-                                            onChange={(e) => setCurrentPassword(e.target.value)} 
-                                            required 
+                                        <input
+                                            type="password"
+                                            name="currentPassword"
+                                            value={currentPassword}
+                                            onChange={(e) => setCurrentPassword(e.target.value)}
+                                            required
                                         />
                                     </label>
                                     <div className="popup-buttons">
@@ -253,22 +249,22 @@ function SHEPGCCProfilePage() {
                                 <form onSubmit={handleChangePassword}>
                                     <label>
                                         New Password:
-                                        <input 
-                                            type="password" 
-                                            name="newPassword" 
-                                            value={newPassword} 
-                                            onChange={(e) => setNewPassword(e.target.value)} 
-                                            required 
+                                        <input
+                                            type="password"
+                                            name="newPassword"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            required
                                         />
                                     </label>
                                     <label>
                                         Confirm New Password:
-                                        <input 
-                                            type="password" 
-                                            name="confirmNewPassword" 
-                                            value={confirmNewPassword} 
-                                            onChange={(e) => setConfirmNewPassword(e.target.value)} 
-                                            required 
+                                        <input
+                                            type="password"
+                                            name="confirmNewPassword"
+                                            value={confirmNewPassword}
+                                            onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                            required
                                         />
                                     </label>
                                     <div className="popup-buttons">

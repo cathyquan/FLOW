@@ -45,6 +45,19 @@ app.post('/login', async (req, res) => {
     } else {
         res.json('not found');
     }
+
+    /*try {
+        const userDoc = await User.create({
+            email,
+            password: bcrypt.hashSync(password, bcryptSalt),
+            userType: 'admin',
+            phone: '233245520682',
+        });
+    }
+    catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Internal server error.' });
+    }*/
 });
 
 
@@ -279,15 +292,21 @@ app.delete('/schools/:id/deleteClass', async (req, res) => {
             return res.status(404).json({ message: 'Class not found' });
         }
 
-        await Class.findByIdAndDelete(classToDelete._id);
-        school.Classes.pull(classToDelete._id);
-        await school.save();
-        res.json({ message: 'Class deleted successfully' });
+        const classDoc = await Class.findById(classToDelete._id);
+        if (classDoc) {
+            await classDoc.deleteOne();
+            school.Classes.pull(classToDelete._id);
+            await school.save();
+            res.json({ message: 'Class deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Class not found' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error deleting class' });
     }
 });
+
 
 app.get('/grades/:id', async (req, res) => {
     const { id } = req.params;
@@ -307,8 +326,9 @@ app.get('/grades/:id', async (req, res) => {
 app.delete('/deleteSchool', async (req, res) => {
     const { schoolName } = req.body;
     try {
-        const schoolDoc = await School.findOneAndDelete({ schoolName: schoolName });
+        const schoolDoc = await School.findOne({ schoolName: schoolName });
         if (schoolDoc) {
+            await schoolDoc.deleteOne();
             res.json({ message: 'School deleted successfully', school: schoolDoc });
         } else {
             res.status(404).json({ message: 'School not found' });
@@ -318,6 +338,7 @@ app.delete('/deleteSchool', async (req, res) => {
         res.status(500).json({ message: 'Error deleting school' });
     }
 });
+
 
 app.post('/grades/:id/addStudent', async (req, res) => {
     const { id } = req.params;
@@ -366,15 +387,21 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
             return res.status(404).json({ message: 'Student not found' });
         }
 
-        await Student.findByIdAndDelete(studentToDelete._id);
-        classDoc.students.pull(studentToDelete._id);
-        await classDoc.save();
-        res.json({ message: 'Student deleted successfully' });
+        const studentDoc = await Student.findById(studentToDelete._id);
+        if (studentDoc) {
+            await studentDoc.deleteOne();
+            classDoc.students.pull(studentToDelete._id);
+            await classDoc.save();
+            res.json({ message: 'Student deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Student not found' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error deleting student' });
     }
 });
+
 
 app.get('/students/:id', async (req, res) => {
     const { id } = req.params;
@@ -533,6 +560,32 @@ app.get('/attendance/student/:studentId', async (req, res) => {
         res.status(500).json({ message: 'Error fetching attendance data.' });
     }
 });
+
+app.put('/students/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name, student_id, dob, g1_name, g1_phone } = req.body;
+
+    try {
+        const student = await Student.findById(id);
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+
+        student.name = name;
+        student.student_id = student_id;
+        student.dob = new Date(dob);
+        student.g1_name = g1_name;
+        student.g1_phone = g1_phone;
+
+        await student.save();
+
+        res.json(student);
+    } catch (error) {
+        console.error('Error updating student information:', error);
+        res.status(500).json({ message: 'Error updating student information' });
+    }
+});
+
 
 app.get('/attendance/school/:schoolId/past-month', async (req, res) => {
     const { schoolId } = req.params;
