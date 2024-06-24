@@ -8,6 +8,8 @@ const AttendanceChecker = () => {
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
+  const [teacherName, setTeacherName] = useState('');
+  const [teacherEmail, setTeacherEmail] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to current date
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -17,6 +19,8 @@ const AttendanceChecker = () => {
         const response = await axios.get(`http://localhost:4000/grades/${gradeId}`);
         const grade = response.data.grade;
         setStudents(grade.students);
+        setTeacherName(grade.teacherName); // Assuming the API response includes teacherName
+        setTeacherEmail(grade.teacherEmail); // Assuming the API response includes teacherEmail
         resetAttendance(grade.students);
       } catch (error) {
         console.error('Error fetching students:', error);
@@ -77,8 +81,8 @@ const AttendanceChecker = () => {
             <div className="popup-overlay">
               <div className="popup">
                 <h2>Class Information</h2>
-                <p><strong>Teacher:</strong> Mouray Hutchinson</p>
-                <p><strong>Email:</strong> mouray@gmail.com</p>
+                <p><strong>Teacher:</strong>{teacherName}</p>
+                <p><strong>Email:</strong>{teacherEmail}</p>
                 <div className="popup-buttons">
                   <button onClick={handlePopupToggle}>Close</button>
                 </div>
