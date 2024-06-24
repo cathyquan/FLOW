@@ -8,13 +8,13 @@ function HomePage_new() {
     const {id} = useParams();
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
-    const [schoolName, setSchoolName] = useState('');
-    const [schoolAddress, setSchoolAddress] = useState('8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
-    const [schoolPhone, setSchoolPhone] = useState('5619005802');
-    const [schoolEmail, setSchoolEmail] = useState('cathy.t.quan@gmail.com');
-    const [editedSchoolAddress, setEditedSchoolAddress] = useState(schoolAddress);
-    const [editedSchoolPhone, setEditedSchoolPhone] = useState(schoolPhone);
-    const [editedSchoolEmail, setEditedSchoolEmail] = useState(schoolEmail);
+    const [schoolName, setSchoolName] = useState(null);
+    const [schoolAddress, setSchoolAddress] = useState(null);
+    const [schoolPhone, setSchoolPhone] = useState(null);
+    const [schoolEmail, setSchoolEmail] = useState(null);
+    const [editedSchoolAddress, setEditedSchoolAddress] = useState('');
+    const [editedSchoolPhone, setEditedSchoolPhone] = useState('');
+    const [editedSchoolEmail, setEditedSchoolEmail] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -89,9 +89,9 @@ function HomePage_new() {
                     const {school, schoolId} = response.data;
                     setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
-                    // setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
-                    // setSchoolPhone(school.phone || '5619005802');
-                    // setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
+                    setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+                    setSchoolPhone(school.phone || '5619005802');
+                    setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
@@ -101,9 +101,9 @@ function HomePage_new() {
                 if (response.data.school) {
                     const school = response.data.school;
                     setSchoolName(school.schoolName);
-                    // setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
-                    // setSchoolPhone(school.phone || '5619005802');
-                    // setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
+                    setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+                    setSchoolPhone(school.phone || '5619005802');
+                    setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));

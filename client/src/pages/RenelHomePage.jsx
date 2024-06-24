@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 function RenelHomePage() {
     const [schoolName, setSchoolName] = useState('');
     const [schoolLocation, setSchoolLocation] = useState('');
+    const [schoolEmail, setSchoolEmail] = useState('');
+    const [schoolPhone, setSchoolPhone] = useState('');
     const [schools, setSchools] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +41,7 @@ function RenelHomePage() {
 
     const handleAddSchool = (ev) => {
         ev.preventDefault();
-        axios.post('http://localhost:4000/addSchool', { schoolName, schoolLocation })
+        axios.post('http://localhost:4000/addSchool', { schoolName, schoolLocation, schoolEmail, schoolPhone })
             .then(response => {
                 alert('School added!');
                 setSchoolName('');
@@ -138,8 +140,16 @@ function RenelHomePage() {
                                         <input type="text" value={schoolName} onChange={(e) => setSchoolName(e.target.value)} />
                                     </label>
                                     <label>
-                                        School Location:
+                                        School Address:
                                         <input type="text" value={schoolLocation} onChange={(e) => setSchoolLocation(e.target.value)} />
+                                    </label>
+                                    <label>
+                                        School Email:
+                                        <input type="text" value={schoolEmail} onChange={(e) => setSchoolEmail(e.target.value)} />
+                                    </label>
+                                    <label>
+                                        School Phone:
+                                        <input type="text" value={schoolPhone} onChange={(e) => setSchoolPhone(e.target.value)} />
                                     </label>
                                     <div className="form-buttons">
                                         <button type="button" onClick={() => setIsAddPopupOpen(false)}>Cancel</button>

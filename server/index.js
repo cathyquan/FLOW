@@ -46,6 +46,7 @@ app.post('/login', async (req, res) => {
         res.json('not found');
     }
 
+    // INCASE admin account gets deleted
     /*try {
         const userDoc = await User.create({
             email,
@@ -232,7 +233,7 @@ app.post('/updateProfile', async (req, res) => {
 });
 
 app.post('/addSchool', async (req, res) => {
-    const { schoolName } = req.body;
+    const { schoolName, schoolLocation, schoolEmail, schoolPhone } = req.body;
 
     // Check if schoolName is provided
     if (!schoolName) {
@@ -249,6 +250,9 @@ app.post('/addSchool', async (req, res) => {
         // Create the new school
         const schoolDoc = await School.create({
             schoolName,
+            address: schoolLocation,
+            email: schoolEmail,
+            phone: schoolPhone,
         });
         res.json(schoolDoc);
     } catch (error) {
@@ -323,6 +327,29 @@ app.delete('/schools/:id/deleteClass', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error deleting class' });
+    }
+});
+
+// Update school information
+app.put('/schools/:id/updateInfo', async (req, res) => {
+    const { id } = req.params;
+    const { address, phone, email } = req.body;
+
+    try {
+        const school = await School.findByIdAndUpdate(
+            id,
+            { address, phone, email },
+            { new: true } // Return the updated document
+        );
+
+        if (!school) {
+            return res.status(404).json({ message: 'School not found' });
+        }
+
+        res.json(school);
+    } catch (error) {
+        console.error('There was an error updating the school info!', error);
+        res.status(500).json({ message: 'Error updating school info' });
     }
 });
 
