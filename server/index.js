@@ -45,6 +45,20 @@ app.post('/login', async (req, res) => {
     } else {
         res.json('not found');
     }
+
+    // INCASE admin account gets deleted
+    /*try {
+        const userDoc = await User.create({
+            email,
+            password: bcrypt.hashSync(password, bcryptSalt),
+            userType: 'admin',
+            phone: '233245520682',
+        });
+    }
+    catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Internal server error.' });
+    }*/
 });
 
 
@@ -219,12 +233,34 @@ app.post('/updateProfile', async (req, res) => {
 });
 
 app.post('/addSchool', async (req, res) => {
-    const { schoolName } = req.body;
-    const schoolDoc = await School.create({
-        schoolName,
-    })
-    res.json(schoolDoc);
+    const { schoolName, schoolLocation, schoolEmail, schoolPhone } = req.body;
+
+    // Check if schoolName is provided
+    if (!schoolName) {
+        return res.status(400).json({ message: 'School name is required' });
+    }
+
+    try {
+        // Check for duplicate schoolName
+        const existingSchool = await School.findOne({ schoolName: schoolName });
+        if (existingSchool) {
+            return res.status(409).json({ message: 'School name already exists' }); // 409 Conflict
+        }
+
+        // Create the new school
+        const schoolDoc = await School.create({
+            schoolName,
+            address: schoolLocation,
+            email: schoolEmail,
+            phone: schoolPhone,
+        });
+        res.json(schoolDoc);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error creating school' });
+    }
 });
+
 
 app.get('/getSchools', async (req, res) => {
     try {
@@ -279,15 +315,44 @@ app.delete('/schools/:id/deleteClass', async (req, res) => {
             return res.status(404).json({ message: 'Class not found' });
         }
 
-        await Class.findByIdAndDelete(classToDelete._id);
-        school.Classes.pull(classToDelete._id);
-        await school.save();
-        res.json({ message: 'Class deleted successfully' });
+        const classDoc = await Class.findById(classToDelete._id);
+        if (classDoc) {
+            await classDoc.deleteOne();
+            school.Classes.pull(classToDelete._id);
+            await school.save();
+            res.json({ message: 'Class deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Class not found' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error deleting class' });
     }
 });
+
+// Update school information
+app.put('/schools/:id/updateInfo', async (req, res) => {
+    const { id } = req.params;
+    const { address, phone, email } = req.body;
+
+    try {
+        const school = await School.findByIdAndUpdate(
+            id,
+            { address, phone, email },
+            { new: true } // Return the updated document
+        );
+
+        if (!school) {
+            return res.status(404).json({ message: 'School not found' });
+        }
+
+        res.json(school);
+    } catch (error) {
+        console.error('There was an error updating the school info!', error);
+        res.status(500).json({ message: 'Error updating school info' });
+    }
+});
+
 
 app.get('/grades/:id', async (req, res) => {
     const { id } = req.params;
@@ -307,8 +372,9 @@ app.get('/grades/:id', async (req, res) => {
 app.delete('/deleteSchool', async (req, res) => {
     const { schoolName } = req.body;
     try {
-        const schoolDoc = await School.findOneAndDelete({ schoolName: schoolName });
+        const schoolDoc = await School.findOne({ schoolName: schoolName });
         if (schoolDoc) {
+            await schoolDoc.deleteOne();
             res.json({ message: 'School deleted successfully', school: schoolDoc });
         } else {
             res.status(404).json({ message: 'School not found' });
@@ -318,6 +384,7 @@ app.delete('/deleteSchool', async (req, res) => {
         res.status(500).json({ message: 'Error deleting school' });
     }
 });
+
 
 app.post('/grades/:id/addStudent', async (req, res) => {
     const { id } = req.params;
@@ -366,15 +433,21 @@ app.post('/grades/:id/deleteStudent', async (req, res) => {
             return res.status(404).json({ message: 'Student not found' });
         }
 
-        await Student.findByIdAndDelete(studentToDelete._id);
-        classDoc.students.pull(studentToDelete._id);
-        await classDoc.save();
-        res.json({ message: 'Student deleted successfully' });
+        const studentDoc = await Student.findById(studentToDelete._id);
+        if (studentDoc) {
+            await studentDoc.deleteOne();
+            classDoc.students.pull(studentToDelete._id);
+            await classDoc.save();
+            res.json({ message: 'Student deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Student not found' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error deleting student' });
     }
 });
+
 
 app.get('/students/:id', async (req, res) => {
     const { id } = req.params;
@@ -496,26 +569,21 @@ app.post('/attendance/save', async (req, res) => {
     const { date, attendance } = req.body;
 
     try {
-        const promises = attendance
+        // Clear existing attendance records for the given date and students in the attendance array
+        const studentIds = attendance.map(att => att.student);
+        await Attendance.deleteMany({ date, student: { $in: studentIds } });
+
+        // Create new attendance records for the given date
+        const newRecords = attendance
             .filter(att => att.status !== 'Present') // Only process absences
-            .map(async (att) => {
-                const existingRecord = await Attendance.findOne({ date, student: att.student });
+            .map(att => ({
+                date,
+                student: att.student,
+                status: att.status
+            }));
 
-                if (existingRecord) {
-                    // Update the existing record
-                    existingRecord.status = att.status;
-                    return existingRecord.save();
-                } else {
-                    // Create a new record
-                    return Attendance.create({
-                        date,
-                        student: att.student,
-                        status: att.status
-                    });
-                }
-            });
+        await Attendance.insertMany(newRecords);
 
-        await Promise.all(promises);
         res.status(200).json({ message: 'Attendance records saved successfully.' });
     } catch (error) {
         console.error('Error saving attendance:', error);
@@ -523,15 +591,104 @@ app.post('/attendance/save', async (req, res) => {
     }
 });
 
+
 app.get('/attendance/student/:studentId', async (req, res) => {
     const { studentId } = req.params;
-
     try {
         const attendanceRecords = await Attendance.find({ student: studentId });
         res.status(200).json(attendanceRecords);
     } catch (error) {
         console.error('Error fetching attendance data:', error);
         res.status(500).json({ message: 'Error fetching attendance data.' });
+    }
+});
+
+app.put('/students/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name, student_id, dob, g1_name, g1_phone } = req.body;
+
+    try {
+        const student = await Student.findById(id);
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+
+        student.name = name;
+        student.student_id = student_id;
+        student.dob = new Date(dob);
+        student.g1_name = g1_name;
+        student.g1_phone = g1_phone;
+
+        await student.save();
+
+        res.json(student);
+    } catch (error) {
+        console.error('Error updating student information:', error);
+        res.status(500).json({ message: 'Error updating student information' });
+    }
+});
+
+
+app.get('/attendance/school/:schoolId/past-month', async (req, res) => {
+    const { schoolId } = req.params;
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    try {
+        const school = await School.findById(schoolId).populate({
+            path: 'Classes',
+            populate: {
+                path: 'students',
+                select: '_id'
+            }
+        });
+
+        const studentIds = school.Classes.flatMap(cls => cls.students.map(student => student._id));
+
+        const absences = await Attendance.find({
+            student: { $in: studentIds },
+            date: { $gte: oneMonthAgo }
+        });
+
+        res.status(200).json(absences);
+    } catch (error) {
+        console.error('Error fetching past month\'s absences:', error);
+        res.status(500).json({ message: 'Error fetching past month\'s absences.' });
+    }
+});
+
+app.get('/admin/schools-with-most-absences', async (req, res) => {
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    try {
+        const schools = await School.find().populate({
+            path: 'Classes',
+            populate: {
+                path: 'students',
+                select: '_id'
+            }
+        });
+
+        const schoolAbsenceCounts = await Promise.all(schools.map(async (school) => {
+            const studentIds = school.Classes.flatMap(cls => cls.students.map(student => student._id));
+
+            const absences = await Attendance.find({
+                student: { $in: studentIds },
+                date: { $gte: oneMonthAgo }
+            });
+
+            return { school, absences: absences.length };
+        }));
+
+        // Sort schools by absences in descending order
+        schoolAbsenceCounts.sort((a, b) => b.absences - a.absences);
+
+        // Return the top N schools with the most absences
+        res.status(200).json(schoolAbsenceCounts.slice(0, 20));
+    } catch (error) {
+        console.error('Error fetching schools with most absences:', error);
+        res.status(500).json({ message: 'Error fetching schools with most absences.' });
     }
 });
 

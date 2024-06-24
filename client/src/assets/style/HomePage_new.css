@@ -1,7 +1,8 @@
-.main-content {
-    padding-left: 5vh;
-    padding-right: 5vh;
-    padding-top: 0vh;
+.shepgcc-home-page .main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 div .school-name h1 {
@@ -9,7 +10,6 @@ div .school-name h1 {
     margin-bottom: 0vh;
     text-align: center;
     font-size: 170%;
-    /* background-color: blue; */
 }
 
 .school-info {
@@ -17,15 +17,20 @@ div .school-name h1 {
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    /* background-color: red; */
-    margin-left: 0;
-    margin-right: 0;
+    max-width: 1000vh;
+    width: 50%;
+    min-width: 60vh;
+    text-align: center;
 }
 
 .school-info-container {
     background-color: #f0b36d;
     border-radius: 3vh;
     padding: 3vh;
+    height: 64.3vh;
+    justify-content: center;
+    align-content: center;
+    margin-right: 5vh;
 }
 
 .basic-school-info {
@@ -58,29 +63,37 @@ div .school-name h1 {
 
 .shep-gcc-contact-info {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     border-radius: 2vh;
-    padding-top: 2vh;
-    padding-bottom: 1vh;
-    margin-right: 0vh;
-    margin-left: 0vh;
+    height: 20vh;
+    padding-bottom: 0;
+    /* background-color: red; */
 }
 
-.buttons {
+.shep-gcc-contact-info .contact-card {
+    margin: 0;
+    padding: 0;
+    /* background-color: green; */
+}
+
+.shep-gcc-container .buttons {
     align-items: center;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
+    width: 100%;
+    padding-bottom: 2vh;
+    margin: 0;
 }
 
 .buttons button {
     background-color: #d3732d;
     color: white;
     width: 200px;
-    margin-top: 0vh;
     font-size: 12px;
-    padding: 0vh;
-    margin-bottom: 2vh;
+    padding-bottom: 0vh;
+    margin-bottom: 1vh;
     border-radius: 3vh;
     cursor: pointer;
     margin-right: 3vh;
@@ -128,7 +141,24 @@ div .school-name h1 {
     background-color: white;
     padding: 0vh;
     border-radius: 3vh;
-    width: 20vh;
+    width: 15vh;
+    margin-left: 7vh;
+    margin-right: 7vh;
+    font-size: 12px;
+    margin-top: 1vh;
+    padding: 0.8vh;
+}
+
+.grade-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1vh;
+    width: 40vw;
+    height: 64.3vh;
+    overflow-y: auto;
+    border-radius: 3vh;
+    padding: 0;
+    margin: 0;
 }
 
 .grade-list button {
@@ -143,40 +173,6 @@ div .school-name h1 {
     text-align: center;
     font-size: 1em;
     height: 6vh;
-}
-
-/* Divider styling */
-div .divider {
-    width: 3px;
-    background-color: #e0e0e0;
-    cursor: col-resize;
-    position: relative;
-    height: 65vh;
-    margin-left: 2vh;
-    margin-right: 2vh;
-}
-
-.divider:hover {
-    background-color: #c1c1c1;
-}
-
-/* Grade list styles */
-.grade-list {
-    display: grid;
-    gap: 1vh;
-    overflow-y: auto;
-    border-radius: 3vh;
-    /* background-color: red; */
-}
-
-/* Single column layout */
-.grade-list.single-column {
-    grid-template-columns: 1fr;
-}
-
-/* Two columns layout */
-.grade-list.two-columns {
-    grid-template-columns: repeat(2, 1fr);
 }
 
 div .grade-list button {
@@ -226,7 +222,6 @@ div .grade-list button {
 }
 
 .popup input, .popup select {
-    width: 100%;
     padding: 0.8vh;
     margin-top: 0.5vh;
     box-sizing: border-box;
@@ -235,6 +230,7 @@ div .grade-list button {
 
 .popup select {
     display: inline-block;
+    width: 60%;
 }
 
 .popup-buttons {
@@ -263,34 +259,44 @@ div .grade-list button {
     background-color: #c86b39;
 }
 
-@media (max-width: 1000px) {
-    .contact-info {
-        width: 100%;
-        height: 45vh;
-        margin-bottom: 1vh;
+@media (max-width: 1200px) {
+    .main-content {
+        display: flex;
+        flex-direction: row; /* Ensure they stay in the same line */
     }
 
-    .buttons {
-        align-items: center;
-        width: 100%;
+    .school-info {
+        width: 50%;
     }
 
-    .buttons button {
-        width: 100%;
-        margin: 1vh 0;
-    }
-
-}
-
-@media (max-width: 768px) {
-    div .info-container {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 2vh;
+    .school-info-container {
+        margin: 0;
     }
 
     .grade-list {
+        grid-template-columns: 1fr 1fr;
+        /* width: 40vw; */
+        height: 64.3vh;
+        overflow-y: auto;
+        margin-left: 5vh;
+        padding: 0;
+    }
+
+    .grade-list .buttons {
         width: 100%;
-        margin-top: 2vh;
+    }
+}
+
+@media (max-width: 950px) {
+    .school-info {
+        width: 80%;
+        margin-bottom: 2vh;
+    }
+    .grade-list {
+        grid-template-columns: 1fr;
+        width: 80%;
+        height: 64.3vh;
+        overflow-y: auto;
+        margin-left: 0vh;
     }
 }

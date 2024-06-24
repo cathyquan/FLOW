@@ -5,10 +5,6 @@ body {
     box-sizing: border-box;
 }
 
-.main {
-    padding: 2vh;
-}
-
 .profile-info {
     max-width: 1000vh;
     margin: 0 auto;
@@ -106,82 +102,4 @@ body {
     .profile-image img {
         width: 40vh;
     }
-}
-
-/* Specific Popup styles */
-div.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-div.popup {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%; /* Adjust the width of the popup */
-    max-width: 400px; /* Make the popup slightly more narrow */
-    text-align: center; /* Center content in the popup */
-}
-
-div.popup h2 {
-    margin-top: 0;
-    font-size: 20px;
-    text-align: center; /* Center the title */
-    margin-bottom: 2vh;
-}
-
-div.popup label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1vh 0;
-    text-align: left;
-    width: 100%;
-}
-
-div.popup label span {
-    flex: 1;
-    margin-right: 10px;
-}
-
-div.popup input {
-    flex: 2;
-    padding: 0.8vh;
-    margin-top: 0.5vh;
-    box-sizing: border-box;
-    border: 1px solid lightblue; /* Add light grey border */
-}
-
-div.popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2vh;
-}
-
-div.popup-buttons button {
-    padding: 1vh 2vh;
-    border: none;
-    border-radius: 3vh;
-    cursor: pointer;
-}
-
-div.popup-buttons button:first-child {
-    background-color: #ccc;
-}
-
-div.popup-buttons button:last-child {
-    background-color: #f0b36d;
-    color: white;
-}
-
-div.popup-buttons button:last-child:hover {
-    background-color: #c86b39;
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import '../assets/style/SHEPGCCProfilePage.css';
+import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
 
 function SHEPGCCProfilePage() {

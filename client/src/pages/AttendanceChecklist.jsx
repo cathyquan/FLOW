@@ -12,22 +12,26 @@ const AttendanceChecker = () => {
   const [teacherEmail, setTeacherEmail] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to current date
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [classInfo, setClassInfo] = useState({});
 
   useEffect(() => {
-    const fetchStudents = async () => {
+    const fetchClassInfo = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/grades/${gradeId}`);
         const grade = response.data.grade;
         setStudents(grade.students);
-        setTeacherName(grade.teacherName); // Assuming the API response includes teacherName
-        setTeacherEmail(grade.teacherEmail); // Assuming the API response includes teacherEmail
+        setClassInfo({
+          className: grade.className,
+          teacherName: grade.teacherName,
+          teacherEmail: grade.teacherEmail,
+        });
         resetAttendance(grade.students);
       } catch (error) {
-        console.error('Error fetching students:', error);
+        console.error('Error fetching class information:', error);
       }
     };
 
-    fetchStudents();
+    fetchClassInfo();
   }, [gradeId]);
 
   const resetAttendance = (studentsList) => {
@@ -64,11 +68,10 @@ const AttendanceChecker = () => {
   };
 
   const handleSaveChanges = async () => {
-    const absences = attendance.filter(att => att.status !== 'Present'); // Filter out present statuses
     try {
       await axios.post('http://localhost:4000/attendance/save', {
         date: selectedDate,
-        attendance: absences
+        attendance
       });
       alert('Attendance records saved successfully.');
     } catch (error) {
@@ -87,13 +90,13 @@ const AttendanceChecker = () => {
       </header>
       <div className="main">
         <div className="grade-info">
-          <button className="grade-button" onClick={handlePopupToggle}>1st Grade</button>
+          <button className="grade-button" onClick={handlePopupToggle}>{classInfo.className}</button>
           {isPopupOpen && (
             <div className="popup-overlay">
               <div className="popup">
                 <h2>Class Information</h2>
-                <p><strong>Teacher:</strong> {teacherName}</p>
-                <p><strong>Email:</strong> {teacherEmail}</p>
+                <p><strong>Teacher:</strong> {classInfo.teacherName}</p>
+                <p><strong>Email:</strong> {classInfo.teacherEmail}</p>
                 <div className="popup-buttons">
                   <button onClick={handlePopupToggle}>Close</button>
                 </div>

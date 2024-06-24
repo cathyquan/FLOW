@@ -1,3 +1,11 @@
+.main-content {
+    width: 100%;
+    height: 100%;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    padding-top: 2vh;
+}
+
 .renel-home-page {
     display: flex;
     flex-direction: column;
@@ -5,87 +13,131 @@
     height: 100vh;
 }
 
-.logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+.header {
+    margin-bottom: 10px;
 }
 
-.responsive-image {
-    height: 10vh;
-    align-items: center;
-}
-
-.nav-div {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.main-content {
+.renel-home-page .main-content {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
 }
 
 .most-urgent {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 25%;
     height: 100%;
-    background-color: #f2f2f2;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    margin-right: 7vh;
+    margin-bottom: 0;
 }
 
-.most-urgent h1 {
-    font-size: 200%;
-}
-
-.school-link {
-    text-decoration: underline;
-    color: black;
-    margin-top: 2vh;
+.most-urgent.expanded .most-urgent-content {
+    display: block;
+    background-color: rgb(237, 237, 237);
     width: 100%;
-    text-align: center;
-    padding: 1vh 0;
-    color: dimgrey;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    margin-top: 0;
 }
 
-.school-link:hover {
-    color: #C69C7D;
+.most-urgent.collapsed .most-urgent-content {
+    display: none;
+}
+
+.collapsible-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #c69c7d;
+    color: white;
+    border-radius: 5px;
+}
+
+.collapsible-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.most-urgent-content {
+    margin-top: 0;
 }
 
 .all-schools {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 50%;
     height: 100%;
-    padding: 2vh;
-    flex-direction: column;
+}
+
+.buttons-and-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* background-color: blue; */
+
+}
+
+.buttons-and-search .buttons {
+    display: flex;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.buttons-and-search .buttons button {
+    background-color: #C69C7D;
+    color: white;
+    padding: 1vh;
+    margin-left: 1vh;
+    margin-right: 0vh;
+    margin-bottom: 0;
+    border-radius: 3vh;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 12px;
+    width: 20vh;
+    justify-content: flex-end;
+    /* flex: 1 1 auto; */
+}
+
+.buttons-and-search .buttons button:hover {
+    background-color: #a35b3e;
 }
 
 .search-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    width: 100%;
-    margin-top: 2vh;
+    flex-grow: 1;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .search-container input {
-    width: 75%;
-    height: 5vh;
+    flex-grow: 1;
     border-radius: 3vh;
-    margin-top: 2vh;
     border-color: dimgrey;
     background-color: #f1f1f1;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 1vh;
+    padding: 1vh;
+    font-size: 12px;
+    width: 40vw;
 }
 
 .search-button {
@@ -96,40 +148,23 @@
     border-radius: 30vh;
     background-color: #F0B36D;
     color: #000;
-    width: 10%;
-    height: 5vh;
-    margin-top: 2vh;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1vh;
 }
 
+/* Hover effect for the search button */
 .search-button:hover {
     background-color: #0056b3;
 }
 
-@media (max-width: 600px) {
-    .all-schools {
-        flex-direction: row;
-        border-radius: 15px;
-    }
-
-    .search-input,
-    .search-button {
-        border-radius: 15px;
-        margin: 5px 0;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-}
-
 .school-list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
+    height: 66vh;
+    overflow-y: scroll;
+    margin-top: 1.5vh;
 }
 
 .school-list button {
@@ -141,147 +176,92 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    padding-left: 2vh;
+    padding-right: 2vh;
 }
 
 .school-list button:hover {
     background-color: #e78618;
 }
 
-.manage-schools {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 25%;
-    height: 100%;
-    padding: 2vh;
-    box-sizing: border-box;
+@media (max-width: 1200px) {
+    .renel-home-page .main-content {
+        flex-direction: column;
+    }
+
+    .most-urgent {
+        width: 100%;
+        margin-right: 0;
+        height: auto;
+        padding-bottom: 2vh;
+    }
+
+    .all-schools {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .most-urgent.expanded .most-urgent-content {
+        max-height: 500px; /* Max height when expanded */
+        overflow-y: auto; /* Scrollable content */
+        display: flex;
+        flex-direction: column;
+        border-radius: 1vh;
+        padding-top: 0.5vh;
+        padding-bottom: 0.4vh;
+    }
+    
+    .most-urgent.collapsed .most-urgent-content {
+        display: none;
+        height: auto;
+    }
+
+    .collapsible-header {
+        border-radius: 5px;
+        padding-top: 0.5vh;
+        padding-bottom: 0.5vh;
+    }
+
+    .most-urgent-content p {
+        padding: 1vh 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .buttons-and-search .buttons button{
+        margin-top: 0;
+        width: 10vw;
+    }
+
+    .search-container input {
+        width: 60vw;
+    }
 }
 
-.manage-schools .info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-    margin-bottom: auto;
+@media (max-width: 1000px) {
+    .school-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .buttons-and-search .buttons button {
+        width: 100%;
+        min-width: 90px;
+    }
+    .search-container input {
+        width: 64vw;
+    }
 }
 
-.manage-schools .buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin-top: auto;
+@media (max-width: 800px) {
+    .search-container input {
+        width: 50vw;
+    }
 }
 
-.manage-schools .buttons button {
-    background-color: #C69C7D;
-    color: white;
-    width: 80%;
-    height: 5vh;
-    border-radius: 3vh;
-    margin-top: 2vh;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.manage-schools .buttons button:hover {
-    background-color: #a35b3e;
-}
-
-.manage-schools button[type="submit"] {
-    width: 100%;
-    background-color: #b9855f;
-    border-radius: 3vh;
-    margin-top: 2vh;
-    color: white;
-    height: 5vh;
-}
-
-.manage-schools button[type="submit"]:hover {
-    background-color: #8e5f3e;
-}
-
-.manage-schools input, .manage-schools select {
-    width: 100%;
-    margin-top: 2vh;
-    height: 5vh;
-    border-radius: 3vh;
-    padding: 0 1vh;
-    background-color: #f1f1f1;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.popup {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
-}
-
-.popup h2 {
-    margin-top: 0;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 2vh;
-}
-
-.popup label {
-    display: block;
-    margin: 1vh 0;
-    text-align: left;
-}
-
-.popup input, .popup select {
-    width: 100%;
-    padding: 0.8vh;
-    margin-top: 0.5vh;
-    box-sizing: border-box;
-    border: 1px solid lightblue;
-}
-
-.popup select {
-    display: inline-block;
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2vh;
-}
-
-.popup-buttons button {
-    padding: 1vh 2vh;
-    border: none;
-    border-radius: 3vh;
-    cursor: pointer;
-}
-
-.popup-buttons button:first-child {
-    background-color: #ccc;
-}
-
-.popup-buttons button:last-child {
-    background-color: #f0b36d;
-    color: white;
-}
-
-.popup-buttons button:last-child:hover {
-    background-color: #c86b39;
+@media (max-width: 600px) {
+    .search-container input {
+        width: 35vw;
+    }
 }
