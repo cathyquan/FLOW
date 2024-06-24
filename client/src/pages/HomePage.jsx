@@ -15,7 +15,7 @@ function App() {
     return (
         <div>
             {!!user ? (
-                user.userType === 'admin' ? (
+                user.userType === 'Administration' ? (
                     <RenelHomePage />
                 ) : (
                     <HomePage_new />
