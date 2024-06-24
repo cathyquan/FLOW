@@ -35,6 +35,7 @@ function HomePage_new() {
     const [newMemberEmail, setNewMemberEmail] = useState('');
     const [newMemberPhone, setNewMemberPhone] = useState('');
     const [memberToDelete, setMemberToDelete] = useState('');
+    const [totalAbsences, setTotalAbsences] = useState(0);
     const [leftWidth, setLeftWidth] = useState(() => {
         const savedWidth = localStorage.getItem('leftWidth');
         return savedWidth ? parseFloat(savedWidth) : 50;
@@ -104,6 +105,10 @@ function HomePage_new() {
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
                     setMembers(school.Members || []);
                 }
+                // Fetch past month's absences
+                const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
+                setTotalAbsences(absencesResponse.data.length);
+
                 setLoading(false);
             } catch (error) {
                 console.error('There was an error fetching the school data!', error);
@@ -326,6 +331,9 @@ function HomePage_new() {
                         <div className='grade-buttons'>
                             <button onClick={() => setShowAddGradePopup(true)}>Add Grade</button>
                             <button onClick={() => setShowDeleteGradePopup(true)}>Delete Grade</button>
+                        </div>
+                        <div className='absences-info'>
+                            <h2>Total Absences in Past Month: {totalAbsences}</h2>
                         </div>
                     </div>
                 </div>
