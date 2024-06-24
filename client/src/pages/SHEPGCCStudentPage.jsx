@@ -130,6 +130,8 @@ function SHEPGCCStudentPage() {
         }
     };
 
+    const totalAbsences = attendanceData.length;
+
     if (!studentInfo) {
         return <div>Loading...</div>;
     }
@@ -154,7 +156,7 @@ function SHEPGCCStudentPage() {
                                     </div>
                                 ))}
                                 <br />
-                                <h2><strong>Attendance Rate: {studentInfo.attendanceRate}%</strong></h2>
+                                <h2><strong>Total Absences: {totalAbsences}</strong></h2>
                             </div>
                         </div>
                         <div className="student-buttons">
