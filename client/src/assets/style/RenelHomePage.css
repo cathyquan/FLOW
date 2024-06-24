@@ -1,20 +1,16 @@
-/* RenelHomePage.css */
-
 .renel-home-page {
     display: flex;
     flex-direction: column;
-    width: 100vw; /* Ensure it spans the full viewport width */
-    height: 100vh; /* Ensure it spans the full viewport height */
-    /* overflow: hidden;  */
-    /* Prevents scrolling if content exceeds the viewport size */
+    width: 100vw;
+    height: 100vh;
 }
 
 .logo-container {
     display: flex;
-    justify-content: center; /* Centers the logo horizontally */
+    justify-content: center;
     align-items: center;
     margin-top: 2vh;
-    margin-bottom: 2vh; /* Adds space between the logo and the navbar */
+    margin-bottom: 2vh;
 }
 
 .responsive-image {
@@ -25,23 +21,22 @@
 .nav-div {
     display: flex;
     justify-content: center;
-    width: 100%; /* Ensure it spans the full width */
+    width: 100%;
 }
 
 .main-content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%; /* Ensure it spans the full width */
-    height: 100%; /* Ensure it spans the full height */
-    /*background-color: green;*/
+    width: 100%;
+    height: 100%;
 }
 
 .most-urgent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 25%; /* Ensure it spans the full width */
+    width: 25%;
     height: 100%;
     background-color: #f2f2f2;
 }
@@ -50,41 +45,36 @@
     font-size: 200%;
 }
 
-
 .school-link {
-    text-decoration: underline; /* Adds underline to the link text */
+    text-decoration: underline;
     color: black;
     margin-top: 2vh;
     width: 100%;
     text-align: center;
     padding: 1vh 0;
     color: dimgrey;
-
 }
 
 .school-link:hover {
-    /*background-color: #d07916;*/
     color: #C69C7D;
 }
 
 .all-schools {
     display: flex;
-    justify-content: flex-start; /* Center content horizontally */
-    align-items: flex-start; /* Align items to the top */
-    width: 50%; /* Ensure it spans the full width */
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
     height: 100%;
-    padding: 2vh; /* Add padding for spacing */
-    /*background-color: orange;*/
-    flex-direction: column; /* Align items vertically */
+    padding: 2vh;
+    flex-direction: column;
 }
 
 .search-container {
-    display: flex; /* Align items horizontally */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    margin-top: 2vh; /* Add margin-top for spacing */
-    /*margin-outside: 2vh;*/
+    margin-top: 2vh;
 }
 
 .search-container input {
@@ -95,7 +85,7 @@
     border-color: dimgrey;
     background-color: #f1f1f1;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 1vh; /* Add margin-right for spacing between input and button */
+    margin-right: 1vh;
 }
 
 .search-button {
@@ -108,12 +98,10 @@
     color: #000;
     width: 10%;
     height: 5vh;
-    margin-top: 2vh; /* Adjust margin-top to align properly */
+    margin-top: 2vh;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Hover effect for the search button */
 .search-button:hover {
     background-color: #0056b3;
 }
@@ -137,17 +125,17 @@
 
 .school-list {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Create two equal columns */
-    gap: 10px; /* Add some gap between the columns */
-    width: 100%; /* Ensure it spans the full width */
-    padding: 20px; /* Add some padding around the list */
-    box-sizing: border-box; /* Include padding in the element's total width and height */
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .school-list button {
     background-color: #F0B36D;
     color: black;
-    width: 100%; /* Ensure buttons span the full column width */
+    width: 100%;
     height: 7vh;
     border-radius: 5vh;
     border: none;
@@ -159,13 +147,12 @@
     background-color: #e78618;
 }
 
-
 .manage-schools {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align items to the top */
-    align-items: center; /* Center items horizontally */
-    width: 25%; /* Ensure it spans the full width */
+    justify-content: flex-start;
+    align-items: center;
+    width: 25%;
     height: 100%;
     padding: 2vh;
     box-sizing: border-box;
@@ -174,17 +161,17 @@
 .manage-schools .info {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align all items */
-    width: 80%; /* Match the width of the buttons */
-    margin-bottom: auto; /* Push the buttons section down */
+    align-items: center;
+    width: 80%;
+    margin-bottom: auto;
 }
 
 .manage-schools .buttons {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align all items */
+    align-items: center;
     width: 100%;
-    margin-top: auto; /* Push the buttons section to the bottom */
+    margin-top: auto;
 }
 
 .manage-schools .buttons button {
@@ -204,13 +191,12 @@
 }
 
 .manage-schools button[type="submit"] {
-    width: 100%; /* Ensure the submit button width matches the input */
+    width: 100%;
     background-color: #b9855f;
     border-radius: 3vh;
     margin-top: 2vh;
     color: white;
-        height: 5vh;
-
+    height: 5vh;
 }
 
 .manage-schools button[type="submit"]:hover {
@@ -218,7 +204,7 @@
 }
 
 .manage-schools input, .manage-schools select {
-    width: 100%; /* Ensure input and select elements align with buttons */
+    width: 100%;
     margin-top: 2vh;
     height: 5vh;
     border-radius: 3vh;
@@ -227,40 +213,75 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* RenelHomePage.css */
-.modal {
-    display: flex;
+.popup-overlay {
     position: fixed;
-    z-index: 1;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.4);
+    z-index: 1000;
 }
 
-.modal-content {
-    background-color: #fefefe;
+.popup {
+    background-color: white;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.popup h2 {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 2vh;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+.popup label {
+    display: block;
+    margin: 1vh 0;
+    text-align: left;
+}
+
+.popup input, .popup select {
+    width: 100%;
+    padding: 0.8vh;
+    margin-top: 0.5vh;
+    box-sizing: border-box;
+    border: 1px solid lightblue;
+}
+
+.popup select {
+    display: inline-block;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
+
+.popup-buttons button {
+    padding: 1vh 2vh;
+    border: none;
+    border-radius: 3vh;
     cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+    background-color: #ccc;
+}
+
+.popup-buttons button:last-child {
+    background-color: #f0b36d;
+    color: white;
+}
+
+.popup-buttons button:last-child:hover {
+    background-color: #c86b39;
 }

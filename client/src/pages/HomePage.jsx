@@ -3,6 +3,8 @@ import { UserContext } from '../UserContext';
 import RenelHomePage from './RenelHomePage';
 import SHEPGCCHomePage from './SHEPGCCHomePage';
 import LogInPage from './LogInPage';
+import HomePage_new from "./HomePage_new.jsx";
+
 
 function App() {
     const { user, loading } = useContext(UserContext);
@@ -17,7 +19,7 @@ function App() {
                 user.userType === 'admin' ? (
                     <RenelHomePage />
                 ) : (
-                    <SHEPGCCHomePage />
+                    <HomePage_new />
                 )
             ) : (
                 <LogInPage />

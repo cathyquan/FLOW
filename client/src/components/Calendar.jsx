@@ -4,17 +4,10 @@ import 'react-calendar/dist/Calendar.css';
 import { Modal, Button } from 'react-bootstrap';
 import '../assets/style/Calendar.css'; // Custom styles for the calendar
 
-const CalendarComponent = () => {
+const CalendarComponent = ({ attendanceData, studentName }) => {
   const [date, setDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const attendance = {
-    '2024-05-01': 'present',
-    '2024-05-02': 'absent',
-    '2024-05-03': 'present',
-    // Add more dates as needed
-  };
-  const student = { name: 'Student Name' }; // Replace with actual student data
 
   const onChange = (newDate) => {
     setDate(newDate);
@@ -26,13 +19,27 @@ const CalendarComponent = () => {
     setShowModal(false);
   };
 
+  const isWeekend = (date) => {
+    const day = date.getDay();
+    return day === 0 || day === 6; // Sunday (0) or Saturday (6)
+  };
+
   const getTileClass = ({ date, view }) => {
     if (view === 'month') {
+      const today = new Date();
       const dateString = date.toISOString().split('T')[0];
-      if (attendance[dateString] === 'present') {
-        return 'react-calendar__tile--bg-success';
-      } else if (attendance[dateString] === 'absent') {
-        return 'react-calendar__tile--bg-danger';
+      const attendanceRecord = attendanceData.find(record => {
+        const recordDate = new Date(record.date).toISOString().split('T')[0];
+        return recordDate === dateString;
+      });
+
+      // Only process past dates and exclude weekends
+      if (date < today && !isWeekend(date)) {
+        if (attendanceRecord) {
+          return 'react-calendar__tile--bg-danger'; // Assume all stored records are absences
+        } else {
+          return 'react-calendar__tile--bg-success'; // If no record, assume present
+        }
       }
     }
     return null;
@@ -52,9 +59,12 @@ const CalendarComponent = () => {
         <Modal.Body>
           {selectedDate && (
             <p>
-              {attendance[selectedDate.toISOString().split('T')[0]] === 'present'
-                ? `${student.name} was present on this day.`
-                : `${student.name} was absent on this day.`}
+              {attendanceData.find(record => {
+                const recordDate = new Date(record.date).toISOString().split('T')[0];
+                return recordDate === selectedDate.toISOString().split('T')[0];
+              })?.status
+                ? `${studentName} was absent on this day.`
+                : `${studentName} was present on this day.`}
             </p>
           )}
         </Modal.Body>

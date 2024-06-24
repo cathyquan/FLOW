@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const studentSchema = new Schema({
     name: String,
+    student_id: String, // Ensure this field exists
+    dob: Date, // Ensure this field exists
     g1_name: String,
     g1_phone: String,
-    g2_name: String,
-    g2_phone: String,
-    g3_name: String,
-    g3_phone: String,
-    dob: Date,
-    school: { type: Schema.Types.ObjectId, ref: 'School'},
+    school: { type: Schema.Types.ObjectId, ref: 'School' },
     class: { type: Schema.Types.ObjectId, ref: 'Class' },
 });
 
