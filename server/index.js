@@ -233,11 +233,30 @@ app.post('/updateProfile', async (req, res) => {
 
 app.post('/addSchool', async (req, res) => {
     const { schoolName } = req.body;
-    const schoolDoc = await School.create({
-        schoolName,
-    })
-    res.json(schoolDoc);
+
+    // Check if schoolName is provided
+    if (!schoolName) {
+        return res.status(400).json({ message: 'School name is required' });
+    }
+
+    try {
+        // Check for duplicate schoolName
+        const existingSchool = await School.findOne({ schoolName: schoolName });
+        if (existingSchool) {
+            return res.status(409).json({ message: 'School name already exists' }); // 409 Conflict
+        }
+
+        // Create the new school
+        const schoolDoc = await School.create({
+            schoolName,
+        });
+        res.json(schoolDoc);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error creating school' });
+    }
 });
+
 
 app.get('/getSchools', async (req, res) => {
     try {
@@ -523,32 +542,28 @@ app.post('/attendance/save', async (req, res) => {
     const { date, attendance } = req.body;
 
     try {
-        const promises = attendance
+        // Clear existing attendance records for the given date and students in the attendance array
+        const studentIds = attendance.map(att => att.student);
+        await Attendance.deleteMany({ date, student: { $in: studentIds } });
+
+        // Create new attendance records for the given date
+        const newRecords = attendance
             .filter(att => att.status !== 'Present') // Only process absences
-            .map(async (att) => {
-                const existingRecord = await Attendance.findOne({ date, student: att.student });
+            .map(att => ({
+                date,
+                student: att.student,
+                status: att.status
+            }));
 
-                if (existingRecord) {
-                    // Update the existing record
-                    existingRecord.status = att.status;
-                    return existingRecord.save();
-                } else {
-                    // Create a new record
-                    return Attendance.create({
-                        date,
-                        student: att.student,
-                        status: att.status
-                    });
-                }
-            });
+        await Attendance.insertMany(newRecords);
 
-        await Promise.all(promises);
         res.status(200).json({ message: 'Attendance records saved successfully.' });
     } catch (error) {
         console.error('Error saving attendance:', error);
         res.status(500).json({ message: 'Error saving attendance records.' });
     }
 });
+
 
 app.get('/attendance/student/:studentId', async (req, res) => {
     const { studentId } = req.params;

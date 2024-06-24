@@ -82,6 +82,8 @@ function HomePage_new() {
                 let response;
                 if (schoolId) {
                     response = await axios.get(`http://localhost:4000/schools/${schoolId}`);
+                    const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
+                    setTotalAbsences(absencesResponse.data.length);
                 } else {
                     response = await axios.get('http://localhost:4000/profile', {withCredentials: true});
                     const {school, schoolId} = response.data;
@@ -93,6 +95,8 @@ function HomePage_new() {
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
+                    const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
+                    setTotalAbsences(absencesResponse.data.length);
                 }
                 if (response.data.school) {
                     const school = response.data.school;
@@ -105,10 +109,6 @@ function HomePage_new() {
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
                     setMembers(school.Members || []);
                 }
-                // Fetch past month's absences
-                const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
-                setTotalAbsences(absencesResponse.data.length);
-
                 setLoading(false);
             } catch (error) {
                 console.error('There was an error fetching the school data!', error);

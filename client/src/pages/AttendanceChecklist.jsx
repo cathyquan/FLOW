@@ -55,11 +55,10 @@ const AttendanceChecker = () => {
   };
 
   const handleSaveChanges = async () => {
-    const absences = attendance.filter(att => att.status !== 'Present'); // Filter out present statuses
     try {
       await axios.post('http://localhost:4000/attendance/save', {
         date: selectedDate,
-        attendance: absences
+        attendance
       });
       alert('Attendance records saved successfully.');
     } catch (error) {
