@@ -34,6 +34,7 @@
     position: relative;
     overflow: hidden;
     margin-right: 7vh;
+    margin-bottom: 0;
 }
 
 .most-urgent.expanded .most-urgent-content {
@@ -161,7 +162,9 @@
     gap: 10px;
     width: 100%;
     box-sizing: border-box;
-    padding-top: 2vh;
+    height: 66vh;
+    overflow-y: scroll;
+    margin-top: 1.5vh;
 }
 
 .school-list button {
@@ -190,7 +193,7 @@
         width: 100%;
         margin-right: 0;
         height: auto;
-        padding-bottom: 3vh;
+        padding-bottom: 2vh;
     }
 
     .all-schools {
@@ -241,7 +244,6 @@
         gap: 10px;
         width: 100%;
         box-sizing: border-box;
-        padding-top: 2vh;
     }
     .buttons-and-search .buttons button {
         width: 100%;

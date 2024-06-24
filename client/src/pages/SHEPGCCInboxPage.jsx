@@ -56,7 +56,7 @@ function SHEPGCCInboxPage() {
     };
 
     const getPreview = (fullMessage) => {
-        return fullMessage.length > 110 ? fullMessage.substring(0, 110) + '...' : fullMessage;
+        return fullMessage;
     };
 
     const handleMouseDown = (e) => {

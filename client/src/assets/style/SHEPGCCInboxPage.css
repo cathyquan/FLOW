@@ -65,19 +65,6 @@
     cursor: pointer;
 }
 
-/* Divider styling */
-.divider {
-    width: 3px;
-    background-color: #e0e0e0; /* Change this to the desired color */
-    cursor: col-resize; /* Cursor indicates horizontal resize */
-    position: relative;
-    height: auto;
-}
-
-.divider:hover {
-    background-color: #c1c1c1; /* Darker shade on hover for better visibility */
-}
-
 /* Right side message list styling */
 .message-list {
     padding-left: 3vh;
@@ -126,6 +113,9 @@
     background-color: #f9f9f9;
     box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
     line-height: 1.2; /* Adjust the line height here */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure the message item respects the container size */
 }
 
 /* Date styling */
@@ -147,6 +137,10 @@
     font-size: 14px;
     color: #666;
     line-height: 1.2; /* Adjust the line height here */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide the overflowed text */
+    text-overflow: ellipsis; /* Display ellipsis for overflowed text */
+    max-width: 100%; /* Ensure the message preview respects the container size */
 }
 
 /* Modal styling to ensure it appears above other elements */
