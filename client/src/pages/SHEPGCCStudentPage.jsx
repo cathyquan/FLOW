@@ -109,22 +109,25 @@ function SHEPGCCStudentPage() {
         setUnsavedChanges(true);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setShowPopup(false);
         setUnsavedChanges(false);
+
         const updatedStudentInfo = {
-            ...studentInfo,
+            name: studentInfo.name,
+            student_id: studentInfo.student_id,
+            dob: studentInfo.dob,
             g1_name: studentInfo.guardians[0]?.name || '',
             g1_phone: studentInfo.guardians[0]?.phone || '',
         };
-        // axios.put(`http://localhost:4000/students/${studentId}`, updatedStudentInfo)
-        //     .then(response => {
-        //         console.log('Student info updated:', response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error('There was an error updating the student info!', error);
-        //     });
+
+        try {
+            const response = await axios.put(`http://localhost:4000/students/${studentId}`, updatedStudentInfo);
+            console.log('Student info updated:', response.data);
+        } catch (error) {
+            console.error('There was an error updating the student info!', error);
+        }
     };
 
     if (!studentInfo) {
@@ -171,10 +174,10 @@ function SHEPGCCStudentPage() {
                         <div className="popup">
                             <h2>Edit Student Information</h2>
                             <form onSubmit={handleSubmit}>
+                                <label>Student Name:</label>
+                                <input type="text" name="name" value={studentInfo.name} onChange={handleInputChange} />
                                 <label>Student ID:</label>
-                                <input type="text" name="student_id" value={studentInfo.student_id} readOnly />
-                                <label>Grade:</label>
-                                <input type="text" name="class" value={studentInfo.class.className} readOnly />
+                                <input type="text" name="student_id" value={studentInfo.student_id} onChange={handleInputChange} />
                                 <label>Date of Birth:</label>
                                 <input type="date" name="dob" value={studentInfo.dob} onChange={handleInputChange} />
                                 {studentInfo.guardians.map((guardian, index) => (
