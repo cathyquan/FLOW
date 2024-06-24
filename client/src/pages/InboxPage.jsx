@@ -14,7 +14,7 @@ function InboxPage() {
     return (
         <div>
             {!!user ? (
-                user.userType === 'admin' ? (
+                user.userType === 'Administration' ? (
                     <RenelInboxPage />
                 ) : (
                     <SHEPGCCInboxPage />
