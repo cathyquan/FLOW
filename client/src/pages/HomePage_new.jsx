@@ -1,11 +1,11 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import {useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../assets/style/HomePage_new.css';
 import Navbar from "../components/Navbar.jsx";
 
 function HomePage_new() {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState('');
@@ -82,13 +82,13 @@ function HomePage_new() {
                 if (schoolId) {
                     response = await axios.get(`http://localhost:4000/schools/${schoolId}`);
                 } else {
-                    response = await axios.get('http://localhost:4000/profile', {withCredentials: true});
-                    const {school, schoolId} = response.data;
+                    response = await axios.get('http://localhost:4000/profile', { withCredentials: true });
+                    const { school, schoolId } = response.data;
                     setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
-                    // setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
-                    // setSchoolPhone(school.phone || '5619005802');
-                    // setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
+                    setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+                    setSchoolPhone(school.phone || '5619005802');
+                    setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
@@ -96,9 +96,9 @@ function HomePage_new() {
                 if (response.data.school) {
                     const school = response.data.school;
                     setSchoolName(school.schoolName);
-                    // setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
-                    // setSchoolPhone(school.phone || '5619005802');
-                    // setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
+                    setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
+                    setSchoolPhone(school.phone || '5619005802');
+                    setSchoolEmail(school.email || 'cathy.t.quan@gmail.com');
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
