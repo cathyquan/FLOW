@@ -8,6 +8,8 @@ const AttendanceChecker = () => {
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
+  const [teacherName, setTeacherName] = useState('');
+  const [teacherEmail, setTeacherEmail] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to current date
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [classInfo, setClassInfo] = useState({});
@@ -39,6 +41,16 @@ const AttendanceChecker = () => {
     })));
   };
 
+  const formatDateForDisplay = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+  const formatDateForInput = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleChange = (index, event) => {
     const newAttendance = [...attendance];
     newAttendance[index].status = event.target.value;
@@ -50,7 +62,8 @@ const AttendanceChecker = () => {
   };
 
   const handleDateChange = (event) => {
-    setSelectedDate(event.target.value);
+    const storageDate = event.target.value;
+    setSelectedDate(storageDate);
     resetAttendance(students); // Reset attendance when date changes
   };
 
@@ -115,9 +128,7 @@ const AttendanceChecker = () => {
                     }}
                   >
                     <option value="Present">Present</option>
-                    <option value="Absent-Menstrual">Absent - Lack of Menstrual Products</option>
-                    <option value="Absent-Resources">Absent - Lack of Learning Resources</option>
-                    <option value="Absent-Transportation">Absent - Lack of Transportation</option>
+                    <option value="Absent-Menstrual">Absent - Lack of Access to Menstrual Products</option>
                     <option value="Absent-Other">Absent - Other</option>
                   </select>
                 </div>

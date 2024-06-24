@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Modal, Button } from 'react-bootstrap';
 import '../assets/style/Calendar.css'; // Custom styles for the calendar
+import '../assets/style/AttendanceChecklist.css'; // Assuming this file contains the popup styles
 
 const CalendarComponent = ({ attendanceData, studentName }) => {
   const [date, setDate] = useState(new Date());
-  const [showModal, setShowModal] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const onChange = (newDate) => {
     setDate(newDate);
     setSelectedDate(newDate);
-    setShowModal(true);
+    setShowPopup(true);
   };
 
   const handleClose = () => {
-    setShowModal(false);
+    setShowPopup(false);
   };
 
   const isWeekend = (date) => {
@@ -52,12 +52,13 @@ const CalendarComponent = ({ attendanceData, studentName }) => {
         value={date}
         tileClassName={getTileClass}
       />
-      <Modal className="attendance-modal" show={showModal} onHide={handleClose} centered backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title>Attendance for {selectedDate?.toDateString()}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedDate && (
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <span className="close" onClick={handleClose}>&times;</span>
+            <h2>Attendance Details</h2>
+            <p>Date: {selectedDate?.toLocaleDateString()}</p>
             <p>
               {attendanceData.find(record => {
                 const recordDate = new Date(record.date).toISOString().split('T')[0];
@@ -66,14 +67,12 @@ const CalendarComponent = ({ attendanceData, studentName }) => {
                 ? `${studentName} was absent on this day.`
                 : `${studentName} was present on this day.`}
             </p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <div className="popup-buttons">
+              <button onClick={handleClose}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,12 +1,12 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import {useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../assets/style/HomePage_new.css';
 import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
 
 function HomePage_new() {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState(null);
@@ -47,8 +47,8 @@ function HomePage_new() {
                     const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
                     setTotalAbsences(absencesResponse.data.length);
                 } else {
-                    response = await axios.get('http://localhost:4000/profile', {withCredentials: true});
-                    const {school, schoolId} = response.data;
+                    response = await axios.get('http://localhost:4000/profile', { withCredentials: true });
+                    const { school, schoolId } = response.data;
                     setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
                     setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');

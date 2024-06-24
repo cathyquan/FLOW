@@ -26,39 +26,64 @@
 .attendance-modal .modal-dialog {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  /*justify-content: center;*/
+  height: 100vh;
+  width: 100vw;
 }
 
-.attendance-modal .modal-content {
-  border-radius: 15px; /* Adds a curved border radius */
-  padding: 20px;
-  text-align: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.5) !important; /* Adds semi-transparent background */
-  backdrop-filter: blur(10px); /* Optional: adds a blur effect */
+.popup-overlay {
+    position: fixed; /* Sets position to fixed */
+    top: 0; /* Sets distance from top */
+    left: 0; /* Sets distance from left */
+    width: 100%; /* Sets width */
+    height: 100%; /* Sets height */
+    background-color: rgba(0, 0, 0, 0.5); /* Sets background color with opacity */
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    z-index: 1000; /* Sets z-index */
 }
 
-.attendance-modal .modal-header, .attendance-modal .modal-footer {
-  border: none; /* Removes the default border */
-  justify-content: center;
+/* Styles for popup */
+.popup {
+    background-color: white; /* Sets background color */
+    padding: 20px; /* Adds padding */
+    border-radius: 10px; /* Adds border radius */
+    width: 90%; /* Sets width */
+    max-width: 450px; /* Sets maximum width */
+    max-height: 80vh; /* Sets maximum height */
+    overflow-y: auto; /* Adds vertical scrollbar if content overflows */
+    text-align: center; /* Centers text horizontally */
 }
 
-.attendance-modal .modal-title {
-  font-size: 20px;
-  margin: 0;
+/* Styles for popup title */
+.popup h2 {
+    margin-top: 0; /* Removes margin at the top */
+    text-align: center; /* Centers text horizontally */
 }
 
-.attendance-modal .modal-body {
-  padding: 20px;
-  font-size: 16px;
+/* Styles for popup buttons */
+.popup .popup-buttons {
+    display: flex; /* Sets display type to flex */
+    justify-content: center; /* Centers content horizontally */
+    margin-top: 2vh; /* Adds margin at the top */
 }
 
-.attendance-modal .btn {
-  margin: 5px;
+/* Styles for popup buttons on hover */
+.popup .popup-buttons button:hover {
+    background-color: #c86b39; /* Changes background color on hover */
 }
 
-/* Dark background for the modal backdrop */
-.modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.5) !important; /* Sets transparent grey background */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
