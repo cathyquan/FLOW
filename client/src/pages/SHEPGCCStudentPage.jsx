@@ -156,7 +156,6 @@ function SHEPGCCStudentPage() {
                         </div>
                         <div className="student-buttons">
                             <button onClick={handleEditProfileClick}>Edit Student</button>
-                            <button>Delete Student</button>
                         </div>
                     </div>
 
@@ -184,12 +183,8 @@ function SHEPGCCStudentPage() {
                                         <input type="text" value={guardian.name} onChange={(e) => handleGuardianChange(index, 'name', e.target.value)} />
                                         <label>Phone Number:</label>
                                         <input type="text" value={guardian.phone} onChange={(e) => handleGuardianChange(index, 'phone', e.target.value)} />
-                                        <button type="button" onClick={() => handleRemoveGuardian(index)}>Remove Guardian</button>
                                     </div>
                                 ))}
-                                {studentInfo.guardians.length < 3 && (
-                                    <button type="button" onClick={handleAddGuardian}>Add Guardian</button>
-                                )}
                                 <div className="popup-buttons">
                                     <button type="button" onClick={handleClosePopup}>Close</button>
                                     <button type="submit">Save</button>
