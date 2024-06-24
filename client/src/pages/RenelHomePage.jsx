@@ -8,7 +8,10 @@ import { Link } from "react-router-dom";
 function RenelHomePage() {
     const [schoolName, setSchoolName] = useState('');
     const [schoolLocation, setSchoolLocation] = useState('');
+    const [schoolEmail, setSchoolEmail] = useState('');
+    const [schoolPhone, setSchoolPhone] = useState('');
     const [schools, setSchools] = useState([]);
+    const [mostUrgentSchools, setMostUrgentSchools] = useState([]);
     const [selectedSchool, setSelectedSchool] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
@@ -20,6 +23,14 @@ function RenelHomePage() {
         axios.get('http://localhost:4000/getSchools')
             .then(response => {
                 setSchools(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        axios.get('http://localhost:4000/admin/schools-with-most-absences')
+            .then(response => {
+                setMostUrgentSchools(response.data);
             })
             .catch(error => {
                 console.error(error);
@@ -40,7 +51,7 @@ function RenelHomePage() {
 
     const handleAddSchool = (ev) => {
         ev.preventDefault();
-        axios.post('http://localhost:4000/addSchool', { schoolName, schoolLocation })
+        axios.post('http://localhost:4000/addSchool', { schoolName, schoolLocation, schoolEmail, schoolPhone })
             .then(response => {
                 alert('School added!');
                 setSchoolName('');
@@ -102,9 +113,11 @@ function RenelHomePage() {
                         Most Urgent {windowWidth < 1200 && <button>{isMostUrgentExpanded ? '-' : '+'}</button>}
                     </h1>
                     <div className="most-urgent-content">
-                        {filteredSchools.slice(0, 7).map((school, index) => (
+                        {mostUrgentSchools.map(({ school, absences }, index) => (
                             <p key={index}>
-                                <Link to={`/school/${school.id}`} className="school-link">{school.schoolName}</Link>
+                                <Link to={`/school/${school._id}`} className="school-link">
+                                    {school.schoolName}: {absences} absences
+                                </Link>
                             </p>
                         ))}
                     </div>
@@ -139,10 +152,19 @@ function RenelHomePage() {
                                         <input type="text" value={schoolName} onChange={(e) => setSchoolName(e.target.value)} />
                                     </label>
                                     <label>
-                                        School Location:
+                                        School Address:
                                         <input type="text" value={schoolLocation} onChange={(e) => setSchoolLocation(e.target.value)} />
                                     </label>
-                                    <div className="popup-buttons">
+
+                                    <label>
+                                        School Email:
+                                        <input type="text" value={schoolEmail} onChange={(e) => setSchoolEmail(e.target.value)} />
+                                    </label>
+                                    <label>
+                                        School Phone:
+                                        <input type="text" value={schoolPhone} onChange={(e) => setSchoolPhone(e.target.value)} />
+                                    </label>
+                                    <div className="form-buttons">
                                         <button type="button" onClick={() => setIsAddPopupOpen(false)}>Cancel</button>
                                         <button type="submit">Add</button>
                                     </div>

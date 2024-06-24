@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import '../assets/style/HomePage_new.css';
 import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
 
 function HomePage_new() {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
     const [schoolId, setSchoolId] = useState(id || null);
-    const [schoolName, setSchoolName] = useState('');
-    const [schoolAddress, setSchoolAddress] = useState('8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
-    const [schoolPhone, setSchoolPhone] = useState('5619005802');
-    const [schoolEmail, setSchoolEmail] = useState('cathy.t.quan@gmail.com');
-    const [editedSchoolAddress, setEditedSchoolAddress] = useState(schoolAddress);
-    const [editedSchoolPhone, setEditedSchoolPhone] = useState(schoolPhone);
-    const [editedSchoolEmail, setEditedSchoolEmail] = useState(schoolEmail);
+    const [schoolName, setSchoolName] = useState(null);
+    const [schoolAddress, setSchoolAddress] = useState(null);
+    const [schoolPhone, setSchoolPhone] = useState(null);
+    const [schoolEmail, setSchoolEmail] = useState(null);
+    const [editedSchoolAddress, setEditedSchoolAddress] = useState('');
+    const [editedSchoolPhone, setEditedSchoolPhone] = useState('');
+    const [editedSchoolEmail, setEditedSchoolEmail] = useState('');
     const [shepInfo, setShepInfo] = useState(null);
     const [gccInfo, setGccInfo] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -36,6 +36,7 @@ function HomePage_new() {
     const [newMemberEmail, setNewMemberEmail] = useState('');
     const [newMemberPhone, setNewMemberPhone] = useState('');
     const [memberToDelete, setMemberToDelete] = useState('');
+    const [totalAbsences, setTotalAbsences] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,9 +44,11 @@ function HomePage_new() {
                 let response;
                 if (schoolId) {
                     response = await axios.get(`http://localhost:4000/schools/${schoolId}`);
+                    const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
+                    setTotalAbsences(absencesResponse.data.length);
                 } else {
-                    response = await axios.get('http://localhost:4000/profile', { withCredentials: true });
-                    const { school, schoolId } = response.data;
+                    response = await axios.get('http://localhost:4000/profile', {withCredentials: true});
+                    const {school, schoolId} = response.data;
                     setSchoolId(schoolId);
                     setSchoolName(school.schoolName);
                     setSchoolAddress(school.address || '8827 Goldenwood Lake Ct, Boynton Beach FL, 33473');
@@ -54,6 +57,8 @@ function HomePage_new() {
                     setShepInfo(school.SHEP);
                     setGccInfo(school.GCC);
                     setGrades(school.Classes.sort((a, b) => a.className.localeCompare(b.className)));
+                    const absencesResponse = await axios.get(`http://localhost:4000/attendance/school/${schoolId}/past-month`);
+                    setTotalAbsences(absencesResponse.data.length);
                 }
                 if (response.data.school) {
                     const school = response.data.school;
@@ -107,9 +112,9 @@ function HomePage_new() {
         if (window.confirm(`Are you sure you want to delete the grade ${selectedGrade}?`)) {
             try {
                 await axios.delete(`http://localhost:4000/schools/${schoolId}/deleteClass`, {
-                    data: { className: selectedGrade }
+                    data: {className: selectedGrade}
                 });
-                setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className))); 
+                setGrades(grades.filter(grade => grade.className !== selectedGrade).sort((a, b) => a.className.localeCompare(b.className)));
                 setShowDeleteGradePopup(false);
             } catch (error) {
                 console.error('There was an error deleting the grade!', error);
@@ -128,10 +133,10 @@ function HomePage_new() {
             const response = await axios.post(`http://localhost:4000/register`, {
                 name: newMemberName,
                 role: newMemberRole,
-                email: newMemberEmail,
+                email: newMemberEmail.toLowerCase(),
                 phone: newMemberPhone,
                 password: newMemberName,
-                school: id
+                school: schoolId
             });
 
             setMembers([...members, response.data]);
@@ -150,13 +155,22 @@ function HomePage_new() {
         } catch (error) {
             console.error('There was an error adding the member!', error);
         }
+        if (error.response && error.response.data && error.response.data.error) {
+            alert(error.response.data.error);
+        } else {
+            alert('There was an error adding the member. Please try again.');
+        }
     };
 
     const handleDeleteMember = async (e) => {
         e.preventDefault();
+        const confirmed = window.confirm(`Are you sure you want to delete the member ${memberToDelete}? This action cannot be undone.`);
+        if (!confirmed) {
+            return;
+        }
         try {
             const response = await axios.delete(`http://localhost:4000/deleteMember`, {
-                data: { name: memberToDelete, school: id }
+                data: {name: memberToDelete, school: schoolId}
             });
 
             if (response.data.message === 'Member deleted successfully.') {
@@ -166,6 +180,10 @@ function HomePage_new() {
                     setShepInfo(null);
                 } else if (gccInfo && gccInfo.name === memberToDelete) {
                     setGccInfo(null);
+                }
+                if (user.name === memberToDelete) {
+                    setUser(null);  // Clear the user context
+                    navigate('/login');  // Redirect to login page
                 }
 
                 setShowDeleteMemberPopup(false);
@@ -281,6 +299,9 @@ function HomePage_new() {
                             <button onClick={() => setShowAddGradePopup(true)}>Add Class</button>
                             <button onClick={() => setShowDeleteGradePopup(true)}>Delete Class</button>
                         </div>
+                        <div className='absences-info'>
+                            <h2>Total Absences in Past Month: {totalAbsences}</h2>
+                        </div>
                     </div>
                 </div>
                 <div className="grade-list">
@@ -315,11 +336,11 @@ function HomePage_new() {
                             </label>
                             <label>
                                 Teacher Email:
-                                <input 
-                                    type="email" 
-                                    value={teacherEmail} 
-                                    onChange={(e) => setTeacherEmail(e.target.value)} 
-                                    required 
+                                <input
+                                    type="email"
+                                    value={teacherEmail}
+                                    onChange={(e) => setTeacherEmail(e.target.value)}
+                                    required
                                 />
                             </label>
                             <div className="popup-buttons">
