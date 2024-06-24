@@ -1,0 +1,13 @@
+div .divider {
+    width: 3px;
+    background-color: #e0e0e0;
+    cursor: col-resize;
+    position: relative;
+    height: 72vh;
+    margin-left: 2vh;
+    margin-right: 2vh;
+}
+
+.divider:hover {
+    background-color: #c1c1c1;
+}

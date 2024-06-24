@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import {useParams, useNavigate} from 'react-router-dom';
 import '../assets/style/HomePage_new.css';
+import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
 
 function HomePage_new() {
@@ -36,45 +37,6 @@ function HomePage_new() {
     const [newMemberPhone, setNewMemberPhone] = useState('');
     const [memberToDelete, setMemberToDelete] = useState('');
     const [totalAbsences, setTotalAbsences] = useState(0);
-    const [leftWidth, setLeftWidth] = useState(() => {
-        const savedWidth = localStorage.getItem('leftWidth');
-        return savedWidth ? parseFloat(savedWidth) : 50;
-    });
-    const dividerRef = useRef(null);
-
-    const MIN_WIDTH = 37;
-    const MAX_WIDTH = 63;
-
-    const handleMouseDown = (e) => {
-        e.preventDefault();
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-    };
-
-    const handleMouseMove = (e) => {
-        const newLeftWidth = (e.clientX / window.innerWidth) * 100;
-        if (newLeftWidth >= MIN_WIDTH && newLeftWidth <= MAX_WIDTH) {
-            setLeftWidth(newLeftWidth);
-            localStorage.setItem('leftWidth', newLeftWidth);
-        }
-    };
-
-    const handleMouseUp = () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    useEffect(() => {
-        const divider = dividerRef.current;
-        if (divider) {
-            divider.addEventListener('mousedown', handleMouseDown);
-        }
-        return () => {
-            if (divider) {
-                divider.removeEventListener('mousedown', handleMouseDown);
-            }
-        };
-    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -283,14 +245,6 @@ function HomePage_new() {
         }
     };
 
-    const getGridClass = () => {
-        if (leftWidth < 55) {
-            return 'two-columns';
-        } else {
-            return 'single-column';
-        }
-    };
-
     return (
         <div className="shepgcc-home-page">
             <header className="header">
@@ -301,12 +255,12 @@ function HomePage_new() {
                 <h1>{schoolName}</h1>
             </div>
             <div className="main-content">
-                <div className="school-info" style={{width: `${leftWidth}%`}}>
+                <div className="school-info">
                     <div className="school-info-container">
                         <div className="basic-school-info">
                             <p>{schoolAddress}</p>
-                            <p>{schoolPhone}</p>
                             <p>{schoolEmail}</p>
+                            <p>{schoolPhone}</p>
                             <button onClick={handleEditInfo}>Edit Information</button>
                         </div>
                         <div className='shep-gcc-container'>
@@ -316,8 +270,8 @@ function HomePage_new() {
                                         <div>
                                             <h2>GCC</h2>
                                             <h3>{gccInfo.name}</h3>
-                                            <p>{gccInfo.phone}</p>
                                             <p>{gccInfo.email}</p>
+                                            <p>{gccInfo.phone}</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -328,8 +282,8 @@ function HomePage_new() {
                                         <div>
                                             <h2>SHEP</h2>
                                             <h3>{shepInfo.name}</h3>
-                                            <p>{shepInfo.phone}</p>
                                             <p>{shepInfo.email}</p>
+                                            <p>{shepInfo.phone}</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -338,20 +292,19 @@ function HomePage_new() {
                             </div>
                             <div className="buttons">
                                 <button onClick={() => setShowAddMemberPopup(true)}>Add Member</button>
-                                <button onClick={() => setShowDeleteMemberPopup(true)}>Edit / Delete Member</button>
+                                <button onClick={() => setShowDeleteMemberPopup(true)}>Delete Member</button>
                             </div>
                         </div>
                         <div className='grade-buttons'>
-                            <button onClick={() => setShowAddGradePopup(true)}>Add Grade</button>
-                            <button onClick={() => setShowDeleteGradePopup(true)}>Delete Grade</button>
+                            <button onClick={() => setShowAddGradePopup(true)}>Add Class</button>
+                            <button onClick={() => setShowDeleteGradePopup(true)}>Delete Class</button>
                         </div>
                         <div className='absences-info'>
                             <h2>Total Absences in Past Month: {totalAbsences}</h2>
                         </div>
                     </div>
                 </div>
-                <div className="divider" ref={dividerRef}></div>
-                <div className={`grade-list ${getGridClass()}`} style={{width: `${100 - leftWidth}%`}}>
+                <div className="grade-list">
                     {grades.map(grade => (
                         <button key={grade._id} onClick={() => handleGradeClick(grade._id)}>{grade.className}</button>
                     ))}
@@ -361,10 +314,10 @@ function HomePage_new() {
             {showAddGradePopup && (
                 <div className="popup-overlay">
                     <div className="popup">
-                        <h2>Add Grade</h2>
+                        <h2>Add Class</h2>
                         <form onSubmit={handleAddGrade}>
                             <label>
-                                Grade Number:
+                                Class Name:
                                 <input
                                     type="text"
                                     value={gradeNumber}
@@ -402,16 +355,16 @@ function HomePage_new() {
             {showDeleteGradePopup && (
                 <div className="popup-overlay">
                     <div className="popup">
-                        <h2>Delete Grade</h2>
+                        <h2>Delete Class</h2>
                         <form onSubmit={handleDeleteGrade}>
                             <label>
-                                Select Grade:
+                                Select Class:
                                 <select
                                     value={selectedGrade}
                                     onChange={(e) => setSelectedGrade(e.target.value)}
                                     required
                                 >
-                                    <option value="">Select Grade</option>
+                                    <option value="">Select Class</option>
                                     {grades.map(grade => (
                                         <option key={grade._id} value={grade.className}>{grade.className}</option>
                                     ))}

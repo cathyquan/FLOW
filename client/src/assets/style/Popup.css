@@ -1,0 +1,84 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 20px 0;
+}
+
+.popup h2 {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+.popup label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1vh 0;
+    text-align: left;
+    width: 100%;
+}
+
+.popup label span {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.popup input, .popup select {
+    flex: 2;
+    display: flex;
+    padding: 0.8vh;
+    margin-top: 0.5vh;
+    box-sizing: border-box;
+    border: 1px solid lightblue;
+    width: 70%;
+    margin-left: 1vh;
+}
+
+.popup select {
+    display: inline-block;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
+
+.popup-buttons button {
+    padding: 1vh 2vh;
+    border: none;
+    border-radius: 3vh;
+    cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+    background-color: #ccc;
+    margin-right: auto; /* Pushes the button to the left */
+}
+
+.popup-buttons button:last-child {
+    background-color: #f0b36d;
+    color: white;
+    margin-left: auto; /* Pushes the button to the right */
+}

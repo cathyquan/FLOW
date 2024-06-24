@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Navbar from "../components/Navbar.jsx";
 import Modal from '../components/Modal.jsx';
-import '../assets/style/SHEPGCCInboxPage.css'; // Ensure this path is correct
+import '../assets/style/SHEPGCCInboxPage.css';
+import '../assets/style/Divider.css';
 import axios from 'axios';
 import { UserContext } from '../UserContext';
 
@@ -55,7 +56,7 @@ function SHEPGCCInboxPage() {
     };
 
     const getPreview = (fullMessage) => {
-        return fullMessage.length > 110 ? fullMessage.substring(0, 110) + '...' : fullMessage;
+        return fullMessage;
     };
 
     const handleMouseDown = (e) => {
@@ -122,7 +123,7 @@ function SHEPGCCInboxPage() {
     }
 
     return (
-        <div className="inbox-page">
+        <div className="shepgcc-inbox-page">
             <header className="header">
                 <Navbar />
             </header>
