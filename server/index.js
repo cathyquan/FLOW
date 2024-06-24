@@ -525,7 +525,6 @@ app.post('/attendance/save', async (req, res) => {
 
 app.get('/attendance/student/:studentId', async (req, res) => {
     const { studentId } = req.params;
-
     try {
         const attendanceRecords = await Attendance.find({ student: studentId });
         res.status(200).json(attendanceRecords);
@@ -535,6 +534,33 @@ app.get('/attendance/student/:studentId', async (req, res) => {
     }
 });
 
+app.get('/attendance/school/:schoolId/past-month', async (req, res) => {
+    const { schoolId } = req.params;
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    try {
+        const school = await School.findById(schoolId).populate({
+            path: 'Classes',
+            populate: {
+                path: 'students',
+                select: '_id'
+            }
+        });
+
+        const studentIds = school.Classes.flatMap(cls => cls.students.map(student => student._id));
+
+        const absences = await Attendance.find({
+            student: { $in: studentIds },
+            date: { $gte: oneMonthAgo }
+        });
+
+        res.status(200).json(absences);
+    } catch (error) {
+        console.error('Error fetching past month\'s absences:', error);
+        res.status(500).json({ message: 'Error fetching past month\'s absences.' });
+    }
+});
 
 app.listen(4000, () => {
     console.log('Server running on http://localhost:4000');
