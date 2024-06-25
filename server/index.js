@@ -628,6 +628,23 @@ app.get('/admin/schools-with-most-absences', async (req, res) => {
     }
 });
 
+// Get attendance records for a grade on a specific date
+app.get('/attendance/grade/:gradeId/date/:date', async (req, res) => {
+    const { gradeId, date } = req.params;
+    try {
+        const grade = await Class.findById(gradeId).populate('students');
+        const studentIds = grade.students.map(student => student._id);
+        const attendanceRecords = await Attendance.find({
+            student: { $in: studentIds },
+            date: new Date(date)
+        });
+        res.status(200).json(attendanceRecords);
+    } catch (error) {
+        console.error('Error fetching attendance data:', error);
+        res.status(500).json({ message: 'Error fetching attendance data.' });
+    }
+});
+
 // MESSAGING
 
 // Get messages for a user
