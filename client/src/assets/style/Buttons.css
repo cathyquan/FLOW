@@ -1,0 +1,13 @@
+.button-a button {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 30vh;
+    margin: 0;
+    background-color: #d3732d;
+    color: white;
+    width: 200px;
+    border-radius: 3vh;
+    font-size: 12px;
+}

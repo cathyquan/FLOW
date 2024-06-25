@@ -1,5 +1,3 @@
-/* GradeLevelPage.css */
-
 .grade-level-page {
     display: flex;
     flex-direction: column;
@@ -28,36 +26,38 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2vh;
-    /*overflow-y: scroll;*/
 }
 
-.class-info h1 {
-    font-size: 1.5em;
-    margin: 0;
+.class-info .class-button {
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
 }
 
-.class-info p {
-    font-size: 1em;
-    margin: 0;
-}
-
-.content {
+.grade-level-page .content {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 20px; /* Add padding around the content */
 }
 
-.student-list {
+.grade-level-page .student-list-container {
+    width: 80%;
+    padding: 2vh;
+    background-color: rgb(232, 232, 232);
+    border-radius: 3vh;
+    margin: 2vh;
+}
+
+.grade-level-page .student-list-container .student-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Three equal columns */
     gap: 2vw;
-    width: 70%; /* Adjust as needed */
-    height: 57vh;
+    height: 49vh;
     overflow-y: scroll;
     padding-right: 2vw; /* Add space for scrollbar */
     box-sizing: border-box;
@@ -79,45 +79,28 @@
     background-color: #e78618;
 }
 
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 25%; /* Adjust as needed */
-    height: 100%;
-    padding: 20px;
+.buttons {
+    align-content: center;
+    width: 100%; /* Adjust as needed */
+    height: auto;
     box-sizing: border-box;
     position: relative; /* To position elements absolutely within it */
-}
-
-.sidebar .chart {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-}
-
-.sidebar .buttons {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: calc(100% - 40px); /* Adjust to match the sidebar width minus padding */
 }
 
-.sidebar button {
+.buttons button {
     background-color: #C69C7D;
     color: white;
-    width: 100%;
-    height: 50px; /* Adjust as needed */
-    border-radius: 25px;
+    width: 20vh;
+    height: 40px;
+    border-radius: 3vh;
     margin-top: 10px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.sidebar button:hover {
+.add-delete-button-container button:hover {
     background-color: #a35b3e;
 }

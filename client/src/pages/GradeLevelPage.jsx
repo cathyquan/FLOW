@@ -19,6 +19,7 @@ const GradeLevelPage = () => {
     const [selectedStudent, setSelectedStudent] = useState('');
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
+    const [isClassPopupOpen, setIsClassPopupOpen] = useState(false);
 
     const handleClosePopup = () => {
         setIsPopupVisible(false);
@@ -26,6 +27,10 @@ const GradeLevelPage = () => {
 
     const handleCloseDeletePopup = () => {
         setIsDeletePopupVisible(false);
+    };
+
+    const handlePopupToggle = () => {
+        setIsClassPopupOpen(!isClassPopupOpen);
     };
 
     useEffect(() => {
@@ -113,97 +118,111 @@ const GradeLevelPage = () => {
                 <RenelNavbar />
             </header>
             <div className="class-info">
-                <h1>{gradeInfo ? gradeInfo.className : 'Loading...'}</h1>
-                <p>{gradeInfo ? gradeInfo.teacherName : ''}</p>
-                <p>Total Absences: {totalAbsences}</p>
+                <button className="class-button" onClick={handlePopupToggle}>
+                    {gradeInfo ? gradeInfo.className : 'Loading...'}
+                </button>
+                {isClassPopupOpen && (
+                    <div className="popup-overlay">
+                        <div className="popup">
+                            <h2><strong>Class Information</strong></h2>
+                            <p><strong>Teacher:</strong> {gradeInfo ? gradeInfo.teacherName : ''}</p>
+                            <p><strong>Email:</strong> {gradeInfo ? gradeInfo.teacherEmail : ''}</p>
+                            <br></br>
+                            <p><strong>Total Absences:</strong> {totalAbsences}</p>
+                            <div className="popup-buttons">
+                                <button onClick={handlePopupToggle}>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
             <div className="content">
-                <div className="student-list">
-                    {students.map((student, index) => (
-                        <button key={index} onClick={() => handleStudentClick(student._id)}>{student.name}</button>
-                    ))}
-                </div>
-                <div className="sidebar">
-                    <div className="buttons">
-                        <button onClick={handleAttendanceClick}>Attendance</button>
-                        <button onClick={handleShowAddStudentPopup} className="add-student-button">Add Student</button>
-                        {isPopupVisible && (
-                            <div className="popup-overlay">
-                                <div className="popup">
-                                    <h2>Add New Student</h2>
-                                    <form onSubmit={handleSaveStudent}>
-                                        <label>Name</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Student Name"
-                                            value={studentName}
-                                            onChange={(e) => setStudentName(e.target.value)}
-                                            required
-                                        />
-                                        <label>Student ID</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Student ID"
-                                            value={studentID}
-                                            onChange={(e) => setStudentID(e.target.value)}
-                                            required
-                                        />
-                                        <label>Date of Birth</label>
-                                        <input
-                                            type="date"
-                                            value={studentDOB}
-                                            onChange={(e) => setStudentDOB(e.target.value)}
-                                            required
-                                        />
-                                        <label>Guardian Name</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Guardian Name"
-                                            value={guardianName}
-                                            onChange={(e) => setGuardianName(e.target.value)}
-                                            required
-                                        />
-                                        <label>Guardian Phone Number</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Guardian Phone Number"
-                                            value={guardianPhoneNumber}
-                                            onChange={(e) => setGuardianPhoneNumber(e.target.value)}
-                                            required
-                                        />
-                                        <div className="popup-buttons">
-                                            <button type="button" onClick={handleClosePopup}>Close</button>
-                                            <button type="submit">Save</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        )}
-                        <button onClick={handleShowDeleteStudentPopup}>Delete Student</button>
-                        {isDeletePopupVisible && (
-                            <div className="popup-overlay">
-                                <div className="popup">
-                                    <h2>Delete Student</h2>
-                                    <form onSubmit={handleDeleteStudent}>
-                                        <label>Select Student</label>
-                                        <select
-                                            value={selectedStudent}
-                                            onChange={(e) => setSelectedStudent(e.target.value)}
-                                        >
-                                            <option value="" disabled>Select a student</option>
-                                            {students.map((student, index) => (
-                                                <option key={index} value={student.name}>{student.name}</option>
-                                            ))}
-                                        </select>
-                                        <div className="popup-buttons">
-                                            <button type="button" onClick={handleCloseDeletePopup}>Close</button>
-                                            <button type="submit">Delete</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        )}
+                <div className='student-list-container'>
+                    <div className="student-list">
+                        {students.map((student, index) => (
+                            <button key={index} onClick={() => handleStudentClick(student._id)}>{student.name}</button>
+                        ))}
                     </div>
+                </div>
+                <div className="buttons">
+                    <button onClick={handleAttendanceClick}>Attendance</button>
+                    <button onClick={handleShowAddStudentPopup} className="add-student-button">Add Student</button>
+                    {isPopupVisible && (
+                        <div className="popup-overlay">
+                            <div className="popup">
+                                <h2>Add New Student</h2>
+                                <form onSubmit={handleSaveStudent}>
+                                    <label>Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Student Name"
+                                        value={studentName}
+                                        onChange={(e) => setStudentName(e.target.value)}
+                                        required
+                                    />
+                                    <label>Student ID</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Student ID"
+                                        value={studentID}
+                                        onChange={(e) => setStudentID(e.target.value)}
+                                        required
+                                    />
+                                    <label>Date of Birth</label>
+                                    <input
+                                        type="date"
+                                        value={studentDOB}
+                                        onChange={(e) => setStudentDOB(e.target.value)}
+                                        required
+                                    />
+                                    <label>Guardian Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Guardian Name"
+                                        value={guardianName}
+                                        onChange={(e) => setGuardianName(e.target.value)}
+                                        required
+                                    />
+                                    <label>Guardian Phone Number</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Guardian Phone Number"
+                                        value={guardianPhoneNumber}
+                                        onChange={(e) => setGuardianPhoneNumber(e.target.value)}
+                                        required
+                                    />
+                                    <div className="popup-buttons">
+                                        <button type="button" onClick={handleClosePopup}>Close</button>
+                                        <button type="submit">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                    <button onClick={handleShowDeleteStudentPopup}>Delete Student</button>
+                    {isDeletePopupVisible && (
+                        <div className="popup-overlay">
+                            <div className="popup">
+                                <h2>Delete Student</h2>
+                                <form onSubmit={handleDeleteStudent}>
+                                    <label>Select Student</label>
+                                    <select
+                                        value={selectedStudent}
+                                        onChange={(e) => setSelectedStudent(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select a student</option>
+                                        {students.map((student, index) => (
+                                            <option key={index} value={student.name}>{student.name}</option>
+                                        ))}
+                                    </select>
+                                    <div className="popup-buttons">
+                                        <button type="button" onClick={handleCloseDeletePopup}>Close</button>
+                                        <button type="submit">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
