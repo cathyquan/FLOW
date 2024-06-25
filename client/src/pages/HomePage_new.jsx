@@ -253,6 +253,7 @@ function HomePage_new() {
             </header>
             <div className="school-name">
                 <h1>{schoolName}</h1>
+                <h2>Total Absences in Past Month: {totalAbsences}</h2>
             </div>
             <div className="main-content">
                 <div className="school-info">
@@ -300,7 +301,6 @@ function HomePage_new() {
                             <button onClick={() => setShowDeleteGradePopup(true)}>Delete Class</button>
                         </div>
                         <div className='absences-info'>
-                            <h2>Total Absences in Past Month: {totalAbsences}</h2>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,10 @@ div .school-name h1 {
     font-size: 170%;
 }
 
+div .school-name h2 {
+    text-align: center;
+}
+
 .school-info {
     display: flex;
     flex-direction: column;

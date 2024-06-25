@@ -124,9 +124,6 @@ const GradeLevelPage = () => {
                     ))}
                 </div>
                 <div className="sidebar">
-                    <div className="chart">
-                        {/* Insert your chart component here */}
-                    </div>
                     <div className="buttons">
                         <button onClick={handleAttendanceClick}>Attendance</button>
                         <button onClick={handleShowAddStudentPopup} className="add-student-button">Add Student</button>
