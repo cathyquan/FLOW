@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
 import '../assets/style/HomePage_new.css';
 import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";
@@ -8,6 +9,7 @@ import Navbar from "../components/Navbar.jsx";
 function HomePage_new() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user, setUser } = useContext(UserContext);
     const [schoolId, setSchoolId] = useState(id || null);
     const [schoolName, setSchoolName] = useState(null);
     const [schoolAddress, setSchoolAddress] = useState(null);
@@ -172,10 +174,8 @@ function HomePage_new() {
             const response = await axios.delete(`http://localhost:4000/deleteMember`, {
                 data: {name: memberToDelete, school: schoolId}
             });
-
             if (response.data.message === 'Member deleted successfully.') {
                 setMembers(members.filter(member => member.name !== memberToDelete));
-
                 if (shepInfo && shepInfo.name === memberToDelete) {
                     setShepInfo(null);
                 } else if (gccInfo && gccInfo.name === memberToDelete) {
@@ -185,7 +185,6 @@ function HomePage_new() {
                     setUser(null);  // Clear the user context
                     navigate('/login');  // Redirect to login page
                 }
-
                 setShowDeleteMemberPopup(false);
                 setMemberToDelete('');
             } else {

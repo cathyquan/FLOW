@@ -15,6 +15,7 @@ classSchema.pre('deleteOne', { document: true, query: false }, async function(ne
     // Get all students of the class
     const students = await mongoose.model('Student').find({ class: classId });
 
+    // Delete all students
     for (const studentDoc of students) {
         await studentDoc.deleteOne();
     }
