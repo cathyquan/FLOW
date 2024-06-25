@@ -10,6 +10,7 @@ const GradeLevelPage = () => {
     const navigate = useNavigate();
     const [gradeInfo, setGradeInfo] = useState(null);
     const [students, setStudents] = useState([]);
+    const [totalAbsences, setTotalAbsences] = useState(0);
     const [studentName, setStudentName] = useState('');
     const [studentID, setStudentID] = useState('');
     const [studentDOB, setStudentDOB] = useState('');
@@ -39,7 +40,18 @@ const GradeLevelPage = () => {
                 console.error('There was an error fetching the grade data!', error);
             }
         };
+
+        const fetchTotalAbsences = async () => {
+            try {
+                const response = await axios.get(`http://localhost:4000/attendance/grade/${gradeId}/totalAbsences`);
+                setTotalAbsences(response.data.totalAbsences);
+            } catch (error) {
+                console.error('There was an error fetching the total absences!', error);
+            }
+        };
+
         fetchGradeInfo();
+        fetchTotalAbsences();
     }, [gradeId]);
 
     const handleShowAddStudentPopup = () => {
@@ -103,6 +115,7 @@ const GradeLevelPage = () => {
             <div className="class-info">
                 <h1>{gradeInfo ? gradeInfo.className : 'Loading...'}</h1>
                 <p>{gradeInfo ? gradeInfo.teacherName : ''}</p>
+                <p>Total Absences: {totalAbsences}</p>
             </div>
             <div className="content">
                 <div className="student-list">

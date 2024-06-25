@@ -657,6 +657,22 @@ app.get('/attendance/school/:schoolId/past-month', async (req, res) => {
     }
 });
 
+app.get('/attendance/grade/:gradeId/totalAbsences', async (req, res) => {
+    const { gradeId } = req.params;
+    try {
+        const grade = await Class.findById(gradeId).populate('students');
+        const studentIds = grade.students.map(student => student._id);
+        const totalAbsences = await Attendance.countDocuments({
+            student: { $in: studentIds }
+        });
+        res.json({ totalAbsences });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching total absences' });
+    }
+});
+
+
 app.get('/admin/schools-with-most-absences', async (req, res) => {
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);

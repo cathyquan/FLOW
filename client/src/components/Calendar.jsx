@@ -8,10 +8,16 @@ const CalendarComponent = ({ attendanceData, studentName }) => {
   const [date, setDate] = useState(new Date());
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedAttendanceRecord, setSelectedAttendanceRecord] = useState(null);
 
   const onChange = (newDate) => {
     setDate(newDate);
     setSelectedDate(newDate);
+    const selectedRecord = attendanceData.find(record => {
+      const recordDate = new Date(record.date).toISOString().split('T')[0];
+      return recordDate === newDate.toISOString().split('T')[0];
+    });
+    setSelectedAttendanceRecord(selectedRecord);
     setShowPopup(true);
   };
 
@@ -45,6 +51,19 @@ const CalendarComponent = ({ attendanceData, studentName }) => {
     return null;
   };
 
+  const getReason = (status) => {
+    switch (status) {
+      case 'Absent-Menstrual':
+        return 'Lack of access to menstrual resources';
+      case 'Absent-Resources':
+        return 'Lack of access to learning resources';
+      case 'Absent-Transportation':
+        return 'Lack of transportation';
+      default:
+        return 'Other';
+    }
+  };
+
   return (
     <div className="calendar-container">
       <Calendar
@@ -59,14 +78,14 @@ const CalendarComponent = ({ attendanceData, studentName }) => {
             <span className="close" onClick={handleClose}>&times;</span>
             <h2>Attendance Details</h2>
             <p>Date: {selectedDate?.toLocaleDateString()}</p>
-            <p>
-              {attendanceData.find(record => {
-                const recordDate = new Date(record.date).toISOString().split('T')[0];
-                return recordDate === selectedDate.toISOString().split('T')[0];
-              })?.status
-                ? `${studentName} was absent on this day.`
-                : `${studentName} was present on this day.`}
-            </p>
+            {selectedAttendanceRecord ? (
+              <>
+                <p>{studentName} was absent on this day.</p>
+                <p>Reason: {getReason(selectedAttendanceRecord.status)}</p>
+              </>
+            ) : (
+              <p>{studentName} was present on this day.</p>
+            )}
             <div className="popup-buttons">
               <button onClick={handleClose}>Close</button>
             </div>
