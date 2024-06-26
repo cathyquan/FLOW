@@ -8,8 +8,6 @@ const AttendanceChecker = () => {
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
-  const [teacherName, setTeacherName] = useState('');
-  const [teacherEmail, setTeacherEmail] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to current date
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [classInfo, setClassInfo] = useState({});
