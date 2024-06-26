@@ -8,8 +8,6 @@ const AttendanceChecker = () => {
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
-  const [teacherName, setTeacherName] = useState('');
-  const [teacherEmail, setTeacherEmail] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to current date
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [classInfo, setClassInfo] = useState({});
@@ -25,30 +23,40 @@ const AttendanceChecker = () => {
           teacherName: grade.teacherName,
           teacherEmail: grade.teacherEmail,
         });
-        resetAttendance(grade.students);
+        fetchAttendanceForDate(grade.students, selectedDate);
       } catch (error) {
         console.error('Error fetching class information:', error);
       }
     };
 
     fetchClassInfo();
-  }, [gradeId]);
+  }, [gradeId, selectedDate]);
+
+  const fetchAttendanceForDate = async (studentsList, date) => {
+    try {
+      const response = await axios.get(`http://localhost:4000/attendance/grade/${gradeId}/date/${date}`);
+      const absences = response.data;
+
+      const attendanceList = studentsList.map(student => {
+        const absenceRecord = absences.find(absence => absence.student === student._id);
+        return {
+          student: student._id,
+          status: absenceRecord ? absenceRecord.status : 'Present'
+        };
+      });
+
+      setAttendance(attendanceList);
+    } catch (error) {
+      console.error('Error fetching attendance records:', error);
+      resetAttendance(studentsList); // Reset to default if error occurs
+    }
+  };
 
   const resetAttendance = (studentsList) => {
     setAttendance(studentsList.map(student => ({
       student: student._id,
       status: 'Present' // Default status
     })));
-  };
-
-  const formatDateForDisplay = (dateString) => {
-    const [year, month, day] = dateString.split('-');
-    return `${day}/${month}/${year}`;
-  };
-
-  const formatDateForInput = (dateString) => {
-    const [day, month, year] = dateString.split('/');
-    return `${year}-${month}-${day}`;
   };
 
   const handleChange = (index, event) => {
@@ -64,7 +72,6 @@ const AttendanceChecker = () => {
   const handleDateChange = (event) => {
     const storageDate = event.target.value;
     setSelectedDate(storageDate);
-    resetAttendance(students); // Reset attendance when date changes
   };
 
   const handleSaveChanges = async () => {
@@ -80,7 +87,7 @@ const AttendanceChecker = () => {
   };
 
   const handleResetAttendance = () => {
-    resetAttendance(students); // Reset attendance when reset button is clicked
+    fetchAttendanceForDate(students, selectedDate); // Reset attendance when reset button is clicked
   };
 
   return (

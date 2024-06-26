@@ -599,7 +599,6 @@ app.get('/attendance/grade/:gradeId/totalAbsences', async (req, res) => {
 app.get('/admin/schools-with-most-absences', async (req, res) => {
     const oneMonthAgo = new Date(); // Get the current date
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1); // Set the date to one month ago
-
     try {
         const schools = await School.find().populate({
             path: 'Classes',
@@ -608,23 +607,41 @@ app.get('/admin/schools-with-most-absences', async (req, res) => {
                 select: '_id' // Only select the student IDs
             }
         });
-
         const schoolAbsenceCounts = await Promise.all(schools.map(async (school) => {
             const studentIds = school.Classes.flatMap(cls => cls.students.map(student => student._id)); // Get an array of student IDs for the school
-
             const absences = await Attendance.find({
                 student: { $in: studentIds }, // Find absences for the students
                 date: { $gte: oneMonthAgo } // Only include absences from the past month
             });
-
             return { school, absences: absences.length }; // Return the school and the number of absences
         }));
-
         schoolAbsenceCounts.sort((a, b) => b.absences - a.absences); // Sort the schools by the number of absences in descending order
         res.status(200).json(schoolAbsenceCounts.slice(0, 20)); // Respond with the top 20 schools with the most absences
     } catch (error) {
         console.error('Error fetching schools with most absences:', error); // Log the error
         res.status(500).json({ message: 'Error fetching schools with most absences.' }); // Respond with a generic error message
+    }
+});
+
+// Get attendance records for a grade on a specific date
+app.get('/attendance/grade/:gradeId/date/:date', async (req, res) => {
+    const { gradeId, date } = req.params; // Extract gradeID & date from request parameters
+    try {
+        // Find the grade by its ID and populate the students
+        const grade = await Class.findById(gradeId).populate('students');
+        // Get the list of student IDs in the grade
+        const studentIds = grade.students.map(student => student._id);
+        // Find attendance records for the specified date and students in the grade
+        const attendanceRecords = await Attendance.find({
+            student: { $in: studentIds },
+            date: new Date(date) // Convert the date string to a Date object
+        });
+        // Send the attendance records as a JSON response
+        res.status(200).json(attendanceRecords);
+    } catch (error) {
+        // Log the error and send a 500 status code with an error message
+        console.error('Error fetching attendance data:', error);
+        res.status(500).json({ message: 'Error fetching attendance data.' });
     }
 });
 
