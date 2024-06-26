@@ -21,7 +21,7 @@
 .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* Adjust space between icons */
     background-color: #d9d9d9; /* Grey background color for the navigation bar */
     padding: 1vh 3vh;
     color: #ffffff;
@@ -29,32 +29,32 @@
     margin-bottom: 0vh;
 }
 
-.icons svg {
+.icons-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align icons to the left */
+}
+
+.icons-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align logout to the right */
+}
+
+.icons-left svg {
     margin-right: 1vh; /* Space out the icons */
-    /*align-items: right;*/
 }
 
 .nav {
+    display: none; /* Hide the home link */
+}
+
+.icons-left {
     display: flex;
     align-items: center;
-    flex-grow: 1;
 }
 
-.nav a {
-    margin-right: 20vh;
-    text-decoration: none;
-    color: black;
-    font-style: italic;
-}
-
-.icons {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-grow: 1;
-}
-
-.icons span {
+.icons-right span {
     margin-left: 1vh;
     color: #c86b39; /* Change the color of the "Logout" text */
     font-style: italic;
