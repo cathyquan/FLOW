@@ -12,7 +12,9 @@ function RenelInboxPage() {
         return savedWidth ? parseFloat(savedWidth) : 50;
     });
     const [messages, setMessages] = useState([]);
+    const [filteredMessages, setFilteredMessages] = useState([]);
     const [loadingMessages, setLoadingMessages] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const dividerRef = useRef(null);
 
     useEffect(() => {
@@ -20,6 +22,7 @@ function RenelInboxPage() {
             try {
                 const response = await axios.get('http://localhost:4000/admin/messages');
                 setMessages(response.data);
+                setFilteredMessages(response.data); // Initially, all messages are shown
             } catch (error) {
                 console.error('Error fetching messages:', error);
             } finally {
@@ -75,6 +78,14 @@ function RenelInboxPage() {
         };
     }, []);
 
+    useEffect(() => {
+        const results = messages.filter(message =>
+            message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            message.body.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredMessages(results);
+    }, [searchTerm, messages]);
+
     return (
         <div className="renel-inbox-page">
             <header className="header">
@@ -83,13 +94,19 @@ function RenelInboxPage() {
             <div className="main-content">
                 <div className="message-list" style={{ width: `${100 - leftWidth}%` }}>
                     <div className="message-list-header">
-                        <input type="text" placeholder="Search Messages" className="search-input" />
+                        <input
+                            type="text"
+                            placeholder="Search Messages"
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                     {loadingMessages ? (
                         <p>Loading messages...</p>
                     ) : (
                         <div className="messages">
-                            {messages.map((message, i) => (
+                            {filteredMessages.map((message, i) => (
                                 <div className="message-item" key={i} onClick={() => openModal(message)}>
                                     <h1><span className="message-from">{message.school.schoolName}</span></h1>
                                     <h2><span className="message-subject">{message.subject}</span></h2>
