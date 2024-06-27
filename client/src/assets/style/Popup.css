@@ -70,6 +70,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin-top: 20px;
 }
 
 .popup-buttons button {
@@ -81,9 +82,11 @@
 
 .popup-buttons button:first-child {
     background-color: #ccc;
+    margin-right: 0.5vh;
 }
 
 .popup-buttons button:last-child {
     background-color: #f0b36d;
     color: white;
+    margin-left: 0.5vh;
 }

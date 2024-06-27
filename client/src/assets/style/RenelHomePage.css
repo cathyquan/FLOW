@@ -23,6 +23,7 @@
     align-items: flex-start;
     display: flex;
     justify-content: center;
+    margin-top: 2vh;
 }
 
 .most-urgent {
@@ -46,6 +47,13 @@
     padding-top: 1.5vh;
     padding-bottom: 1.5vh;
     margin-top: 0;
+    line-height: 4vh;
+    height: 66vh;
+    overflow-y: scroll;
+}
+
+.most-urgent-expanded .most-urgent-content .i{
+    color: red;
 }
 
 .most-urgent.collapsed .most-urgent-content {
@@ -72,10 +80,6 @@
     cursor: pointer;
 }
 
-.most-urgent-content {
-    margin-top: 0;
-}
-
 .all-schools {
     display: flex;
     flex-direction: column;
@@ -90,7 +94,6 @@
     align-items: center;
     width: 100%;
     /* background-color: blue; */
-
 }
 
 .buttons-and-search .buttons {

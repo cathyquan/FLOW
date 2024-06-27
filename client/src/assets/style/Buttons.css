@@ -22,6 +22,9 @@
 }
 
 .button-b button {
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     padding: 7px 20px;
     background: #c89c8d;
     border: none;

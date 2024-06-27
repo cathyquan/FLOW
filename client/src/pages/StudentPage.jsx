@@ -164,7 +164,7 @@ function StudentPage() {
                                 <h2><strong>Total Absences: {totalAbsences}</strong></h2>
                             </div>
                             <div className="button-a">
-                            <button onClick={handleEditProfileClick}>Edit Student</button>
+                                <button onClick={handleEditProfileClick}>Edit Student</button>
                             </div>
                         </div>
                     </div>

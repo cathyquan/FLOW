@@ -2,19 +2,14 @@ import './App.css'
 import {Route, Routes} from "react-router-dom";
 import LogInPage from "./pages/LogInPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import RenelHomePage from "./pages/RenelHomePage.jsx";
 import HomePage_new from "./pages/HomePage_new.jsx";
-// import SchoolInboxPage from "./pages/SchoolInboxPage.jsx";
-import RenelInboxPage from "./pages/RenelInboxPage.jsx";
 import GradeLevelPage from "./pages/GradeLevelPage.jsx";
 import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
 import InboxPage from './pages/InboxPage.jsx';
 import SHEPGCCProfilePage from './pages/ProfilePage.jsx';
-import SHEPGCCStudentPage from './pages/SHEPGCCStudentPage.jsx';
 import StudentPage from './pages/StudentPage.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import { UserContextProvider } from './UserContext.jsx';
-import { useEffect } from 'react';
 
 import axios from 'axios';
 

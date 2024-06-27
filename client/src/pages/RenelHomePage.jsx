@@ -116,7 +116,7 @@ function RenelHomePage() {
                         {mostUrgentSchools.map(({ school, absences }, index) => (
                             <p key={index}>
                                 <Link to={`/school/${school._id}`} className="school-link">
-                                    {school.schoolName}: {absences} absences
+                                    <strong>{school.schoolName}</strong>: <i>{absences} absences</i>
                                 </Link>
                             </p>
                         ))}
@@ -164,7 +164,7 @@ function RenelHomePage() {
                                         School Phone:
                                         <input type="text" value={schoolPhone} onChange={(e) => setSchoolPhone(e.target.value)} />
                                     </label>
-                                    <div className="form-buttons">
+                                    <div className="popup-buttons">
                                         <button type="button" onClick={() => setIsAddPopupOpen(false)}>Cancel</button>
                                         <button type="submit">Add</button>
                                     </div>
