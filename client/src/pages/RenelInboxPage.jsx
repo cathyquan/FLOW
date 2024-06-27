@@ -81,7 +81,8 @@ function RenelInboxPage() {
     useEffect(() => {
         const results = messages.filter(message =>
             message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            message.body.toLowerCase().includes(searchTerm.toLowerCase())
+            message.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            message.school.schoolName.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredMessages(results);
     }, [searchTerm, messages]);

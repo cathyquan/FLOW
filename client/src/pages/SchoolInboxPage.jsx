@@ -4,7 +4,7 @@ import Modal from '../components/Modal.jsx';
 import '../assets/style/SchoolInboxPage.css';
 import '../assets/style/Divider.css';
 import axios from 'axios';
-import { UserContext } from '../UserContext.jsx';
+import { UserContext } from '../UserContext';
 
 function SchoolInboxPage() {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -17,7 +17,9 @@ function SchoolInboxPage() {
     const [message, setMessage] = useState('');
     const [charCount, setCharCount] = useState(0);
     const [messages, setMessages] = useState([]);
+    const [filteredMessages, setFilteredMessages] = useState([]);
     const [loadingMessages, setLoadingMessages] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const dividerRef = useRef(null);
     const { user, loading, fetchUser } = useContext(UserContext);
 
@@ -27,15 +29,15 @@ function SchoolInboxPage() {
                 try {
                     setLoadingMessages(true);
                     const response = await axios.get(`http://localhost:4000/messages/${user.id}`);
-                    console.log('Messages fetched:', response.data);
-                    setMessages(response.data || []);
+                    const sortedMessages = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    setMessages(sortedMessages || []);
+                    setFilteredMessages(sortedMessages || []); // Initially, all messages are shown
                 } catch (error) {
                     console.error('Error fetching messages:', error);
                 } finally {
                     setLoadingMessages(false);
                 }
-            }
-            else {
+            } else {
                 fetchUser();
             }
         };
@@ -44,6 +46,14 @@ function SchoolInboxPage() {
             fetchMessages();
         }
     }, [user, loading, fetchUser]);
+
+    useEffect(() => {
+        const results = messages.filter(message =>
+            message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            message.body.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredMessages(results);
+    }, [searchTerm, messages]);
 
     const openModal = (message) => {
         setSelectedMessage(message);
@@ -56,7 +66,7 @@ function SchoolInboxPage() {
     };
 
     const getPreview = (fullMessage) => {
-        return fullMessage;
+        return fullMessage.length > 110 ? fullMessage.substring(0, 110) + '...' : fullMessage;
     };
 
     const handleMouseDown = (e) => {
@@ -109,7 +119,9 @@ function SchoolInboxPage() {
                 subject: subject, // Use the actual subject from the input field
                 body: message,
             });
-            setMessages(prevMessages => [response.data, ...prevMessages]);
+            const newMessage = response.data;
+            setMessages(prevMessages => [newMessage, ...prevMessages]);
+            setFilteredMessages(prevMessages => [newMessage, ...prevMessages]);
             setSubject('');
             setMessage('');
             setCharCount(0);
@@ -153,13 +165,19 @@ function SchoolInboxPage() {
                 <div className="divider" ref={dividerRef}></div>
                 <div className="message-list" style={{ width: `${100 - leftWidth}%` }}>
                     <div className="message-list-header">
-                        <input type="text" placeholder="Search Messages" className="search-input" />
+                        <input
+                            type="text"
+                            placeholder="Search Messages"
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                     {loadingMessages ? (
                         <p>Loading messages...</p>
                     ) : (
                         <div className="messages">
-                            {messages.map((message, i) => (
+                            {filteredMessages.map((message, i) => (
                                 <div className="message-item" key={i} onClick={() => openModal(message)}>
                                     <h2><span className="message-subject">{message.subject}</span></h2>
                                     <h3><span className="message-date">{new Date(message.date).toLocaleDateString()}</span></h3>
