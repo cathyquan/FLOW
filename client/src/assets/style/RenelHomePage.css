@@ -29,12 +29,12 @@
 .most-urgent {
     display: flex;
     flex-direction: column;
-    width: 25%;
+    width: 23%;
     height: 100%;
     transition: all 0.3s ease-in-out;
     position: relative;
     overflow: hidden;
-    margin-right: 7vh;
+    margin-right: 3vh;
     margin-bottom: 0;
 }
 
@@ -48,7 +48,7 @@
     padding-bottom: 1.5vh;
     margin-top: 0;
     line-height: 4vh;
-    height: 66vh;
+    height: 69vh;
     overflow-y: scroll;
 }
 
@@ -165,7 +165,7 @@
     gap: 10px;
     width: 100%;
     box-sizing: border-box;
-    height: 66vh;
+    height: 68.2vh;
     overflow-y: scroll;
     margin-top: 1.5vh;
 }
