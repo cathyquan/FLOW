@@ -138,10 +138,14 @@ function StudentPage() {
     }
 
     return (
-        <div className="App">
-            <Navbar />
-            <main className="main">
-                <h1>{studentInfo.name}</h1>
+        <div className="student-page">
+            <header className="header">
+                <Navbar />
+            </header>
+            <main className="student-info">
+                <div className="page-title">
+                    <h1>{studentInfo.name}</h1>
+                </div>
                 <div className="container">
                     <div className="info-container">
                         <div className="info-card">
@@ -159,9 +163,9 @@ function StudentPage() {
                                 <br />
                                 <h2><strong>Total Absences: {totalAbsences}</strong></h2>
                             </div>
-                        </div>
-                        <div className="student-buttons">
+                            <div className="button-a">
                             <button onClick={handleEditProfileClick}>Edit Student</button>
+                            </div>
                         </div>
                     </div>
 

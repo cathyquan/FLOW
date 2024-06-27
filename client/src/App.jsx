@@ -12,6 +12,7 @@ import AttendanceChecklist from "./pages/AttendanceChecklist.jsx";
 import InboxPage from './pages/InboxPage.jsx';
 import SHEPGCCProfilePage from './pages/SHEPGCCProfilePage.jsx';
 import SHEPGCCStudentPage from './pages/SHEPGCCStudentPage.jsx';
+import StudentPage from './pages/StudentPage.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import { UserContextProvider } from './UserContext.jsx';
 import { useEffect } from 'react';
@@ -31,7 +32,7 @@ function App() {
           <Route path="/profile" element={<SHEPGCCProfilePage />} />
           <Route path="/school/:id" element={<HomePage_new />} />
           <Route path="/grades/:gradeId" element={<GradeLevelPage />} />
-          <Route path="/students/:studentId" element={<SHEPGCCStudentPage />} />
+          <Route path="/students/:studentId" element={<StudentPage />} />
           <Route path="/grades/:gradeId/attendance" element={<AttendanceChecklist />} />
           <Route path="/homepage" element={<HomePage_new />} />
           <Route path="/inbox" element={<InboxPage />} />

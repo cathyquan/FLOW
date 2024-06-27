@@ -1,27 +1,20 @@
-.header {
-    margin-bottom: 10px;
-}
-
-.main {
-    padding-top: 10px;
-    /* background-color: red; */
-}
-
 .grade-info {
     text-align: center;
 }
 
-.grade-info h1 {
-    font-size: 200%;
-}
-
-.grade-info h2 {
-    font-size: 130%;
+.grade-info .page-title {
+    margin-top: 2vh;
+    margin-bottom: 0vh;
+    font-size: 170%;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
 }
 
 .grade-info .date-picker-container {
     position: absolute;
-    top: 175px; /* Adjust as needed */
+    top: 170px; /* Adjust as needed */
     right: 50px; /* Adjust as needed */
 }
 
@@ -88,8 +81,8 @@
     height: 59vh;
     margin-left: 5vh;
     margin-right: 5vh;
-    padding-top: 3vh;
-    padding-bottom: 3vh;
+    padding: 3vh;
+    /* background-color: red; */
 }
 
 .students-list {
@@ -99,8 +92,8 @@
     gap: 1vh;
     padding: 1.5vh;
     border-radius: 10px;
-    max-height: 100%; /* Use full height of the container */
     overflow-y: auto; /* Enable vertical scrolling */
+    height: 100%;
 }
 
 .student {
@@ -131,34 +124,16 @@
     color: #00340c;
 }
 
-.buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5px;
-}
-
-.buttons .save-button {
-    padding: 7px 20px;
-    background: #c89c8d;
-    border: none;
-    border-radius: 1.5vh;
-    color: #fff;
-    font-size: 13px;
-    cursor: pointer;
-    margin-right: 20px;
+.button-b .save-button {
     width: 140px;
+    margin-top: 2vh;
+    margin-right: 1vh;
 }
 
-.buttons .default-button {
-    padding: 7px 20px;
-    background: #c89c8d;
-    border: none;
-    border-radius: 1.5vh;
-    color: #fff;
-    font-size: 13px;
-    cursor: pointer;
+.button-b .reset-button {
     width: 150px;
+    margin-top: 2vh;
+    margin-left: 1vh;
 }
 
 @media (max-width: 1200px) {
