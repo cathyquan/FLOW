@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../UserContext';
+import { UserContext } from '../UserContext.jsx';
 import '../assets/style/SHEPGCCProfilePage.css';
 import '../assets/style/Popup.css';
 import Navbar from "../components/Navbar.jsx";

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Navbar from "../components/Navbar.jsx";
 import Modal from '../components/Modal.jsx';
-import '../assets/style/SHEPGCCInboxPage.css';
+import '../assets/style/SchoolInboxPage.css';
 import '../assets/style/Divider.css';
 import axios from 'axios';
-import { UserContext } from '../UserContext';
+import { UserContext } from '../UserContext.jsx';
 
-function SHEPGCCInboxPage() {
+function SchoolInboxPage() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [leftWidth, setLeftWidth] = useState(() => {
@@ -181,4 +181,4 @@ function SHEPGCCInboxPage() {
     );
 }
 
-export default SHEPGCCInboxPage;
+export default SchoolInboxPage;

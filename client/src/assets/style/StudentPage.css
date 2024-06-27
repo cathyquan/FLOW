@@ -1,9 +1,14 @@
+.main {
+    padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
 .student-page {
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
 }
 
 .student-info {
@@ -11,6 +16,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 1000vh;
+    margin: 0 auto;
+    text-align: center;
     width: 100%;
 }
 
@@ -19,6 +27,7 @@
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    padding: 20px;
 }
 
 .info-container {
@@ -123,7 +132,8 @@
 @media (max-width: 1200px) {
     .info-container {
         flex-direction: column;
-        height: auto;
+        height: 55vh;
+        width: 100%;
     }
 
     .info-card {
@@ -134,12 +144,16 @@
         margin-top: 2vh;
         margin-left: 0;
     }
+
+    .calendar-container {
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
     .info-container {
         width: 100%;
-        height: auto;
+        height: 55vh;
     }
 
     .info-card {

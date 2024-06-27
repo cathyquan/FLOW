@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import RenelInboxPage from './RenelInboxPage';
-import SHEPGCCInboxPage from './SHEPGCCInboxPage';
+import SchoolInboxPage from './SchoolInboxPage';
 import LogInPage from './LogInPage'; 
 
 function InboxPage() {
@@ -17,7 +17,7 @@ function InboxPage() {
                 user.userType === 'Administration' ? (
                     <RenelInboxPage />
                 ) : (
-                    <SHEPGCCInboxPage />
+                    <SchoolInboxPage />
                 )
             ) : (
                 <LogInPage />
