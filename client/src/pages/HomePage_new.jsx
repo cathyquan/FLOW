@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import '../assets/style/HomePage_new.css';
 import '../assets/style/Popup.css';
+import '../assets/style/Buttons.css';
 import Navbar from "../components/Navbar.jsx";
 
 function HomePage_new() {
@@ -250,7 +251,7 @@ function HomePage_new() {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <Navbar/>
             </header>
-            <div className="school-name">
+            <div className="page-title">
                 <h1>{schoolName}</h1>
                 <h2>Total Absences in Past Month: {totalAbsences}</h2>
             </div>
@@ -261,7 +262,9 @@ function HomePage_new() {
                             <p>{schoolAddress}</p>
                             <p>{schoolEmail}</p>
                             <p>{schoolPhone}</p>
-                            <button onClick={handleEditInfo}>Edit Information</button>
+                            <div className="button-a">
+                                <button onClick={handleEditInfo}>Edit Information</button>
+                            </div>
                         </div>
                         <div className='shep-gcc-container'>
                             <div className="shep-gcc-contact-info">
@@ -290,7 +293,7 @@ function HomePage_new() {
                                     <div>No SHEP</div>
                                 )}
                             </div>
-                            <div className="buttons">
+                            <div className="button-a">
                                 <button onClick={() => setShowAddMemberPopup(true)}>Add Member</button>
                                 <button onClick={() => setShowDeleteMemberPopup(true)}>Delete Member</button>
                             </div>

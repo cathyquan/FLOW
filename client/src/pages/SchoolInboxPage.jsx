@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Navbar from "../components/Navbar.jsx";
 import Modal from '../components/Modal.jsx';
-import '../assets/style/SHEPGCCInboxPage.css';
+import '../assets/style/SchoolInboxPage.css';
 import '../assets/style/Divider.css';
 import axios from 'axios';
-import { UserContext } from '../UserContext';
+import { UserContext } from '../UserContext.jsx';
 
-function SHEPGCCInboxPage() {
+function SchoolInboxPage() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [leftWidth, setLeftWidth] = useState(() => {
@@ -17,9 +17,7 @@ function SHEPGCCInboxPage() {
     const [message, setMessage] = useState('');
     const [charCount, setCharCount] = useState(0);
     const [messages, setMessages] = useState([]);
-    const [filteredMessages, setFilteredMessages] = useState([]);
     const [loadingMessages, setLoadingMessages] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
     const dividerRef = useRef(null);
     const { user, loading, fetchUser } = useContext(UserContext);
 
@@ -29,14 +27,15 @@ function SHEPGCCInboxPage() {
                 try {
                     setLoadingMessages(true);
                     const response = await axios.get(`http://localhost:4000/messages/${user.id}`);
+                    console.log('Messages fetched:', response.data);
                     setMessages(response.data || []);
-                    setFilteredMessages(response.data || []); // Initially, all messages are shown
                 } catch (error) {
                     console.error('Error fetching messages:', error);
                 } finally {
                     setLoadingMessages(false);
                 }
-            } else {
+            }
+            else {
                 fetchUser();
             }
         };
@@ -45,14 +44,6 @@ function SHEPGCCInboxPage() {
             fetchMessages();
         }
     }, [user, loading, fetchUser]);
-
-    useEffect(() => {
-        const results = messages.filter(message =>
-            message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            message.body.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredMessages(results);
-    }, [searchTerm, messages]);
 
     const openModal = (message) => {
         setSelectedMessage(message);
@@ -65,7 +56,7 @@ function SHEPGCCInboxPage() {
     };
 
     const getPreview = (fullMessage) => {
-        return fullMessage.length > 110 ? fullMessage.substring(0, 110) + '...' : fullMessage;
+        return fullMessage;
     };
 
     const handleMouseDown = (e) => {
@@ -119,7 +110,6 @@ function SHEPGCCInboxPage() {
                 body: message,
             });
             setMessages(prevMessages => [response.data, ...prevMessages]);
-            setFilteredMessages(prevMessages => [response.data, ...prevMessages]);
             setSubject('');
             setMessage('');
             setCharCount(0);
@@ -163,19 +153,13 @@ function SHEPGCCInboxPage() {
                 <div className="divider" ref={dividerRef}></div>
                 <div className="message-list" style={{ width: `${100 - leftWidth}%` }}>
                     <div className="message-list-header">
-                        <input
-                            type="text"
-                            placeholder="Search Messages"
-                            className="search-input"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+                        <input type="text" placeholder="Search Messages" className="search-input" />
                     </div>
                     {loadingMessages ? (
                         <p>Loading messages...</p>
                     ) : (
                         <div className="messages">
-                            {filteredMessages.map((message, i) => (
+                            {messages.map((message, i) => (
                                 <div className="message-item" key={i} onClick={() => openModal(message)}>
                                     <h2><span className="message-subject">{message.subject}</span></h2>
                                     <h3><span className="message-date">{new Date(message.date).toLocaleDateString()}</span></h3>
@@ -197,4 +181,4 @@ function SHEPGCCInboxPage() {
     );
 }
 
-export default SHEPGCCInboxPage;
+export default SchoolInboxPage;

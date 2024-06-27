@@ -30,6 +30,13 @@
     margin-bottom: 2vh;
 }
 
+.popup form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .popup label {
     display: flex;
     align-items: center;
@@ -42,13 +49,13 @@
 .popup label span {
     flex: 1;
     margin-right: 10px;
+    text-align: right; /* Aligns label text to the right */
 }
 
 .popup input, .popup select {
     flex: 2;
     display: flex;
     padding: 0.8vh;
-    margin-top: 0.5vh;
     box-sizing: border-box;
     border: 1px solid lightblue;
     width: 70%;
@@ -62,7 +69,7 @@
 .popup-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 2vh;
+    width: 100%;
 }
 
 .popup-buttons button {
@@ -74,11 +81,9 @@
 
 .popup-buttons button:first-child {
     background-color: #ccc;
-    margin-right: auto; /* Pushes the button to the left */
 }
 
 .popup-buttons button:last-child {
     background-color: #f0b36d;
     color: white;
-    margin-left: auto; /* Pushes the button to the right */
 }

@@ -118,7 +118,7 @@ const GradeLevelPage = () => {
                 <RenelNavbar />
             </header>
             <div className="class-info">
-                <button className="class-button" onClick={handlePopupToggle}>
+                <button className="page-title" onClick={handlePopupToggle}>
                     {gradeInfo ? gradeInfo.className : 'Loading...'}
                 </button>
                 {isClassPopupOpen && (
@@ -144,9 +144,9 @@ const GradeLevelPage = () => {
                         ))}
                     </div>
                 </div>
-                <div className="buttons">
+                <div className="button-b">
                     <button onClick={handleAttendanceClick}>Attendance</button>
-                    <button onClick={handleShowAddStudentPopup} className="add-student-button">Add Student</button>
+                    <button onClick={handleShowAddStudentPopup}>Add Student</button>
                     {isPopupVisible && (
                         <div className="popup-overlay">
                             <div className="popup">

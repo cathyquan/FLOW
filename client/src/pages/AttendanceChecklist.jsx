@@ -97,7 +97,7 @@ const AttendanceChecker = () => {
       </header>
       <div className="main">
         <div className="grade-info">
-          <button className="grade-button" onClick={handlePopupToggle}>{classInfo.className}</button>
+          <button className="page-title" onClick={handlePopupToggle}>{classInfo.className}</button>
           {isPopupOpen && (
             <div className="popup-overlay">
               <div className="popup">
@@ -143,9 +143,9 @@ const AttendanceChecker = () => {
             </div>
           </div>
         </div>
-        <div className='buttons'>
+        <div className="button-b">
           <button className="save-button" onClick={handleSaveChanges}>Save Changes</button>
-          <button className="default-button" onClick={handleResetAttendance}>Reset Attendance</button>
+          <button className="reset-button" onClick={handleResetAttendance}>Reset Attendance</button>
         </div>
       </div>
     </div>

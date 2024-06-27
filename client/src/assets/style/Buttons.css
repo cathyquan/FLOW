@@ -1,13 +1,32 @@
 .button-a button {
     align-items: center;
-    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 30vh;
-    margin: 0;
     background-color: #d3732d;
+    width: 30vh;
     color: white;
-    width: 200px;
     border-radius: 3vh;
     font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 3vh;
+    margin-right: 3vh;
+    padding: 0;
+}
+
+.button-b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.button-b button {
+    padding: 7px 20px;
+    background: #c89c8d;
+    border: none;
+    border-radius: 1.5vh;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
 }

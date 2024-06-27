@@ -1,24 +1,9 @@
 .grade-level-page {
     display: flex;
     flex-direction: column;
-    width: 100vw; /* Ensure it spans the full viewport width */
-    height: 100vh; /* Ensure it spans the full viewport height */
-    overflow: hidden; /* Prevent scrollbars on the body */
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 2vh;
-}
-
-.header h1 {
-    font-size: 2em;
-    margin: 0;
-}
-
-.header p {
-    font-size: 1.2em;
-    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .class-info {
@@ -28,8 +13,11 @@
     align-items: center;
 }
 
-.class-info .class-button {
-    font-size: 2rem;
+.class-info .page-title {
+    margin-top: 3vh;
+    margin-bottom: 0vh;
+    text-align: center;
+    font-size: 170%;
     background: none;
     border: none;
     color: inherit;
@@ -37,20 +25,26 @@
 }
 
 .grade-level-page .content {
+    margin-top: 10px;
+    background: #f0b36d;
+    border-radius: 3vh;
+    height: 59vh;
+    position: relative;
+    margin-left: 5vh;
+    margin-right: 5vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
 }
 
 .grade-level-page .student-list-container {
-    width: 80%;
+    width: 90%;
     padding: 2vh;
-    background-color: rgb(232, 232, 232);
-    border-radius: 3vh;
-    margin: 2vh;
+    background-color: white;
+    border-radius: 3vh;    
 }
 
 .grade-level-page .student-list-container .student-list {
@@ -59,15 +53,20 @@
     gap: 2vw;
     height: 49vh;
     overflow-y: scroll;
-    padding-right: 2vw; /* Add space for scrollbar */
     box-sizing: border-box;
+    padding: 0;
+    justify-items: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .student-list button {
-    background-color: #F0B36D;
-    color: black;
-    width: 100%;
-    height: 50px; /* Adjust as needed */
+    background-color: #c9540098;
+    color: white;
+    width: 70%;
+    min-width: 22vh;
+    height: 45px;
+    margin-bottom: 5px;
     border-radius: 25px;
     border: none;
     cursor: pointer;
@@ -79,28 +78,18 @@
     background-color: #e78618;
 }
 
-.buttons {
-    align-content: center;
-    width: 100%; /* Adjust as needed */
-    height: auto;
-    box-sizing: border-box;
-    position: relative; /* To position elements absolutely within it */
-    display: flex;
-    align-items: center;
-}
-
-.buttons button {
-    background-color: #C69C7D;
-    color: white;
-    width: 20vh;
-    height: 40px;
-    border-radius: 3vh;
-    margin-top: 10px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
 .add-delete-button-container button:hover {
     background-color: #a35b3e;
+}
+
+.grade-level-page .button-b button {
+    margin-left: 1vh;
+    margin-right: 1vh;
+    margin-top: 5vh;
+}
+
+@media (max-width: 800px) {
+    .grade-level-page .student-list-container .student-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
